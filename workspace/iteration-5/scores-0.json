@@ -1,0 +1,62 @@
+{
+  "eval_id": 1,
+  "eval_name": "product-listing-page",
+  "scores": {
+    "element_choice": {
+      "score": 2,
+      "justification": "Almost all elements are correct: <article> for cards, <button> for actions, <address> for contact, <search> for search, native checkboxes for filters. One meaningful error: the in-stock toggle places both <label> and <input> inside <legend>, but <legend> is a caption element and should not contain form controls — the input belongs in the fieldset body."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used precisely where needed. Nav labels do not include the word 'navigation'. Add-to-cart buttons correctly use aria-labelledby to combine button text with product name IDs for disambiguation. tabindex='-1' on <main> is appropriate for skip-link focus targets. No redundant role= attributes anywhere."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> ('Running Shoes'), no skipped levels (h1→h2 for section/sidebar/footer headings→h3 for product names). Prices are <p> not headings. A code comment explicitly notes that h3 assumes a parent h2 context and should be adjusted if the component is reused elsewhere."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "All required landmarks present and correctly scoped: <header>, labeled <nav>, <search>, <aside> (outside <main>), <main> (contains only primary content), <footer>. Three contextually appropriate skip links appear as first focusable elements (to main content, search, and filters). Every <nav> is labeled; <section> uses aria-labelledby."
+    },
+    "form_semantics": {
+      "score": 2,
+      "justification": "Filter form uses <fieldset>/<legend> for each group and all checkboxes have proper <label> elements. However, the in-stock fieldset incorrectly nests both <label for='in-stock'> and <input> inside <legend>; the legend element is a caption and should not contain interactive controls — the input should sit in the fieldset body."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Six distinct, realistic product names (Nike Air Zoom Pegasus 41, Adidas Ultraboost 24, Brooks Ghost 16, ASICS Gel-Kayano 31, Hoka Clifton 9, New Balance Fresh Foam X 1080v13) with varied prices and descriptive copy. No 'Product 1' or lorem ipsum anywhere."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items, filter checkbox groups, and product cards all correctly use <ul>. Footer navigation links also use <ul> within <nav>. No lists used purely for layout; no card collection left as bare divs."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.71,
+  "expectations_met": [
+    "Uses <header>, <nav>, <main>, <aside>, <footer> landmarks appropriately",
+    "<main> contains only primary page content — site header, footer, and primary nav are outside it",
+    "Skip navigation links are the first focusable elements — three skip links present (content, search, filters)",
+    "Navigation uses <nav> with aria-label that does NOT include the word 'navigation'",
+    "Search uses the <search> element",
+    "Filter sidebar uses <form> with <fieldset>/<legend> for each filter group",
+    "Product cards use <article> (self-contained)",
+    "Product cards are in a <ul>",
+    "Heading hierarchy flows logically: h1 for page, h2 for sections, h3 for product names",
+    "Product card heading level is documented via comment as context-dependent and adjustable",
+    "Buttons are <button> elements, not <div> or <a>",
+    "'Add to cart' buttons have accessible names distinguishing each product via aria-labelledby",
+    "Price is not marked up as a heading — uses <p class='product-price'>",
+    "No redundant ARIA attributes duplicating native HTML semantics",
+    "Filter checkboxes use proper <label> elements",
+    "'In stock only' toggle uses a native <input type='checkbox'>"
+  ],
+  "expectations_missed": [
+    "The in-stock toggle fieldset is structurally invalid: both <label for='in-stock'> and <input type='checkbox'> are placed inside the <legend> element. A <legend> is a caption for the fieldset and must not contain form controls; the checkbox and its label should be in the fieldset body, not in the legend."
+  ],
+  "additional_observations": [
+    "Excellent use of aria-labelledby on Add-to-cart buttons combining button ID with product name ID — a non-obvious but correct pattern for disambiguating repeated button text.",
+    "The <search> element carries aria-label='Site search', which is good practice when multiple search landmarks could exist on a page.",
+    "The filter form has both an aria-label ('Filter by') and a visible <h2>Filters</h2> heading above it inside the aside; the heading is not programmatically associated with the form, creating slight redundancy, but this is a minor issue."
+  ]
+}

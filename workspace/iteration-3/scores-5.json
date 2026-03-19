@@ -1,0 +1,56 @@
+{
+  "eval_id": 6,
+  "eval_name": "dashboard-sidebar-nav",
+  "scores": {
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Both skip links present and first in DOM, <main> contains only page content with sidebar outside, two <nav> elements each with distinct aria-label, <section> with aria-labelledby. The <header> inside <div class='sidebar'> technically exposes a banner landmark outside <body>, but this is a negligible concern given the rest of the structure is exemplary."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> 'Projects', followed by <h2> 'All projects' as section heading, then <h3> for each project card name — no skipped levels, hierarchy accurately reflects document structure."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: logo as <a><img>, dropdown trigger as <button> with Popover API, <article> for cards, <dl> for key-value card metadata, <time datetime> for dates, Sign Out as <button>, Profile/Preferences as <a>."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "ARIA is mostly disciplined: nav labels, aria-current, aria-labelledby on section, and decorative alt='' on avatar are all correct. Minor issue: the visually-hidden '(current status)' inside each badge is redundant — the status text (Active/Paused/Complete) is already plain text in the <dd> of a labelled <dt>, so the hidden annotation adds noise for screen reader users without providing new information."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Nav items in <ul> within <nav>, project cards in <ul>, dropdown items in <ul>, and project metadata as <dl> with <dt>/<dd> pairs — all list types are semantically appropriate for their content."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Realistic project names (Website Redesign, Mobile App v2, API Integration), plausible dates with varied values, varied member counts, and a real user name. No placeholder text."
+    }
+  },
+  "composite_score": 2.83,
+  "expectations_met": [
+    "Sidebar navigation uses <nav> with a descriptive aria-label ('Primary')",
+    "<main> wraps only the projects content area; sidebar is outside it",
+    "Both 'Skip to main content' and 'Skip to navigation' are the first focusable elements",
+    "Both <nav> elements have distinct labels ('Primary' and 'Support and account')",
+    "Nav items are in a <ul> list",
+    "Current page 'Projects' marked with aria-current='page'",
+    "User dropdown uses <button popovertarget> with <ul popover> — Popover API, not <details>/<summary>",
+    "'Profile' and 'Preferences' are <a> links; 'Sign Out' is a <button>",
+    "Main content area uses <main id='main-content'>",
+    "Project cards are in a <ul> list",
+    "Status badges convey state as visible text, not colour alone",
+    "Dates use <time datetime='...'>",
+    "'Projects' page heading is <h1>",
+    "Project card names use <h3> — appropriate given the intermediary <h2> section heading",
+    "Secondary nav has aria-label='Support and account', distinguishing it from primary nav",
+    "Logo is an <a href='/'> containing <img alt='Acme App'>"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "Excellent use of <dl>/<dt>/<dd> for structured card metadata (status, date, members) — far better than bare spans or divs",
+    "tabindex='-1' on <main> is the correct pattern for skip link targets that are not natively focusable",
+    "Avatar image correctly uses alt='' (decorative) since the user name is provided in the adjacent <span>Alex Chen</span>",
+    "The visually-hidden '(current status)' suffix on badges is a minor redundancy; removing it would improve screen reader experience without losing any information"
+  ]
+}

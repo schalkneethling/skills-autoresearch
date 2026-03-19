@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Directory</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      transform: translateY(-100%);
+      background: #005fcc;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      z-index: 100;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      padding: 1rem 2rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-heading {
+      margin-top: 0;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
+    .toolbar-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .toolbar-field label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .toolbar-field input,
+    .toolbar-field select {
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      font-size: 0.9375rem;
+      min-width: 160px;
+    }
+
+    .toolbar-field input:focus,
+    .toolbar-field select:focus {
+      outline: 2px solid #005fcc;
+      outline-offset: 1px;
+    }
+
+    .btn-download {
+      padding: 0.45rem 1rem;
+      background: #005fcc;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-end;
+    }
+
+    .btn-download:hover {
+      background: #0047a3;
+    }
+
+    .btn-download:focus {
+      outline: 2px solid #005fcc;
+      outline-offset: 2px;
+    }
+
+    /* Table */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    caption {
+      caption-side: top;
+      text-align: left;
+      font-size: 0.875rem;
+      color: #555;
+      padding: 0.75rem 1rem 0.5rem;
+      font-style: italic;
+    }
+
+    thead {
+      background: #f0f4f8;
+    }
+
+    th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.875rem;
+      color: #333;
+      border-bottom: 2px solid #ddd;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      font-size: 0.9375rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #fafafa;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.2em 0.6em;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+
+    .status-active {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-on-leave {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-departed {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Footer: count + pagination */
+    .table-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .table-count {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .pagination {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .pagination li a,
+    .pagination li button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.25rem;
+      height: 2.25rem;
+      padding: 0 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+      color: #333;
+      font-size: 0.9375rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .pagination li a:hover,
+    .pagination li button:hover {
+      background: #f0f4f8;
+      border-color: #999;
+    }
+
+    .pagination li a:focus,
+    .pagination li button:focus {
+      outline: 2px solid #005fcc;
+      outline-offset: 1px;
+    }
+
+    .pagination li[aria-current="page"] a {
+      background: #005fcc;
+      border-color: #005fcc;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .pagination li.disabled button {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.875rem;
+      color: #888;
+      margin-top: 3rem;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <p>Acme Corp — Internal HR Portal</p>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <h1 class="page-heading">Employee Directory</h1>
+
+    <!-- Search and filter toolbar -->
+    <search aria-label="Filter employees">
+      <form method="get" action="">
+        <div class="toolbar">
+          <div class="toolbar-field">
+            <label for="search-employees">Search by name</label>
+            <input
+              type="search"
+              id="search-employees"
+              name="q"
+              placeholder="e.g. Priya Sharma"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="toolbar-field">
+            <label for="filter-department">Department</label>
+            <select id="filter-department" name="department">
+              <option value="">All departments</option>
+              <option value="engineering">Engineering</option>
+              <option value="design">Design</option>
+              <option value="product">Product</option>
+              <option value="marketing">Marketing</option>
+              <option value="finance">Finance</option>
+              <option value="hr">People &amp; HR</option>
+            </select>
+          </div>
+
+          <div class="toolbar-field">
+            <label for="filter-status">Status</label>
+            <select id="filter-status" name="status">
+              <option value="">All statuses</option>
+              <option value="active">Active</option>
+              <option value="on-leave">On Leave</option>
+              <option value="departed">Departed</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-download">Download CSV</button>
+        </div>
+      </form>
+    </search>
+
+    <!-- Employee table -->
+    <div class="table-wrapper">
+      <table>
+        <caption>
+          Current and former employees filtered by the criteria above. Columns show name, department, role, start date, and employment status.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Department</th>
+            <th scope="col">Role</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Priya Sharma</td>
+            <td>Engineering</td>
+            <td>Senior Software Engineer</td>
+            <td><time datetime="2019-03-11">11 Mar 2019</time></td>
+            <td><span class="status-badge status-active">Active</span></td>
+          </tr>
+          <tr>
+            <td>Marcus Johansson</td>
+            <td>Product</td>
+            <td>Principal Product Manager</td>
+            <td><time datetime="2017-07-24">24 Jul 2017</time></td>
+            <td><span class="status-badge status-active">Active</span></td>
+          </tr>
+          <tr>
+            <td>Fatima Al-Rashidi</td>
+            <td>Design</td>
+            <td>Lead UX Designer</td>
+            <td><time datetime="2021-01-05">5 Jan 2021</time></td>
+            <td><span class="status-badge status-active">Active</span></td>
+          </tr>
+          <tr>
+            <td>David Okafor</td>
+            <td>Finance</td>
+            <td>Financial Analyst</td>
+            <td><time datetime="2020-09-14">14 Sep 2020</time></td>
+            <td><span class="status-badge status-on-leave">On Leave</span></td>
+          </tr>
+          <tr>
+            <td>Elena Petrov</td>
+            <td>Engineering</td>
+            <td>Staff Engineer</td>
+            <td><time datetime="2016-11-30">30 Nov 2016</time></td>
+            <td><span class="status-badge status-active">Active</span></td>
+          </tr>
+          <tr>
+            <td>Tomás Reyes</td>
+            <td>Marketing</td>
+            <td>Content Strategist</td>
+            <td><time datetime="2022-04-19">19 Apr 2022</time></td>
+            <td><span class="status-badge status-departed">Departed</span></td>
+          </tr>
+          <tr>
+            <td>Aisha Nkosi</td>
+            <td>People &amp; HR</td>
+            <td>HR Business Partner</td>
+            <td><time datetime="2018-08-06">6 Aug 2018</time></td>
+            <td><span class="status-badge status-active">Active</span></td>
+          </tr>
+          <tr>
+            <td>James Whitfield</td>
+            <td>Engineering</td>
+            <td>Engineering Manager</td>
+            <td><time datetime="2015-02-23">23 Feb 2015</time></td>
+            <td><span class="status-badge status-on-leave">On Leave</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Results count and pagination -->
+    <div class="table-footer">
+      <p class="table-count">Showing 8 of 42 employees</p>
+
+      <nav aria-label="Employee table pagination">
+        <ul class="pagination">
+          <li class="disabled">
+            <button type="button" disabled aria-label="Previous page">
+              <span aria-hidden="true">&lsaquo;</span> Previous
+            </button>
+          </li>
+          <li aria-current="page">
+            <a href="?page=1" aria-label="Page 1, current page">1</a>
+          </li>
+          <li>
+            <a href="?page=2" aria-label="Page 2">2</a>
+          </li>
+          <li>
+            <a href="?page=3" aria-label="Page 3">3</a>
+          </li>
+          <li>
+            <a href="?page=4" aria-label="Page 4">4</a>
+          </li>
+          <li>
+            <a href="?page=5" aria-label="Page 5">5</a>
+          </li>
+          <li>
+            <a href="?page=2" aria-label="Next page">
+              Next <span aria-hidden="true">&rsaquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Acme Corp. Internal use only.</p>
+  </footer>
+
+</body>
+</html>

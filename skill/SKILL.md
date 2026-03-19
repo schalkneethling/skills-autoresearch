@@ -1,0 +1,835 @@
+---
+name: semantic-html
+description: Write well-considered semantic HTML that serves all users. Use when creating components, page structures, or reviewing markup. Emphasizes native HTML elements over ARIA. Treats proper document structure and accessibility as foundations rather than afterthoughts.
+---
+
+# Semantic HTML
+
+Write HTML that conveys meaning, serves all users, and respects the web platform.
+
+## When to Use This Skill
+
+Use this skill when:
+
+- Creating new components or page sections
+- Reviewing markup for accessibility and semantics
+- Deciding between native HTML elements and ARIA attributes
+- Structuring documents with proper heading hierarchy
+- Making interactive elements accessible
+- Building forms with proper labelling and error handling
+- Creating responsive tables
+
+## Core Principles
+
+### Content Realism
+
+Design content is idealized. Real content is messy. Always account for:
+
+- Long sentences and long words
+- Images with varying aspect ratios and sizes
+- Multi-language support (even if not planned—users can translate via browser)
+- Dynamic content that changes in length and structure
+
+Build components that handle real-world content gracefully, not just what looks good in design tools.
+
+**Use realistic placeholder content.** Generic stand-ins like "Your Company", "example@test.com", or "John Doe" signal that real-world variation hasn't been considered. Use plausible names, realistic product names, believable prices, and actual-length descriptions — the kind of content the component will really receive. This matters because under-filled placeholders mask wrapping, overflow, and truncation problems that real content would expose.
+
+### Landmarks-First Planning
+
+Before diving into individual components, consider the full page structure. This allows you to:
+
+- Identify key landmarks for assistive technology users
+- Plan heading hierarchy across the document
+- Make informed decisions about element choice
+- Avoid overusing landmarks (which diminishes their usefulness)
+
+### Native Over ARIA
+
+Follow the first rule of ARIA: if a native HTML element provides the semantics and behaviour you need, use it instead of adding ARIA to a generic element.
+
+**Red flag:** High div count combined with high ARIA count on non-complex components signals reaching for patches rather than foundations.
+
+#### CSS-Only State Is Invisible to Assistive Technology
+
+When a CSS class conveys state (e.g., `.step-complete`, `.is-active`, `.has-error`), screen readers see only the DOM — they cannot observe CSS. Any state that matters to users must have an accessible text equivalent, not just a visual indicator:
+
+```html
+<!-- Wrong: "completed" conveyed by class only — screen readers can't see it -->
+<li class="step step-complete">
+  <span class="step-number">1</span>
+  <span class="step-label">Shipping</span>
+</li>
+
+<!-- Right: state in accessible text using visually-hidden span or aria attribute -->
+<li class="step step-complete">
+  <span class="step-number" aria-label="Step 1, completed">1</span>
+  <span class="step-label">Shipping</span>
+</li>
+```
+
+This applies to progress indicators, status badges, toggle states, and any other component where CSS communicates a meaningful change. Use `aria-current`, `aria-selected`, `aria-checked`, or visually-hidden text to communicate the same information the CSS class represents.
+
+#### Prefer `aria-labelledby` Over `aria-label` When a Visible Heading Exists
+
+When a `<form>`, `<section>`, or other landmark already has a visible heading element, reference that heading via `aria-labelledby` instead of duplicating the text in an `aria-label`. This keeps the accessible name in sync with the visible label—they cannot drift apart:
+
+```html
+<!-- Wrong: aria-label duplicates the visible heading text -->
+<h2 id="checkout-heading">Checkout</h2>
+<form aria-label="Checkout">
+  ...
+</form>
+
+<!-- Right: aria-labelledby references the existing heading -->
+<h2 id="checkout-heading">Checkout</h2>
+<form aria-labelledby="checkout-heading">
+  ...
+</form>
+```
+
+Use `aria-label` only when there is no visible text to reference — for example, an icon-only button, a search form with no adjacent heading, or a form embedded inside a `<dialog>` where the dialog heading belongs to the dialog, not the form.
+
+#### Redundant ARIA
+
+Adding ARIA to elements that already carry the correct semantics is noise—it clutters the code, can confuse assistive technology, and obscures genuine intent:
+
+```html
+<!-- Redundant: <ul> already has list semantics -->
+<ul role="list">
+  ...
+</ul>
+
+<!-- Redundant: alt="" already suppresses the accessible name -->
+<img src="avatar.png" alt="" role="presentation" />
+
+<!-- Redundant: aria-label duplicates visible text the AT will already read -->
+<span aria-label="Most Popular">Most Popular</span>
+
+<!-- Redundant: <search> already exposes the search landmark role;
+     adding role="search" to the inner <form> doubles the landmark -->
+<search aria-label="Site search">
+  <form role="search">  <!-- role="search" is redundant here -->
+    ...
+  </form>
+</search>
+
+<!-- Correct: <search> alone provides the landmark -->
+<search aria-label="Site search">
+  <form>
+    ...
+  </form>
+</search>
+```
+
+**The `<search>` element rule:** `<search>` already maps to the ARIA `search` landmark role. Any `<form role="search">` nested inside it adds a second, overlapping search landmark. Use `<search>` for the outer wrapper and a plain `<form>` (or no `<form>` if there's no submission) inside.
+
+#### ARIA Attributes Belong in HTML, Not CSS
+
+`aria-hidden`, `aria-label`, and all other ARIA attributes are HTML attributes, not CSS properties. Writing `aria-hidden: true` inside a CSS rule has no effect — browsers do not read ARIA from stylesheets. The attribute must appear on the HTML element itself:
+
+```css
+/* Wrong: has no effect — screen readers will still announce the emoji */
+.error-message::before {
+  content: "⚠";
+  aria-hidden: true; /* not a valid CSS property */
+}
+```
+
+```html
+<!-- Right: attribute on the element -->
+<span class="icon" aria-hidden="true">⚠</span>
+```
+
+For CSS-generated content (`::before`, `::after`), browsers automatically exclude it from the accessibility tree — no `aria-hidden` is needed at all. If you're injecting decorative characters via CSS pseudo-elements, they are already invisible to assistive technology.
+
+#### Don't Override Native Semantics with role
+
+ARIA `role` changes how assistive technology interprets an element. Applying a role that changes a native element's semantics introduces inconsistency—native behaviour (keyboard interaction, states, events) stays the same while the announced role changes:
+
+```html
+<!-- Wrong: role="switch" changes what AT announces, but the element still
+     behaves like a checkbox. Use the native checkbox if switch toggle
+     semantics aren't needed, or build a proper switch widget. -->
+<input type="checkbox" role="switch" />
+
+<!-- Right: native checkbox, no role override needed -->
+<input type="checkbox" />
+```
+
+Only add a `role` attribute to a native element when you deliberately need different semantics and the element's behaviour genuinely matches that role.
+
+### Separation of Visual and Semantic Hierarchy
+
+Visual styling and semantic meaning are related but not coupled. CSS classes bridge the gap:
+
+- Use the appropriate heading level based on document structure
+- Apply CSS classes to control visual appearance (size, weight, colour)
+- Create utility classes like `.u-Heading-XXL` for consistent visual treatment regardless of semantic level
+
+## Document Structure
+
+### Skip Navigation Links
+
+Skip links let keyboard and screen reader users bypass repeated navigation blocks and jump directly to meaningful content. They are required on any page with a navigation block or other repeated content before the main content.
+
+Place skip links as the **first focusable element** in `<body>`. They can be visually hidden and revealed on focus:
+
+```html
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <!-- optional additional skip targets -->
+  <a href="#search" class="skip-link">Skip to search</a>
+
+  <header>...</header>
+  <nav>...</nav>
+
+  <main id="main-content" tabindex="-1">...</main>
+</body>
+```
+
+```css
+.skip-link {
+  position: absolute;
+  transform: translateY(-100%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+```
+
+**Why `tabindex="-1"` on `<main>`:** The `<main>` element is not natively focusable. Without `tabindex="-1"`, activating the skip link scrolls to the element but does not move keyboard focus there in all browsers. Adding `tabindex="-1"` makes it programmatically focusable (reachable via the skip link or `.focus()`) without adding it to the natural tab order.
+
+**When to add more skip links:** If the page has a prominent search bar, a sidebar, or a long secondary navigation, consider skip links to those targets too. The goal is reducing the number of Tab presses to reach primary content.
+
+**Sidebar layouts need a "skip to navigation" link:** When a sidebar navigation is placed away from the top of the DOM (e.g., after `<main>` in source order, or deep within the layout), add a skip link pointing to the `<nav>` so keyboard users can reach it without tabbing through all main content first.
+
+**The primary skip link should target `<main>`:** The first skip link should always point to `<main id="main-content">`. Additional skip links can target other meaningful landmarks or controls—a `<search>` element, a sidebar `<nav>`, or a prominent form—depending on the page's complexity.
+
+**Why this matters:** Without skip links, keyboard users must tab through every navigation item on every page load. On a nav with 12 links, that's 12 extra keystrokes — on every page.
+
+### Landmark Elements
+
+Use landmark elements to convey page structure:
+
+| Element   | Use When                     | Notes                                                                            |
+| --------- | ---------------------------- | -------------------------------------------------------------------------------- |
+| `header`  | Page or section header       | Can appear multiple times in different contexts                                  |
+| `footer`  | Page or section footer       | Contact info, copyright, related links                                           |
+| `nav`     | Navigation sections          | Must be labelled; avoid "navigation" in the label (screen readers announce this) |
+| `main`    | Primary content              | Only one per page; must contain the primary `<h1>`                               |
+| `aside`   | Tangentially related content | Content removable without changing the page's main story (sidebars, ads)         |
+| `search`  | Search functionality         | Contains the search form, not the results                                        |
+| `form`    | User input                   | Only becomes a landmark when labelled via `aria-labelledby` or `aria-label`      |
+| `article` | Self-contained content       | Would make sense syndicated or standalone                                        |
+| `section` | Thematic grouping            | Only becomes a landmark when labelled                                            |
+
+#### `<main>` must contain the primary `<h1>`
+
+Screen reader users often jump directly to `<main>`. If the page `<h1>` sits in a `<div>` between `<header>` and `<main>`, these users land after the title and lose essential context. The `<h1>` (and any subtitle or intro copy introducing the page) belongs inside `<main>`:
+
+```html
+<!-- Wrong: h1 is outside main -->
+<header>...</header>
+<div class="page-header"><h1>FAQ</h1></div>
+<main>
+  <!-- screen reader users start here, after the title -->
+</main>
+
+<!-- Right: h1 is the first heading inside main -->
+<header>...</header>
+<main id="main-content" tabindex="-1">
+  <h1>FAQ</h1>
+  ...
+</main>
+```
+
+### The Section Element
+
+A `section` without an accessible name behaves like a `div` semantically. When using `section`:
+
+- Associate it with a heading via `aria-labelledby`
+- This transforms it into a valid landmark region
+- If you cannot provide a meaningful label, question whether `section` is the right choice
+
+**Don't nest labelled landmarks that reference the same ID.** If a `<section aria-labelledby="x">` wraps a `<form aria-labelledby="x">`, screen readers announce the same label twice — once for the section landmark, once for the form landmark. Give each labelled landmark its own distinct label, or remove the one that adds no meaningful navigation benefit:
+
+### The Article Element
+
+Think beyond blog posts. Use `article` for any self-contained content that would make sense on its own:
+
+- Blog posts and news articles
+- Comments on a post
+- Product cards in a listing
+- Social media posts in a feed
+- Forum posts
+
+**Test:** Would this content make sense if extracted and placed elsewhere with no surrounding context?
+
+### The Address Element
+
+Often misunderstood. From the HTML specification:
+
+> The address element represents the contact information for its nearest article or body element ancestor.
+
+Use for contact information about the author or owner—not for generic postal addresses. For postal addresses, use a standard `<p>` or structured markup appropriate to the context.
+
+### `<aside>` vs `<section>`
+
+**The test for `<aside>`:** Would this content make sense if it were removed from the page entirely? Would the main content still be complete?
+
+- An advertisement, a related article link, or a biographical note about the author → `<aside>` (removing it doesn't change the main message)
+- A "Still need help?" CTA on an FAQ page, a summary of key findings in an article, or a prominent signup prompt → `<section>` (removing it leaves the page feeling incomplete or breaks the intended flow)
+
+When in doubt: if the content serves the primary purpose of the page, it belongs in a labelled `<section>`, not `<aside>`.
+
+### The Aside Element and Pull Quotes
+
+`<aside>` is appropriate for pull quotes—a typographic device that highlights text from the article. However, do not use `<blockquote>` for a pull quote drawn from the page's own content. `<blockquote>` signals an external or distinct quotation. For a pull quote that restates something from the same article, use `<p>` (or styled text) inside `<aside>`:
+
+```html
+<!-- Correct: pull quote from the article's own content -->
+<aside aria-label="Pull quote">
+  <p>
+    "The biggest gains came not from new features, but from removing old ones."
+  </p>
+</aside>
+
+<!-- Use blockquote for genuine external quotations -->
+<blockquote cite="https://example.com/source">
+  <p>Quote from an external source.</p>
+</blockquote>
+```
+
+## Headings
+
+### Heading Hierarchy
+
+Maintain a logical heading structure:
+
+- One `h1` per page (typically the main title)
+- Don't skip levels (h1 → h3)
+- Headings create an outline—ensure it makes sense when read in sequence
+
+**Track heading context throughout the full page.** A common mistake is writing heading levels for a section in isolation and losing track of what level that section sits at when viewed as part of the whole document. Before assigning a heading level, mentally walk up the document outline: if "Leave a comment" lives inside a "Comments" `<h2>` section, it must be `<h3>`—not another `<h2>`. The rule is simple: a subsection's heading is always one level deeper than its containing section's heading.
+
+**Section headings before item headings:** When a page groups items (products, articles, search results), don't jump directly from the page `<h1>` to individual item headings. Use an intermediate `<h2>` for the containing section, then `<h3>` for individual items. This keeps the document outline meaningful and prevents individual item names from cluttering the top-level outline.
+
+```html
+<!-- Correct: h1 → h2 section → h3 items -->
+<main>
+  <h1>Running Shoes</h1>
+  <section aria-labelledby="results-heading">
+    <h2 id="results-heading">24 results</h2>
+    <ul>
+      <li>
+        <article>
+          <h3>Nike Air Zoom Pegasus 41</h3>
+          ...
+        </article>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<!-- Wrong: h1 → h2 items (no section heading) -->
+<main>
+  <h1>Running Shoes</h1>
+  <ul>
+    <li><article><h2>Nike Air Zoom Pegasus 41</h2>...</article></li>
+    <li><article><h2>Adidas Ultraboost 24</h2>...</article></li>
+  </ul>
+</main>
+```
+
+### Headings in Components
+
+For reusable components containing headings:
+
+1. **Make heading level configurable** — Components may appear in different contexts
+2. **Provide sensible defaults** — Not all content authors understand heading hierarchy
+3. **Consider inheritance** — Generic components become specific ones; heading config should flow through
+
+**Example pattern:**
+
+```
+Card (generic) → heading level configurable, default h3
+  └─ ProductCard (specific) → inherits config, may set default based on known context
+       └─ Used in section with h2 → heading level set to h3
+```
+
+### Visual Heading Without Semantic Heading
+
+Sometimes text looks like a heading but shouldn't be one semantically. Use CSS classes to apply heading-like styling without affecting document outline:
+
+```html
+<p class="u-Heading-L">This looks like a heading</p>
+```
+
+## Lists
+
+### When to Use Lists
+
+Lists are most useful when **knowing the number of items helps the user**:
+
+- Navigation menus (how many options?)
+- Search results (how many matches?)
+- Image galleries (how many images?)
+- Steps in a process
+
+**Questions to ask:**
+
+- Are these items genuinely peers?
+- Would removing one make the others feel incomplete?
+- Is there an implicit "here are N things" being communicated?
+
+### List Types
+
+| Type   | Use When                                 | Example                               |
+| ------ | ---------------------------------------- | ------------------------------------- |
+| `ul`   | Unordered collection where count matters | Nav items, search results             |
+| `ol`   | Sequential steps or ranked items         | Recipes, instructions, top-10 lists   |
+| `dl`   | Term-description pairs                   | Glossaries, metadata, key-value pairs |
+| `menu` | Toolbar commands                         | Action buttons, not navigation        |
+
+**Ordered list attributes:** Use `reversed` for countdown-style lists (e.g., a top 10 listed from 10 to 1). Use `start` to begin numbering from a specific value. Both are native HTML—no JavaScript required.
+
+### Definition Lists
+
+Often overlooked or confused with `details`/`summary`. Use `dl` for:
+
+- Glossary definitions
+- Metadata display (label: value pairs)
+- Any term with one or more descriptions
+
+Note: A single `dt` can have multiple `dd` elements for multiple related descriptions.
+
+### Decorative List Separators
+
+When using CSS `::before` or `::after` to inject visual separators (e.g., breadcrumb `›`), browsers automatically exclude generated content from the accessibility tree—no extra markup is required. Do **not** try to hide it with `aria-hidden: "true"` as a CSS property; that is invalid and has no effect. If injecting separators via HTML (not CSS), use `<span aria-hidden="true">` on the HTML element.
+
+## Interactive Elements
+
+### Buttons vs Links
+
+**Traditional rule:** Buttons do things, links go places.
+
+**Progressive enhancement lens:** If a URL provides a meaningful fallback when JavaScript fails, a link is valid even for action-like interactions.
+
+| Interaction             | Default Choice | Consider Link When                            |
+| ----------------------- | -------------- | --------------------------------------------- |
+| Show more content       | `button`       | URL params could load the content server-side |
+| Toggle view (grid/list) | `button`       | URL could preserve view preference            |
+| Copy to clipboard       | `button`       | Copied content is a shareable URL             |
+| Tab selection           | `button`       | URL could load specific tab content           |
+
+**Key question:** What happens when JavaScript fails? If a URL provides graceful degradation, a link may be the better choice.
+
+### Unique Accessible Names for Repeated Buttons
+
+When the same action appears multiple times on a page (e.g., "Add to cart" on each product card, "Read more" on each article), each button needs a unique accessible name so screen reader users understand which item it acts on.
+
+Approaches (choose the simplest):
+
+```html
+<!-- Option 1: aria-label with full context -->
+<button aria-label="Add Nike Pegasus 41 to cart">Add to cart</button>
+
+<!-- Option 2: visually hidden text -->
+<button>
+  Add to cart
+  <span class="visually-hidden">Nike Pegasus 41</span>
+</button>
+
+<!-- Option 3: aria-labelledby combining button text + product heading -->
+<article>
+  <h3 id="product-42">Nike Pegasus 41</h3>
+  ...
+  <button id="btn-42" aria-labelledby="btn-42 product-42">Add to cart</button>
+</article>
+```
+
+The visible label should stay as "Add to cart" (sighted users understand context from position); the accessible name adds the product name for users who navigate by button list.
+
+**`aria-describedby` does not change the accessible name.** Using `aria-describedby` to point to a product heading adds a supplementary description — screen readers may announce "Add to cart, Nike Pegasus 41" in some modes — but the *accessible name* remains "Add to cart". Users navigating by element list (e.g., NVDA's button list or VoiceOver's rotor) still see six identical "Add to cart" entries. Use `aria-label`, visually hidden text, or `aria-labelledby` to change the actual accessible name.
+
+### Disabling Controls
+
+`aria-disabled="true"` communicates disabled state but does **not** prevent interaction. For buttons, `disabled` both communicates state and suppresses clicks and keyboard activation. For links, `aria-disabled="true"` alone is insufficient—it still receives focus and activates. Options:
+
+- Use a `<button disabled>` instead of a link when the action is truly unavailable
+- Remove the `href` attribute to prevent activation (link becomes non-interactive)
+- Handle `keydown`/`click` events explicitly if you must keep the element focusable
+
+### The Popover API for Lightweight Overlays
+
+For user dropdowns, action menus, and non-modal overlays, the **Popover API** (`popover` attribute) is the preferred modern approach — not custom ARIA widget patterns.
+
+```html
+<!-- Trigger: button with popovertarget -->
+<button popovertarget="user-menu">
+  <img src="avatar.png" alt="" />
+  <span>Alice</span>
+</button>
+
+<!-- Popover: browser manages show/hide, focus, and light-dismiss -->
+<ul id="user-menu" popover>
+  <li><a href="/profile">Profile</a></li>
+  <li><a href="/settings">Settings</a></li>
+  <li><button>Sign out</button></li>
+</ul>
+```
+
+The browser automatically handles `aria-expanded` on the invoking button and `aria-details` when the popover isn't immediately adjacent in the DOM. No manual ARIA attributes are needed on the trigger.
+
+**Why this is better than the ARIA menu pattern:**
+
+- Browser handles keyboard interaction, focus management, and light-dismiss natively
+- No `role="menu"`, `role="menuitem"`, or `role="none"` needed — the list remains a semantic `<ul>` of links and buttons
+- ARIA menu patterns have strict interaction requirements (`Home`, `End`, character navigation) that are easy to implement incorrectly and unfamiliar to many users
+
+**When ARIA menu patterns are appropriate:** Only when you are building a true application menu (menubar, menuitem, submenu) that mirrors desktop application behaviour. Most website navigation and user dropdowns should use the Popover API or a simple disclosure pattern instead.
+
+### The Details/Summary Pattern
+
+Use for progressive disclosure:
+
+- FAQ sections
+- Expandable content sections
+- Collapsible navigation
+
+**Not** a replacement for a `<button>`-controlled disclosure widget when ARIA roles (e.g., `role="menu"`, `role="dialog"`) are required. User dropdowns, menus, and modal triggers need `<button>` so that the correct ARIA pattern can be applied. `<details>/<summary>` has its own implicit semantics and cannot carry `aria-expanded` or menu roles meaningfully.
+
+## Forms
+
+### Grouping with Fieldset/Legend
+
+Use `fieldset` and `legend` for **thematic grouping**, not layout:
+
+- Address fields
+- Personal information sections
+- Comment author fields (name, email, message — even when only three fields)
+- Privacy/consent checkboxes
+- Payment details
+- Settings sections (Profile, Notifications, Privacy)
+
+**When section+heading isn't enough:** For groups of form controls, `<fieldset>/<legend>` provides grouping context to assistive technology that `<section>/<h2>` does not. Screen readers announce the legend before each field in the group, giving users persistent context. Use `<section>/<h2>` for non-form content regions; use `<fieldset>/<legend>` whenever the region contains a group of inputs.
+
+**Related checkboxes always need `<fieldset>/<legend>`**, even when there are only two. A pair of checkboxes under a visual label (e.g., "Privacy Settings") is just as ambiguous to a screen reader as ten—without the legend, a user navigating field by field has no idea which settings are being toggled until they read the surrounding context. The legend solves this:
+
+```html
+<!-- Wrong: visual grouping only -->
+<div class="privacy-section">
+  <p>Privacy</p>
+  <input type="checkbox" id="online-status" />
+  <label for="online-status">Show online status</label>
+  <input type="checkbox" id="search-index" />
+  <label for="search-index">Allow search engines to index my profile</label>
+</div>
+
+<!-- Correct: fieldset communicates the group to assistive technology -->
+<fieldset>
+  <legend>Privacy</legend>
+  <input type="checkbox" id="online-status" />
+  <label for="online-status">Show online status</label>
+  <input type="checkbox" id="search-index" />
+  <label for="search-index">Allow search engines to index my profile</label>
+</fieldset>
+```
+
+**Multi-step forms:** Each step in a multi-step form is a group of form controls and should be wrapped in `<fieldset>/<legend>`, not `<section>/<h2>`. The `<legend>` gives screen readers persistent context as the user moves between fields (they hear "Step 2: Delivery address — Street address" rather than just "Street address"). Using `<section>/<h2>` provides a visible heading but loses this per-field announcement.
+
+```html
+<!-- Correct: each step is a fieldset -->
+<form>
+  <fieldset>
+    <legend>Step 1: Contact details</legend>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" />
+  </fieldset>
+
+  <fieldset>
+    <legend>Step 2: Delivery address</legend>
+    <label for="street">Street address</label>
+    <input type="text" id="street" name="street" />
+  </fieldset>
+
+  <button type="submit">Place order</button>
+</form>
+
+<!-- Wrong: section/h2 does not communicate step context field-by-field -->
+<form>
+  <section>
+    <h2>Contact details</h2>
+    <label for="email">Email</label>
+    <input type="email" id="email" />
+  </section>
+</form>
+```
+
+If you add a heading inside one `<fieldset>` step, add one inside all of them. Inconsistent structure (step 3 has an `<h2>`, steps 1–2 don't) creates an uneven document outline. Either use headings in every step or rely on the `<legend>` alone for all steps—don't mix approaches.
+
+**Submit buttons must be inside a `<form>` element.** A `<button type="submit">` outside any `<form>` has no form to submit—the `type="submit"` is semantically incorrect and the button will not trigger form submission. Either place the button inside the `<form>`, or use `<button type="button">` with a JavaScript handler if the layout prevents nesting.
+
+Benefits:
+
+- Enables progressive disclosure (reveal sections as user completes others)
+- Reduces overwhelm (avoids "wall of form fields")
+- Provides context for screen reader users
+
+Legends can be visually hidden while still providing accessible names.
+
+### Filter Sidebars Require a `<form>` Wrapper
+
+When filter controls live in a sidebar `<aside>` rather than inline with a search bar, they still need a `<form>` element. A group of `<fieldset>` elements without a `<form>` parent is not a form landmark and cannot be natively submitted or reset. The `<form>` is what enables a "Apply filters" / "Clear all" button pair to work without JavaScript:
+
+```html
+<!-- Correct: filter fieldsets are inside a <form> -->
+<aside aria-label="Filter results">
+  <form aria-label="Filter by">
+    <fieldset>
+      <legend>Category</legend>
+      <!-- checkboxes -->
+    </fieldset>
+    <fieldset>
+      <legend>Price range</legend>
+      <!-- inputs -->
+    </fieldset>
+    <button type="submit">Apply filters</button>
+    <button type="reset">Clear all</button>
+  </form>
+</aside>
+
+<!-- Wrong: fieldsets without a <form> — no form landmark, no native submit/reset -->
+<aside aria-label="Filter results">
+  <fieldset>
+    <legend>Category</legend>
+    <!-- checkboxes — but where do they submit? -->
+  </fieldset>
+</aside>
+```
+
+**Why this matters for landmark navigation:** A labelled `<form>` creates a navigable landmark. Users of assistive technology can jump directly to the filter form by landmark, just as they jump to `<main>` or `<nav>`. Without the `<form>`, the filter controls are reachable only by tabbing through all preceding content.
+
+### Grouping Search and Filter Controls
+
+`<search>` wraps the entire search/filter interface—not just the text input. If a toolbar contains a search input plus related filter selects, they belong together in one `<search>` or labelled `<form>`:
+
+```html
+<!-- Correct: all filter controls share a single search landmark -->
+<search aria-label="Filter employees">
+  <label for="q">Search</label>
+  <input type="search" id="q" name="q" />
+
+  <label for="dept">Department</label>
+  <select id="dept" name="dept">
+    ...
+  </select>
+
+  <label for="status">Status</label>
+  <select id="status" name="status">
+    ...
+  </select>
+
+  <button type="submit">Apply filters</button>
+</search>
+
+<!-- Wrong: only the text input is wrapped -->
+<search>
+  <input type="search" />
+</search>
+<select>
+  ...
+</select>
+<!-- orphaned filter control -->
+```
+
+### Labels
+
+**Always use a `label` element.** No exceptions.
+
+- Visually hidden labels are acceptable when design requires it
+- Never rely on placeholder text as a label substitute
+- Never use `aria-label` when a proper `label` element works
+
+**Why placeholders fail:**
+
+- Disappear on input (problematic for cognitive challenges, stress, or distraction)
+- Often have poor contrast
+- Don't provide persistent identification
+
+### Required Fields
+
+HTML's `required` attribute communicates required state to assistive technology, but sighted users need a visual convention too. Always pair `required` with a visible indicator:
+
+```html
+<!-- Pattern: asterisk with legend explaining it -->
+<fieldset>
+  <legend>
+    Contact details <span aria-hidden="true">*</span> required fields
+  </legend>
+
+  <label for="name">Full name <span aria-hidden="true">*</span></label>
+  <input type="text" id="name" required />
+</fieldset>
+```
+
+The `aria-hidden` on the asterisk prevents screen readers from announcing "asterisk"—they already get the required state from the `required` attribute. The legend or a page-level note explains the convention to sighted users.
+
+### Hint Text
+
+When inputs have format hints or helper text, associate them with the input via `aria-describedby`. This ensures screen readers announce the hint after the label, giving users the context they need before typing:
+
+```html
+<label for="email">Email address</label>
+<p id="email-hint" class="hint">We'll only use this to send your receipt.</p>
+<input type="email" id="email" aria-describedby="email-hint" />
+```
+
+Multiple associations are allowed—comma-separated IDs work for both hint and error:
+
+```html
+<input
+  type="email"
+  id="email"
+  aria-invalid="true"
+  aria-describedby="email-hint email-error"
+/>
+```
+
+**ARIA reference integrity:** `aria-describedby` and `aria-labelledby` fail silently when a referenced ID doesn't exist — no browser error, no warning, the association simply doesn't happen. Always verify that the `id` attribute is present on the target element and matches exactly (IDs are case-sensitive). A common bug is adding `aria-describedby="foo-hint"` on the input while the hint element has no `id` attribute at all.
+
+### Error Messages
+
+Current best practice (due to browser support gaps with `aria-errormessage`):
+
+1. Set `aria-invalid="true"` on the invalid input
+2. Associate error message via `aria-describedby`
+3. Ensure error message is actionable (state the problem AND guide the fix)
+4. For dynamic errors (shown on blur), consider `aria-live` on the error container
+
+```html
+<label for="email">Email</label>
+<input
+  type="email"
+  id="email"
+  aria-invalid="true"
+  aria-describedby="email-error"
+/>
+<p id="email-error" class="error">
+  Enter a valid email address, like name@example.com
+</p>
+```
+
+## Tables
+
+### When to Use Tables
+
+Use a table when data has **meaningful relationships in both dimensions**:
+
+- Data must be presented as rows AND columns
+- Clear association between headers and data
+- Each row has the same columns
+- Within each column, data is of the same type
+
+### When NOT to Use Tables
+
+- Simple lists (one dimension)
+- Key-value pairs (use `dl`)
+- Form layouts
+- Hierarchical data (use nested lists)
+
+### Table Semantics Baseline
+
+Always include:
+
+- `caption` — Describes the table's purpose
+- `thead`, `tbody`, `tfoot` — Structural grouping
+- `th` with `scope` — Identifies header cells and their direction
+
+### Boolean and Status Values in Table Cells
+
+When a column conveys a binary value (yes/no, included/excluded, supported/unsupported), use visible text. Icon-only indicators (✓/✗, ●/○) even with `aria-label` overrides serve screen reader users but exclude sighted users with cognitive disabilities who benefit from plain-text labels. Icons may also be ambiguous — a ✓ in a "Restrictions" column could mean "restricted" or "unrestricted" depending on context.
+
+```html
+<!-- Wrong: icon only, even with aria-label override -->
+<td><span aria-label="Included">✓</span></td>
+
+<!-- Right: visible text with optional supplementary icon -->
+<td><span aria-hidden="true">✓</span> Yes</td>
+
+<!-- Also acceptable: visually-hidden text alongside icon (when design requires icon-only layout) -->
+<td>
+  <span aria-hidden="true">✓</span>
+  <span class="visually-hidden">Yes</span>
+</td>
+```
+
+**The principle extends beyond tables:** whenever an icon is the sole conveyor of meaningful data or state, visible text should accompany it. ARIA labels reach screen reader users but are not a substitute for readable content visible to all.
+
+### Responsive Tables
+
+In order of preference:
+
+1. **Hide non-essential columns** — User still gets main takeaways; offer button to show full table
+2. **Horizontal scroll** — Preserves semantics but may challenge users with motor difficulties
+3. **Component duplication (cards on mobile)** — Last resort; maintain accessibility in both versions
+
+Note: Modern browsers (including Safari) no longer strip table semantics when applying `display: grid` or `display: flex`, opening new responsive possibilities.
+
+## Code Review Checklist
+
+When reviewing markup, look for:
+
+### Positive Signals
+
+- [ ] Skip navigation link(s) present as first focusable element(s)
+- [ ] Landmark elements used appropriately
+- [ ] Logical heading hierarchy
+- [ ] Native interactive elements (buttons, links) used correctly
+- [ ] Repeated action buttons have unique accessible names
+- [ ] Forms have proper labels, fieldsets, and hint associations
+- [ ] Required fields visually indicated with a legend explaining the convention
+- [ ] Tables have full semantic structure
+- [ ] ARIA used sparingly and correctly
+
+### Warning Signs
+
+- [ ] No skip navigation link before a `<nav>` or repeated header content
+- [ ] High div count in non-complex components
+- [ ] ARIA attributes compensating for missing native semantics
+- [ ] Redundant ARIA roles on native elements (`role="list"` on `<ul>`, `role="presentation"` on `<img alt="">`)
+- [ ] `role` attribute changing a native element's semantics without matching behaviour
+- [ ] `aria-label` duplicating visible text (AT would read it twice or render it confusing)
+- [ ] ARIA menu pattern (`role="menu"`, `role="menuitem"`) used for a simple user dropdown (use Popover API instead)
+- [ ] Placeholders used as labels
+- [ ] Heading levels chosen for visual size rather than structure
+- [ ] Generic elements with click handlers instead of buttons/links
+- [ ] Tables used for layout
+- [ ] Missing form labels
+- [ ] Repeated buttons with identical accessible names ("Add to cart" × 6)
+- [ ] `aria-disabled` on `<a>` elements without preventing keyboard activation
+- [ ] Filter/search controls scattered outside a `<search>` or `<form>` grouping
+- [ ] Filter fieldsets in a sidebar without a wrapping `<form>` element (fieldsets alone are not a form landmark)
+- [ ] Settings form sections using `<section>/<h2>` instead of `<fieldset>/<legend>`
+- [ ] `aria-label` on a form or section duplicating an adjacent visible heading (use `aria-labelledby` instead)
+- [ ] Icon-only boolean values in tables (✓/✗) without accompanying visible text ('Yes'/'No')
+- [ ] ARIA attributes written as CSS properties (`aria-hidden: true` in a stylesheet — has no effect)
+- [ ] `aria-describedby` or `aria-labelledby` referencing an ID that doesn't exist on any element
+- [ ] State conveyed only via CSS class with no accessible text equivalent (e.g., `.step-complete` with no SR text)
+- [ ] Nested landmarks (`<section>` and `<form>`) sharing the same `aria-labelledby` ID (double announcement)
+- [ ] Plain HTML heading levels hardcoded without a comment documenting the assumed context
+
+## Resources
+
+- [HTML Living Standard: Sections](https://html.spec.whatwg.org/dev/sections.html)
+- [HTML Living Standard: Grouping Content](https://html.spec.whatwg.org/dev/grouping-content.html)
+- [HTML Living Standard: Forms](https://html.spec.whatwg.org/dev/forms.html)
+- [HTML Living Standard: Tables](https://html.spec.whatwg.org/dev/tables.html)
+- [MDN: ARIA](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA)
+
+## References
+
+See the `references/` directory for detailed guidance on specific topics:
+
+- `element-decision-trees.md` — Quick decision frameworks for element selection
+- `heading-patterns.md` — Component heading patterns and configuration strategies

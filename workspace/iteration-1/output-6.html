@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing Plans</title>
+    <style>
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+      }
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <h1>Simple, Transparent Pricing</h1>
+      <p>
+        Choose the plan that fits your needs. Start for free, upgrade as you
+        grow, or contact us for a custom Enterprise solution tailored to your
+        organisation.
+      </p>
+
+      <section aria-labelledby="plans-heading">
+        <h2 id="plans-heading" class="visually-hidden">Pricing plans</h2>
+        <ul>
+          <li>
+            <article aria-labelledby="plan-starter-name">
+              <h3 id="plan-starter-name">Starter</h3>
+              <p>
+                <strong>$9</strong><span>/mo</span>
+              </p>
+              <a href="/signup?plan=starter">Start Free Trial<span class="visually-hidden"> on the Starter plan</span></a>
+            </article>
+          </li>
+          <li>
+            <article aria-labelledby="plan-professional-name">
+              <h3 id="plan-professional-name">
+                Professional
+                <span>Most Popular</span>
+              </h3>
+              <p>
+                <strong>$29</strong><span>/mo</span>
+              </p>
+              <a href="/signup?plan=professional">Start Free Trial<span class="visually-hidden"> on the Professional plan</span></a>
+            </article>
+          </li>
+          <li>
+            <article aria-labelledby="plan-enterprise-name">
+              <h3 id="plan-enterprise-name">Enterprise</h3>
+              <p>
+                <strong>Custom pricing</strong>
+              </p>
+              <a href="/contact-sales">Contact Sales<span class="visually-hidden"> about the Enterprise plan</span></a>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="comparison-heading">
+        <h2 id="comparison-heading">Feature comparison</h2>
+        <table>
+          <caption>Features included in each pricing plan</caption>
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Starter</th>
+              <th scope="col">Professional</th>
+              <th scope="col">Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Projects</th>
+              <td>5</td>
+              <td>Unlimited</td>
+              <td>Unlimited</td>
+            </tr>
+            <tr>
+              <th scope="row">Storage</th>
+              <td>10GB</td>
+              <td>100GB</td>
+              <td>Unlimited</td>
+            </tr>
+            <tr>
+              <th scope="row">Team members</th>
+              <td>1</td>
+              <td>10</td>
+              <td>Unlimited</td>
+            </tr>
+            <tr>
+              <th scope="row">API access</th>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <th scope="row">Priority support</th>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <th scope="row">Custom integrations</th>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Example Company. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

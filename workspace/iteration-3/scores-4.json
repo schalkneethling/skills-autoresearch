@@ -1,0 +1,63 @@
+{
+  "eval_id": 5,
+  "eval_name": "blog-article-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Excellent element choices throughout: <article> for main article, related cards, and comments; <time datetime> for all dates; <pre><code> for the code block; <aside> (not <blockquote>) for the pull quote; <dl> for author/date metadata; <footer> within <article> for author bio; <address> used within the author bio for the author's profile link, which is valid contact info for the nearest article ancestor. All interactive elements are native."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used only where native HTML cannot suffice. Both <nav> elements carry aria-label; all <section> elements have aria-labelledby; aria-hidden='true' correctly hides decorative asterisks from screen readers; tabindex='-1' on <main> correctly supports the skip link target; aria-describedby connects the email hint. No redundant role attributes anywhere."
+    },
+    "heading_hierarchy": {
+      "score": 2,
+      "justification": "Single h1 for the article title; h2 used correctly for article sections, 'About the author', 'Related Articles', and 'Comments'. However, 'Leave a comment' is also marked as h2 despite being a subsection nested inside the 'Comments' h2 section — it should be h3, creating a skipped-level inversion in that part of the outline. Related article and comment headings correctly use h3."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "All landmark elements are present and correctly placed: site <header> and <footer> are outside <main>; <main> contains the article, related articles, and comments; <nav> elements are labelled; <aside> used for the pull quote; <section> elements carry aria-labelledby. Skip links are the first focusable elements ('Skip to main content' and 'Skip to comments'), appropriate for this page's complexity."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "All inputs have visible <label> elements with matching for/id pairs; correct input types (text, email, textarea); autocomplete attributes on name and email; aria-describedby associates the email hint; required attribute set on all mandatory fields; decorative asterisks hidden with aria-hidden. No fieldset/legend is used but the form has no radio/checkbox groups requiring one, and proper labels meet the minimum criterion."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Content is detailed and technically plausible throughout: specific performance metrics (2.8s → 0.9s, 68% reduction), named technologies (Apollo Server, DataLoader), realistic developer survey scores, and substantive comments that engage with the article's specifics. Related article titles, author names, and dates are all realistic. No lorem ipsum or placeholder content anywhere."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items are in <ul> within <nav> elements; related article cards are in a <ul> (unordered, count matters but order does not); comments are in an <ol> (chronological order is meaningful); footer nav uses <ul>. All list types are appropriate to their content."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.86,
+  "expectations_met": [
+    "The article uses the <article> element",
+    "<main> wraps the article, related articles, and comments — site header and footer are outside it",
+    "Skip navigation links are the first focusable elements ('Skip to main content' and 'Skip to comments')",
+    "Article date uses <time> with a datetime attribute",
+    "Article sections use h2 headings within the article",
+    "Pull quote uses <aside> and does not use <blockquote>",
+    "Code block uses <pre><code>",
+    "Author bio uses <footer> within the <article>",
+    "Related articles section uses an h2 heading and article cards in a <ul>",
+    "Each related article card uses <article>",
+    "Comments are each an <article> (self-contained, in an <ol>)",
+    "Comment form uses proper <label> elements for all fields",
+    "Comment dates use <time> with datetime attributes",
+    "<address> used correctly for author contact/profile link within the article",
+    "No heading levels skipped in the main article or related articles sections",
+    "h1 used for article title; h2 for top-level sections; h3 for nested card and comment headings"
+  ],
+  "expectations_missed": [
+    "'Leave a comment' heading uses h2 despite being a subsection nested inside the 'Comments' h2 section — should be h3 to maintain hierarchy",
+    "Comment author names use <h3> rather than <strong>/<b> or <span> as the key expectations suggest; h3 is defensible as the comment article's heading but departs from the stated expectation"
+  ],
+  "additional_observations": [
+    "The decision to use <ol> for comments is a thoughtful choice — chronological ordering is meaningful for discussion threads",
+    "aria-describedby on the email input to associate the privacy hint is a nice accessibility touch beyond the minimum requirements",
+    "The inline HTML comments explaining heading-level choices (e.g., '<!-- h3 assumes this card is inside a section with an h2 heading -->') demonstrate awareness of context-dependent heading levels"
+  ]
+}

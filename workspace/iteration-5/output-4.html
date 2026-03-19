@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why We Migrated From REST to GraphQL – TechDepth</title>
+  <style>
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .skip-link {
+      position: absolute;
+      transform: translateY(-100%);
+    }
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#comments" class="skip-link">Skip to comments</a>
+
+  <header>
+    <a href="/" aria-label="TechDepth – home">
+      <img src="/assets/logo.svg" alt="TechDepth" width="140" height="40" />
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="/articles">Articles</a></li>
+        <li><a href="/tutorials">Tutorials</a></li>
+        <li><a href="/topics">Topics</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+
+    <article aria-labelledby="article-title">
+
+      <header>
+        <h1 id="article-title">Why We Migrated From REST to GraphQL</h1>
+        <dl>
+          <dt>Author</dt>
+          <dd>
+            <a href="/authors/priya-sharma">Priya Sharma</a>
+          </dd>
+          <dt>Published</dt>
+          <dd>
+            <time datetime="2025-11-12">12 November 2025</time>
+          </dd>
+          <dt>Topic</dt>
+          <dd><a href="/topics/api-design">API Design</a></dd>
+        </dl>
+      </header>
+
+      <p>
+        Last year our mobile app made an average of 14 API calls per screen render. Users on slow connections saw spinners where there should have been content, and our backend team spent more time writing one-off endpoints than solving real problems. After six months of incremental pain, we made the decision to migrate our primary data layer from REST to GraphQL — and it changed how our entire engineering organisation thinks about data fetching.
+      </p>
+
+      <aside aria-label="Pull quote">
+        <p>
+          "After six months of incremental pain, we made the decision to migrate our primary data layer from REST to GraphQL — and it changed how our entire engineering organisation thinks about data fetching."
+        </p>
+      </aside>
+
+      <section aria-labelledby="section-problem">
+        <h2 id="section-problem">The Problem</h2>
+        <p>
+          Our REST API had grown organically over four years. What started as a clean, resource-oriented design had accumulated dozens of bespoke endpoints built to satisfy specific screen requirements. The <code>/dashboard/summary</code> endpoint returned 47 fields; most clients used fewer than ten of them. Meanwhile, the mobile team regularly filed tickets asking for new endpoints because combining existing ones required either multiple round trips or a backend change that took two weeks to ship.
+        </p>
+        <p>
+          Over-fetching wasted bandwidth. Under-fetching forced waterfalls. The feedback loop between frontend need and backend delivery was too slow. We weren't moving as fast as we needed to, and our API surface was becoming impossible to document consistently.
+        </p>
+      </section>
+
+      <section aria-labelledby="section-approach">
+        <h2 id="section-approach">Our Approach</h2>
+        <p>
+          We decided against a big-bang rewrite. Instead, we introduced a GraphQL layer that sat in front of our existing REST services, translating queries into REST calls while we migrated underlying resolvers to hit the database directly over time. This gave us a safe incremental path without disrupting clients mid-flight.
+        </p>
+        <p>
+          We used Apollo Server with a schema-first approach. The team spent two weeks writing the schema before a single resolver was implemented — this turned out to be one of the most valuable investments. It forced cross-team alignment on naming, nullability, and what data relationships actually looked like.
+        </p>
+        <p>
+          Our schema entry point for user profile data looked like this:
+        </p>
+        <pre><code>type Query {
+  userProfile(id: ID!): UserProfile
+}
+
+type UserProfile {
+  id: ID!
+  displayName: String!
+  email: String!
+  avatarUrl: String
+  createdAt: String!
+  membershipTier: MembershipTier!
+  recentActivity(limit: Int = 5): [ActivityItem!]!
+}
+
+enum MembershipTier {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+type ActivityItem {
+  id: ID!
+  type: String!
+  description: String!
+  occurredAt: String!
+}</code></pre>
+        <p>
+          Defining <code>recentActivity</code> as a nested type with its own arguments meant that a mobile client showing a slim profile card could query just <code>displayName</code>, <code>avatarUrl</code>, and <code>membershipTier</code> — no wasted bytes.
+        </p>
+      </section>
+
+      <section aria-labelledby="section-results">
+        <h2 id="section-results">Results</h2>
+        <p>
+          Three months after the full rollout, the numbers were unambiguous. The average number of network requests per screen dropped from 14 to 3. Median page load time on our mobile web app fell by 38%. The backend team closed 23 open tickets for bespoke endpoint requests — they were no longer needed.
+        </p>
+        <p>
+          Perhaps more importantly, the feedback loop between product and engineering shortened dramatically. Frontend developers could prototype new screens using existing schema types without waiting for backend work. When a new field was genuinely needed, the schema review process took a day rather than a sprint.
+        </p>
+        <p>
+          There are trade-offs. GraphQL queries are harder to cache at the network level than REST responses, and we had to invest in query complexity analysis to protect against expensive client-constructed queries. Tooling overhead — schema stitching, code generation, persisted queries — is real. For teams with simple data requirements and stable clients, REST remains perfectly adequate. But for us, the migration was the right call.
+        </p>
+      </section>
+
+      <footer>
+        <section aria-labelledby="author-bio-heading">
+          <h2 id="author-bio-heading">About the author</h2>
+          <img src="/authors/priya-sharma/avatar.jpg" alt="Priya Sharma" width="80" height="80" />
+          <div>
+            <p>
+              <strong>Priya Sharma</strong> is a Staff Engineer at Conduit Systems, where she leads the platform API team. She has spent the last eight years working on distributed systems and developer tooling. Outside of work she mentors early-career engineers and contributes to open source GraphQL tooling.
+            </p>
+            <address>
+              <a href="/authors/priya-sharma">More articles by Priya Sharma</a>
+            </address>
+          </div>
+        </section>
+      </footer>
+
+    </article>
+
+    <section aria-labelledby="related-articles-heading">
+      <h2 id="related-articles-heading">Related Articles</h2>
+      <ul>
+        <li>
+          <!-- h3 assumes this card is inside a section with an h2 heading. -->
+          <article aria-labelledby="related-1-title">
+            <h3 id="related-1-title">
+              <a href="/articles/designing-a-graphql-schema-that-scales">Designing a GraphQL Schema That Scales</a>
+            </h3>
+            <p>How to structure types, relationships, and nullability decisions for long-term maintainability.</p>
+            <dl>
+              <dt class="visually-hidden">Author</dt>
+              <dd>Marcus Osei</dd>
+              <dt class="visually-hidden">Published</dt>
+              <dd><time datetime="2025-09-04">4 September 2025</time></dd>
+            </dl>
+          </article>
+        </li>
+        <li>
+          <!-- h3 assumes this card is inside a section with an h2 heading. -->
+          <article aria-labelledby="related-2-title">
+            <h3 id="related-2-title">
+              <a href="/articles/caching-strategies-for-graphql-apis">Caching Strategies for GraphQL APIs</a>
+            </h3>
+            <p>Network-level caching is harder with GraphQL — here are the patterns that actually work.</p>
+            <dl>
+              <dt class="visually-hidden">Author</dt>
+              <dd>Anika Hoffmann</dd>
+              <dt class="visually-hidden">Published</dt>
+              <dd><time datetime="2025-08-19">19 August 2025</time></dd>
+            </dl>
+          </article>
+        </li>
+        <li>
+          <!-- h3 assumes this card is inside a section with an h2 heading. -->
+          <article aria-labelledby="related-3-title">
+            <h3 id="related-3-title">
+              <a href="/articles/rest-vs-graphql-a-practical-decision-guide">REST vs GraphQL: A Practical Decision Guide</a>
+            </h3>
+            <p>Not every project needs GraphQL. Use this framework to make the right call for your team's context.</p>
+            <dl>
+              <dt class="visually-hidden">Author</dt>
+              <dd>James Ndegwa</dd>
+              <dt class="visually-hidden">Published</dt>
+              <dd><time datetime="2025-07-30">30 July 2025</time></dd>
+            </dl>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <section id="comments" aria-labelledby="comments-heading">
+      <h2 id="comments-heading">Comments</h2>
+
+      <ol>
+        <li>
+          <!-- h3 assumes this comment is inside a section with an h2 heading. -->
+          <article aria-labelledby="comment-1-author">
+            <header>
+              <h3 id="comment-1-author">Daniel Ferreira</h3>
+              <time datetime="2025-11-13T09:22:00Z">13 November 2025 at 09:22</time>
+            </header>
+            <p>
+              Really resonates with our experience. We had the same over-fetching problem on a dashboard product — the turning point for us was when a single endpoint response ballooned to over 200KB on a page that only rendered a summary card. The schema-first approach you mention is crucial; we skipped that step and paid for it later with resolver inconsistencies.
+            </p>
+          </article>
+        </li>
+        <li>
+          <!-- h3 assumes this comment is inside a section with an h2 heading. -->
+          <article aria-labelledby="comment-2-author">
+            <header>
+              <h3 id="comment-2-author">Saoirse Brennan</h3>
+              <time datetime="2025-11-14T14:07:00Z">14 November 2025 at 14:07</time>
+            </header>
+            <p>
+              Great write-up. One thing I'd add: the query complexity analysis piece deserves its own article. We underestimated how quickly clients would discover they could request deeply nested data in a single query, and it caused us a few production incidents before we put limits in place. Would love to hear how you approached that at Conduit Systems.
+            </p>
+          </article>
+        </li>
+      </ol>
+
+      <section aria-labelledby="leave-comment-heading">
+        <h3 id="leave-comment-heading">Leave a comment</h3>
+        <form method="post" action="/articles/why-we-migrated-from-rest-to-graphql/comments" aria-labelledby="leave-comment-heading">
+          <fieldset>
+            <legend>Your details <span aria-hidden="true">*</span> required fields</legend>
+
+            <div>
+              <label for="comment-name">Full name <span aria-hidden="true">*</span></label>
+              <input type="text" id="comment-name" name="name" autocomplete="name" required />
+            </div>
+
+            <div>
+              <label for="comment-email">Email address <span aria-hidden="true">*</span></label>
+              <p id="comment-email-hint" class="hint">Your email will not be published.</p>
+              <input type="email" id="comment-email" name="email" autocomplete="email" required aria-describedby="comment-email-hint" />
+            </div>
+          </fieldset>
+
+          <div>
+            <label for="comment-body">Comment <span aria-hidden="true">*</span></label>
+            <textarea id="comment-body" name="comment" rows="6" required></textarea>
+          </div>
+
+          <button type="submit">Post comment</button>
+        </form>
+      </section>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="/about">About TechDepth</a></li>
+        <li><a href="/write-for-us">Write for us</a></li>
+        <li><a href="/privacy">Privacy policy</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+    <p><small>&copy; 2025 TechDepth. All rights reserved.</small></p>
+  </footer>
+
+</body>
+</html>

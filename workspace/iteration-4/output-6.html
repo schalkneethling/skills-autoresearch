@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing Plans — Forge</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        color: #1a1a2e;
+        background: #f8f9fc;
+      }
+
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+        background: #1a1a2e;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        z-index: 100;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      header {
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 2rem;
+      }
+
+      header p {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      main {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 3rem 2rem 5rem;
+      }
+
+      .pricing-intro {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .pricing-intro h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0 0 1rem;
+        letter-spacing: -0.03em;
+      }
+
+      .pricing-intro p {
+        font-size: 1.125rem;
+        color: #4a5568;
+        max-width: 42rem;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      /* Plan cards */
+      .plan-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+        list-style: none;
+        padding: 0;
+      }
+
+      @media (max-width: 760px) {
+        .plan-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .plan-card {
+        background: #fff;
+        border: 2px solid #e2e8f0;
+        border-radius: 1rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .plan-card--highlighted {
+        border-color: #4f46e5;
+        box-shadow: 0 4px 24px rgba(79, 70, 229, 0.15);
+      }
+
+      .plan-badge {
+        position: absolute;
+        top: -0.75rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #4f46e5;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.25rem 0.875rem;
+        border-radius: 2rem;
+        white-space: nowrap;
+      }
+
+      .plan-card h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem;
+      }
+
+      .plan-price {
+        margin: 0 0 1.5rem;
+      }
+
+      .plan-price strong {
+        font-size: 2.25rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .plan-price span {
+        font-size: 0.9rem;
+        color: #718096;
+      }
+
+      .plan-card a {
+        display: block;
+        text-align: center;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        margin-top: auto;
+      }
+
+      .plan-card--default a {
+        background: #f0f0f8;
+        color: #4f46e5;
+        border: 2px solid #4f46e5;
+      }
+
+      .plan-card--default a:hover {
+        background: #4f46e5;
+        color: #fff;
+      }
+
+      .plan-card--highlighted a {
+        background: #4f46e5;
+        color: #fff;
+        border: 2px solid #4f46e5;
+      }
+
+      .plan-card--highlighted a:hover {
+        background: #4338ca;
+        border-color: #4338ca;
+      }
+
+      /* Comparison table */
+      .comparison-section h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 1.5rem;
+        text-align: center;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+      }
+
+      caption {
+        caption-side: top;
+        text-align: left;
+        font-size: 0.875rem;
+        color: #718096;
+        padding: 0 0 0.75rem;
+      }
+
+      thead th {
+        background: #f7f7fd;
+        padding: 1rem 1.25rem;
+        text-align: left;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      thead th:first-child {
+        width: 32%;
+      }
+
+      thead th.col-highlighted {
+        background: #ede9fe;
+        color: #4f46e5;
+      }
+
+      tbody tr:nth-child(odd) {
+        background: #fafafa;
+      }
+
+      tbody tr:nth-child(even) {
+        background: #fff;
+      }
+
+      tbody td {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.925rem;
+        border-bottom: 1px solid #f0f0f5;
+        vertical-align: middle;
+      }
+
+      tbody td.col-highlighted {
+        background: rgba(237, 233, 254, 0.35);
+      }
+
+      tbody tr:nth-child(odd) td.col-highlighted {
+        background: rgba(237, 233, 254, 0.55);
+      }
+
+      .check {
+        color: #16a34a;
+        font-size: 1.1rem;
+      }
+
+      .cross {
+        color: #9ca3af;
+        font-size: 1.1rem;
+      }
+
+      tfoot td {
+        padding: 1.25rem;
+        border-top: 2px solid #e2e8f0;
+      }
+
+      tfoot td.col-highlighted {
+        background: rgba(237, 233, 254, 0.4);
+      }
+
+      tfoot a {
+        display: inline-block;
+        padding: 0.6rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+      }
+
+      tfoot .cta-default {
+        background: #f0f0f8;
+        color: #4f46e5;
+        border: 2px solid #4f46e5;
+      }
+
+      tfoot .cta-default:hover {
+        background: #4f46e5;
+        color: #fff;
+      }
+
+      tfoot .cta-highlighted {
+        background: #4f46e5;
+        color: #fff;
+        border: 2px solid #4f46e5;
+      }
+
+      tfoot .cta-highlighted:hover {
+        background: #4338ca;
+        border-color: #4338ca;
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        font-size: 0.875rem;
+        color: #718096;
+        border-top: 1px solid #e2e8f0;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+      <p>Forge</p>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <div class="pricing-intro">
+        <h1>Simple, transparent pricing</h1>
+        <p>
+          Choose the plan that fits your team. All plans include a 14-day free
+          trial with no credit card required. Upgrade or downgrade at any time.
+        </p>
+      </div>
+
+      <section aria-labelledby="plans-heading">
+        <h2 id="plans-heading" class="visually-hidden">Available plans</h2>
+        <!-- h2 is visually hidden; the plan cards serve as the primary visual presentation -->
+        <style>
+          .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
+          }
+        </style>
+        <ul class="plan-cards">
+          <li class="plan-card plan-card--default">
+            <!-- h3 assumes this card is inside a section with an h2 heading (plans-heading above) -->
+            <h3>Starter</h3>
+            <p class="plan-price">
+              <strong>$9</strong><span>/month</span>
+            </p>
+            <a href="/signup?plan=starter" aria-label="Start free trial — Starter plan at $9 per month">
+              Start Free Trial
+            </a>
+          </li>
+
+          <li class="plan-card plan-card--highlighted" aria-label="Professional plan — Most Popular">
+            <span class="plan-badge" aria-hidden="true">Most Popular</span>
+            <!-- h3 assumes this card is inside a section with an h2 heading (plans-heading above) -->
+            <h3>Professional</h3>
+            <p class="plan-price">
+              <strong>$29</strong><span>/month</span>
+            </p>
+            <a href="/signup?plan=professional" aria-label="Start free trial — Professional plan at $29 per month, Most Popular">
+              Start Free Trial
+            </a>
+          </li>
+
+          <li class="plan-card plan-card--default">
+            <!-- h3 assumes this card is inside a section with an h2 heading (plans-heading above) -->
+            <h3>Enterprise</h3>
+            <p class="plan-price">
+              <strong>Custom</strong><span> pricing</span>
+            </p>
+            <a href="/contact-sales" aria-label="Contact Sales — Enterprise plan with custom pricing">
+              Contact Sales
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="comparison-section" aria-labelledby="comparison-heading">
+        <h2 id="comparison-heading">Compare features</h2>
+        <div class="table-wrapper">
+          <table>
+            <caption>
+              Feature comparison across Starter, Professional, and Enterprise
+              plans
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Starter</th>
+                <th scope="col" class="col-highlighted">
+                  Professional
+                  <span class="visually-hidden">(Most Popular)</span>
+                </th>
+                <th scope="col">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Projects</th>
+                <td>5</td>
+                <td class="col-highlighted">Unlimited</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">Storage</th>
+                <td>10 GB</td>
+                <td class="col-highlighted">100 GB</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">Team members</th>
+                <td>1</td>
+                <td class="col-highlighted">10</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">API access</th>
+                <td>
+                  <span class="cross" aria-label="Not included">✕</span>
+                </td>
+                <td class="col-highlighted">
+                  <span class="check" aria-label="Included">✓</span>
+                </td>
+                <td>
+                  <span class="check" aria-label="Included">✓</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Priority support</th>
+                <td>
+                  <span class="cross" aria-label="Not included">✕</span>
+                </td>
+                <td class="col-highlighted">
+                  <span class="cross" aria-label="Not included">✕</span>
+                </td>
+                <td>
+                  <span class="check" aria-label="Included">✓</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Custom integrations</th>
+                <td>
+                  <span class="cross" aria-label="Not included">✕</span>
+                </td>
+                <td class="col-highlighted">
+                  <span class="cross" aria-label="Not included">✕</span>
+                </td>
+                <td>
+                  <span class="check" aria-label="Included">✓</span>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td>
+                  <a
+                    href="/signup?plan=starter"
+                    class="cta-default"
+                    aria-label="Start free trial — Starter plan"
+                  >
+                    Start Free Trial
+                  </a>
+                </td>
+                <td class="col-highlighted">
+                  <a
+                    href="/signup?plan=professional"
+                    class="cta-highlighted"
+                    aria-label="Start free trial — Professional plan"
+                  >
+                    Start Free Trial
+                  </a>
+                </td>
+                <td>
+                  <a
+                    href="/contact-sales"
+                    class="cta-default"
+                    aria-label="Contact Sales — Enterprise plan"
+                  >
+                    Contact Sales
+                  </a>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Forge, Inc. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

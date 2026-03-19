@@ -1,0 +1,202 @@
+{
+  "overall_composite": 2.85,
+  "num_evals": 8,
+  "dimension_averages": {
+    "element_choice": {
+      "average": 2.88,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "multi-step-form",
+        "score": 2,
+        "justification": "Native <button>, <select>, <input>, <form>, <table>, <nav>, <ol>, <fieldset>, and <legend> are all used appropriately. Minor issue: the 'Place Order' <button type='submit'> in step 3 is not inside any <form> element, making the submit type semantically incorrect."
+      }
+    },
+    "aria_discipline": {
+      "average": 2.62,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 2,
+        "justification": "Mostly disciplined: <nav> elements are labelled, <section> and <aside> landmarks are labelled, aria-current is used correctly, aria-labelledby on 'Add to cart' buttons is a legitimate technique. One redundancy: role=\"search\" on the <form> inside the <search> element is unnecessary because <search> already exposes the search landmark role."
+      }
+    },
+    "heading_hierarchy": {
+      "average": 2.88,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "blog-article-page",
+        "score": 2,
+        "justification": "Single h1 for the article title; h2 used correctly for article sections, 'About the author', 'Related Articles', and 'Comments'. However, 'Leave a comment' is also marked as h2 despite being a subsection nested inside the 'Comments' h2 section \u2014 it should be h3, creating a skipped-level inversion in that part of the outline. Related article and comment headings correctly use h3."
+      }
+    },
+    "landmark_structure": {
+      "average": 3.0,
+      "count": 8,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "All expected landmarks are present and correctly placed: <header>, <nav aria-label=\"Main\">, <search>, <aside>, <main id=\"main-content\">, <footer>. Three skip links (content, search, filters) are the first focusable elements and appropriate for this page's complexity. <main> correctly excludes the site header, search bar, and footer. <section> in footer has aria-labelledby."
+      }
+    },
+    "form_semantics": {
+      "average": 2.83,
+      "count": 6,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "multi-step-form",
+        "score": 2,
+        "justification": "All inputs have visible labels, sub-groups within steps use <fieldset>/<legend> (Contact details, Delivery address, Credit card details), email error correctly uses aria-invalid='true' + aria-describedby, and autocomplete attributes are thorough. However, the key expectation that each top-level step be wrapped in a <fieldset> with <legend> is missed \u2014 steps use <section>/<h2> instead. Step 3 also has no <form> element wrapping the Place Order button."
+      }
+    },
+    "content_realism": {
+      "average": 2.75,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "pricing-comparison-table",
+        "score": 2,
+        "justification": "Pricing, plan names, and feature values are realistic. Intro paragraph is natural. Company name is a generic placeholder ('Your Company')."
+      }
+    },
+    "list_semantics": {
+      "average": 3.0,
+      "count": 6,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "Navigation items are in <ul> within <nav>. Product cards are in a <ul> (unordered, as sequence is not meaningful). Footer nav links are in <ul>. Correct list types throughout."
+      }
+    },
+    "table_semantics": {
+      "average": 3.0,
+      "count": 3,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "data-table-with-controls",
+        "score": 3,
+        "justification": "Full table structure with <caption>, <thead>, <tbody>, and <th scope='col'> on every header cell. <time datetime> used for dates. Table is used only for tabular data with no layout abuse."
+      }
+    }
+  },
+  "weakest_dimensions": [
+    {
+      "dimension": "aria_discipline",
+      "average": 2.62
+    },
+    {
+      "dimension": "content_realism",
+      "average": 2.75
+    },
+    {
+      "dimension": "form_semantics",
+      "average": 2.83
+    }
+  ],
+  "strongest_dimensions": [
+    {
+      "dimension": "table_semantics",
+      "average": 3.0
+    },
+    {
+      "dimension": "list_semantics",
+      "average": 3.0
+    },
+    {
+      "dimension": "landmark_structure",
+      "average": 3.0
+    }
+  ],
+  "eval_summaries": [
+    {
+      "eval_id": 1,
+      "eval_name": "product-listing-page",
+      "composite_score": 2.86,
+      "expectations_missed": [
+        "No ARIA attributes used where native HTML provides the same semantics \u2014 role=\"search\" on the <form> inside the <search> element is redundant since <search> already provides the search landmark role"
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "faq-page",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "data-table-with-controls",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "multi-step-form",
+      "composite_score": 2.57,
+      "expectations_missed": [
+        "Each step uses <fieldset> with <legend> for grouping \u2014 steps use <section>/<h2> instead; fieldsets only appear for sub-groups within steps",
+        "Place Order button in step 3 has type='submit' but is not inside a <form> element"
+      ]
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "blog-article-page",
+      "composite_score": 2.86,
+      "expectations_missed": [
+        "'Leave a comment' heading uses h2 despite being a subsection nested inside the 'Comments' h2 section \u2014 should be h3 to maintain hierarchy",
+        "Comment author names use <h3> rather than <strong>/<b> or <span> as the key expectations suggest; h3 is defensible as the comment article's heading but departs from the stated expectation"
+      ]
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "dashboard-sidebar-nav",
+      "composite_score": 2.83,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 7,
+      "eval_name": "pricing-comparison-table",
+      "composite_score": 2.86,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "settings-form-with-grouped-controls",
+      "composite_score": 2.83,
+      "expectations_missed": []
+    }
+  ],
+  "missed_expectations": [
+    {
+      "eval_name": "product-listing-page",
+      "expectation": "No ARIA attributes used where native HTML provides the same semantics \u2014 role=\"search\" on the <form> inside the <search> element is redundant since <search> already provides the search landmark role"
+    },
+    {
+      "eval_name": "multi-step-form",
+      "expectation": "Each step uses <fieldset> with <legend> for grouping \u2014 steps use <section>/<h2> instead; fieldsets only appear for sub-groups within steps"
+    },
+    {
+      "eval_name": "multi-step-form",
+      "expectation": "Place Order button in step 3 has type='submit' but is not inside a <form> element"
+    },
+    {
+      "eval_name": "blog-article-page",
+      "expectation": "'Leave a comment' heading uses h2 despite being a subsection nested inside the 'Comments' h2 section \u2014 should be h3 to maintain hierarchy"
+    },
+    {
+      "eval_name": "blog-article-page",
+      "expectation": "Comment author names use <h3> rather than <strong>/<b> or <span> as the key expectations suggest; h3 is defensible as the comment article's heading but departs from the stated expectation"
+    }
+  ]
+}

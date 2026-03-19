@@ -1,0 +1,62 @@
+{
+  "eval_id": 3,
+  "eval_name": "data-table-with-controls",
+  "scores": {
+    "table_semantics": {
+      "score": 3,
+      "justification": "Full table structure with <caption>, <thead>, <tbody>, and <th scope='col'> on every header cell. <time datetime> used for dates. Table is used only for tabular data with no layout abuse."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "Native <input type='search'>, <select>, and <button> used throughout. <time datetime> used for all dates. Download CSV is a <button>. Previous/Next are <a> elements. No div-based interactivity."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input and select has a visible <label> via wrapping label elements. Controls are grouped inside a <form> within a <search> landmark. Appropriate input type='search' used. No placeholder-only labels."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used sparingly and correctly: aria-current='page' on current pagination link, aria-disabled on the Previous link, aria-label on <search> and <nav>, aria-hidden on decorative chevron icons. No redundant roles on native elements. <section> has aria-labelledby."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> for the page title, followed by a visually-hidden <h2> for the section — correct two-level hierarchy with no skipped levels."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip links to both main content and search are present. <header>, <main>, <search>, <nav aria-label='Pagination'>, and <section aria-labelledby> all used appropriately. No landmark overuse."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Eight rows of realistic, diverse employee names, departments, roles, and dates. All three status values represented. 'Showing 8 of 42 employees' is plausible. No placeholder or lorem ipsum content."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Pagination items are wrapped in a <ul> inside <nav>. No other list contexts are present in the design; no inappropriate use of lists."
+    }
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Uses <table> with <caption>, <thead>, <tbody>",
+    "Header cells use <th scope='col'>",
+    "Status column content is conveyed by text labels, not colour alone",
+    "Search input has a <label>",
+    "Department and status filters use native <select> elements",
+    "Filter controls are grouped in both a <form> and a <search> element",
+    "'Download CSV' is a <button>",
+    "Pagination uses <nav> with aria-label",
+    "Pagination current page indicated with aria-current='page'",
+    "Previous/Next are <a> elements",
+    "'Showing 8 of 42 employees' is a <p>, not a heading",
+    "Table is not wrapped in role='grid'",
+    "No CSS display properties strip table semantics"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "Excellent use of <search> wrapping the <form> for the filter toolbar",
+    "<time datetime> used on all eight start dates — a detail many implementations omit",
+    "visually-hidden 'Status: ' prefix inside each badge ensures screen readers announce the status clearly",
+    "Two skip links provided: one to main content and one to the search/filter area",
+    "aria-disabled + tabindex='-1' on the disabled Previous link is a correct pattern for a static page context"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "eval_id": 8,
+  "eval_name": "settings-form-with-grouped-controls",
+  "scores": {
+    "form_semantics": {
+      "score": 2,
+      "justification": "All inputs have labels, every section uses fieldset/legend, radio groups are properly nested in their own fieldset with a legend, toggles are checkbox inputs, file input and textarea are correctly labelled, and no placeholder-only fields exist. Minor issue: the form uses aria-labelledby=\"account-settings-heading\" but no element carries that id — the h1 is unlabelled — making it a broken ARIA reference."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "Every interactive element is a native control: buttons are <button>, file upload is <input type='file'>, toggles are <input type='checkbox'>, Save Changes is <button type='submit'>, Delete Account is <button type='button'>. No div-based interactive elements anywhere."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Exactly one <h1> ('Account Settings') on the page. Section headings are provided via <legend> elements rather than redundant h2s alongside legends, which is the correct approach per the expectations. No skipped levels and no headings used decoratively."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "ARIA is used sparingly and correctly in most places: aria-describedby on the avatar input, tabindex=\"-1\" on main for the skip link target. However, aria-labelledby=\"account-settings-heading\" on the form references a non-existent id (the h1 has no matching id), which is a broken reference that provides no benefit and could mislead assistive technology."
+    }
+  },
+  "composite_score": 2.5,
+  "expectations_met": [
+    "Each settings section uses <fieldset> with <legend>",
+    "All inputs have <label> elements",
+    "Radio button groups are within a <fieldset> with a <legend> describing the group",
+    "Toggle switches use checkbox inputs (not custom div patterns)",
+    "File upload uses <input type='file'> with a label",
+    "Textarea has a label",
+    "'Delete Account' is a <button> — not a link",
+    "'Save Changes' is a <button type='submit'>",
+    "Section headings use consistent heading levels (legends serve as visual headings)",
+    "Legends serve as visual headings — no redundant heading + legend for same text",
+    "No placeholder-only inputs",
+    "Radio buttons have matching name attributes within their group",
+    "The form as a whole is a <form> element"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "aria-labelledby=\"account-settings-heading\" on <form> references a non-existent id; the <h1> has no id attribute, making this a dangling reference",
+    "Excellent use of nested <fieldset> for the notification frequency and profile visibility radio groups within their parent sections",
+    "autocomplete=\"nickname\" on the display name field shows good attention to autofill semantics",
+    "Skip link is correctly implemented and targets main with tabindex=\"-1\""
+  ]
+}

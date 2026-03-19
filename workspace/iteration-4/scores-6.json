@@ -1,0 +1,58 @@
+{
+  "eval_id": 7,
+  "eval_name": "pricing-comparison-table",
+  "scores": {
+    "table_semantics": {
+      "score": 3,
+      "justification": "Full table structure: <caption>, <thead>, <tbody>, <tfoot>. Plan names use <th scope='col'> and feature names use <th scope='row'>. Table is used correctly for two-dimensional tabular data with responsive overflow wrapper."
+    },
+    "element_choice": {
+      "score": 2,
+      "justification": "CTAs are <a> elements linking to appropriate URLs, plan cards are <li> items in <ul>, prices use <strong> (not headings). Minor issue: the brand name 'Forge' in the <header> is wrapped in a <p> rather than a more appropriate element like a <span> or <a>. The <style> block for .visually-hidden is placed inside <body> rather than <head>."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> ('Simple, transparent pricing'), <h2> for sections ('Available plans' visually hidden, 'Compare features' visible), <h3> for individual plan names — no skipped levels. Prices and the 'Most Popular' badge are not headings."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "Mostly disciplined: aria-hidden on the visual badge prevents duplicate announcement, aria-labelledby on sections, descriptive aria-label on CTAs disambiguates repeated text. Minor misuse: aria-label on the <li> element for the Professional card has no semantic effect since listitems don't expose an accessible name; the 'Most Popular' info is adequately conveyed elsewhere (visually-hidden span in table header, CTA aria-label)."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip link present as first focusable element, <header>, <main id='main-content' tabindex='-1'>, <footer> all used correctly. Two <section> elements each have aria-labelledby. No unnecessary landmarks added."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Plan cards are correctly placed in a <ul> with <li> items, allowing screen readers to announce the count of plans."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Realistic brand name ('Forge'), plausible pricing ($9, $29, Custom), real feature names and values, copyright year set to 2026."
+    },
+    "form_semantics": null
+  },
+  "composite_score": 2.71,
+  "expectations_met": [
+    "Feature comparison uses <table> for two-dimensional data",
+    "Table has <caption> describing its purpose",
+    "Plan names are <th scope='col'> in the header row",
+    "Feature names are <th scope='row'> in each row",
+    "'Most Popular' badge is accessible via visually-hidden text in the table header and CTA aria-labels",
+    "CTA elements are <a> links pointing to appropriate URLs",
+    "'Contact Sales' is an <a> link to /contact-sales",
+    "Plan names above the table use <h3> (correct level under <h2>)",
+    "Prices are not headings — marked up with <strong> inside <p>",
+    "Page has exactly one <h1>",
+    "Table structure uses <thead>, <tbody>, and <tfoot>",
+    "Boolean feature values (✓/✕) have aria-label text alternatives ('Included'/'Not included')"
+  ],
+  "expectations_missed": [
+    "Yes/No values are conveyed by Unicode symbols (✓/✕) with aria-label overrides rather than visible text ('Yes'/'No'); the expectation calls for visible text to be present alongside or instead of icons"
+  ],
+  "additional_observations": [
+    "Excellent use of overflow-x: auto wrapper for responsive table handling",
+    "The <style> block defining .visually-hidden is inside <body> rather than <head> — functionally works but is non-standard placement",
+    "aria-label on <li> for the Professional card is a no-op semantically but causes no harm"
+  ]
+}

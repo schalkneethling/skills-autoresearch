@@ -1,0 +1,58 @@
+{
+  "eval_id": 7,
+  "eval_name": "pricing-comparison-table",
+  "scores": {
+    "table_semantics": {
+      "score": 3,
+      "justification": "Full table structure: <caption>, <thead>, <tbody>, <th scope='col'> for plan names, <th scope='row'> for feature names. No layout abuse."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "CTAs are <a> elements linking to appropriate pages; prices are <p><strong>, not headings; plan cards use <article>; 'Most Popular' is a <span>. Every element is the best semantic match."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1>, two <h2> subsections ('Available Plans', 'Feature Comparison'), <h3> plan names — no skipped levels. Prices and badges are not headings."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "<nav aria-label='Primary'>, <section aria-labelledby>, and disambiguating aria-label on duplicate CTA links are all appropriate. No redundant roles. aria-hidden on Yes/No spans paired with visually-hidden alternatives is deliberate and valid."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "<header>, <nav aria-label>, <main tabindex='-1'>, labelled <section>s, <footer>, and a skip link are all present and correctly scoped."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Plan cards are wrapped in <ul><li><article>, nav items in <ul> inside <nav>. Correct list types throughout."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Real plan names, prices, and feature values used. No placeholder text or lorem ipsum."
+    },
+    "form_semantics": null
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Feature comparison uses a <table> for two-dimensional data",
+    "Table has <caption> describing its purpose",
+    "Plan names are <th scope='col'> in the header row",
+    "Feature names are <th scope='row'> in each row",
+    "Yes/No values conveyed as visible text; screen readers get 'Included'/'Not included' via visually-hidden spans",
+    "'Most Popular' badge is readable text inside the <h3> and therefore accessible to screen readers",
+    "CTA links are <a> elements pointing to appropriate pages",
+    "'Contact Sales' is a link (<a href='/contact-sales'>), correct since it navigates to a contact page",
+    "Plan names above the table use <h3> (appropriate level under <h2> section)",
+    "Prices are in <p><strong>, not headings",
+    "Page has exactly one <h1>",
+    "Table uses <thead> and <tbody>",
+    "Boolean feature cells use text ('Yes'/'No') — no icon-only approach"
+  ],
+  "expectations_missed": [
+    "'Most Popular' in the table header column is aria-hidden='true', so screen reader users navigating the table won't hear it — only users who encounter the plan card <h3> first will. Minor gap in discoverability within the table context."
+  ],
+  "additional_observations": [
+    "tabindex='-1' on <main> is a correct pattern enabling the skip link to programmatically focus the landmark",
+    "Disambiguating aria-label on duplicate 'Start Free Trial' links (e.g., 'Start Free Trial — Starter plan') is exemplary accessibility practice"
+  ]
+}

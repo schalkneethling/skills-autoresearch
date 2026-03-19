@@ -1,0 +1,61 @@
+{
+  "eval_id": 1,
+  "eval_name": "product-listing-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: <button> for all interactive controls, <article> for product cards, <address> for contact info, <search> for the search bar, native <input type='checkbox'> for filters. No div/span used where a semantic element exists."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "ARIA is used sparingly and nav labels are correctly applied without the word 'navigation'. However, 'Add to cart' buttons use aria-describedby (which adds description, not name) rather than aria-label or aria-labelledby, so all six buttons share the identical accessible name 'Add to cart' — the distinguishability requirement is not met."
+    },
+    "heading_hierarchy": {
+      "score": 2,
+      "justification": "Single h1, no skipped levels. However, product names are placed at h2 directly under the h1 with no intermediate section heading, whereas the expected pattern (h1 page → h2 sections → h3 product names) was not followed. The heading level is also hardcoded without any note about configurability."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "All five major landmarks (<header>, <nav>, <main>, <aside>, <footer>) are used correctly, <search> is used for the search bar, and skip links ('Skip to main content', 'Skip to search', 'Skip to filters') are the first focusable elements. Both <nav> elements are labelled without the word 'navigation', and <main> contains only the page-unique primary content."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items, filter options, and product cards are all wrapped in <ul>, correctly communicating count to assistive technology. Footer nav links are also in a <ul>. No lists are misused for purely decorative grouping."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input has a visible <label>, filter groups are wrapped in <fieldset>/<legend>, the 'In stock only' toggle is a native checkbox, and appropriate input types are used (type='search', type='checkbox'). No placeholder-as-label patterns present."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "All six products have realistic brand names, model numbers, and prices (e.g., Nike Air Zoom Pegasus 41 at $129.99). Descriptions are specific and varied in length. Navigation labels, contact details, and footer links are all plausible real-world content."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.71,
+  "expectations_met": [
+    "Uses <header>, <nav>, <main>, <aside>, <footer> landmarks appropriately",
+    "<main> contains only the primary page content — site header, footer, and primary nav are outside it",
+    "Skip navigation links are the first focusable elements — 'Skip to content' and 'Skip to search' both present",
+    "Navigation uses <nav> with a label that does NOT include the word 'navigation'",
+    "Search uses the <search> element",
+    "Filter sidebar uses <form> with <fieldset>/<legend> for each filter group",
+    "Product cards use <article> (self-contained)",
+    "Product cards are in a <ul>",
+    "Buttons are <button> elements, not <div> or <a> with click handlers",
+    "Price is not marked up as a heading",
+    "No ARIA attributes used where native HTML provides the same semantics",
+    "Filter checkboxes use proper <label> elements, not placeholders",
+    "The 'in stock only' toggle uses a native checkbox"
+  ],
+  "expectations_missed": [
+    "Heading hierarchy should flow h1 → h2 (sections) → h3 (product names); instead product names are placed at h2 with no intermediate section heading",
+    "Product card heading level is hardcoded to h2 with no documentation that it should be configurable based on context",
+    "'Add to cart' buttons do not have accessible names that distinguish which product — aria-describedby provides description only and does not change the accessible name, leaving all six buttons with the identical name 'Add to cart'"
+  ],
+  "additional_observations": [
+    "Three skip links ('Skip to main content', 'Skip to search', 'Skip to filters') exceed the minimum requirement and are well-targeted to this page's structure",
+    "<button type='submit'> inside <search> has no parent <form>, so the submit type is semantically inert — wrapping in <form> with an action would be more correct",
+    "Using aria-label on both the <aside> and the nested <form> is slightly redundant but not harmful"
+  ]
+}

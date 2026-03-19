@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why We Migrated From REST to GraphQL – The Stackwright Blog</title>
+    <style>
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+        background: #000;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        z-index: 100;
+        text-decoration: none;
+      }
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#comments" class="skip-link">Skip to comments</a>
+
+    <header>
+      <a href="/" aria-label="Stackwright – go to homepage">
+        <img src="/assets/stackwright-logo.svg" alt="Stackwright" width="160" height="40" />
+      </a>
+      <nav aria-label="Site">
+        <ul>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/tutorials">Tutorials</a></li>
+          <li><a href="/open-source">Open Source</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <article aria-labelledby="article-title">
+        <header>
+          <h1 id="article-title">Why We Migrated From REST to GraphQL</h1>
+          <dl>
+            <dt>Author</dt>
+            <dd>
+              <a href="/authors/priya-sharma">Priya Sharma</a>
+            </dd>
+            <dt>Published</dt>
+            <dd>
+              <time datetime="2025-11-12">November 12, 2025</time>
+            </dd>
+          </dl>
+        </header>
+
+        <p>
+          After three years of shipping a REST API that served our web app, mobile clients, and a
+          growing list of third-party integrations, we hit a wall. Response payloads were bloated,
+          client teams were filing weekly tickets asking for new endpoints, and our backend engineers
+          were spending more time writing boilerplate than solving real problems. In late 2024 we
+          decided to migrate to GraphQL — and six months on, we haven't looked back.
+        </p>
+
+        <section aria-labelledby="the-problem-heading">
+          <h2 id="the-problem-heading">The Problem</h2>
+          <p>
+            Our REST API had grown organically over three years into a maze of over 200 endpoints.
+            The web dashboard needed a summary view that pulled data from nine separate endpoints;
+            the iOS app needed a slimmer version of the same data but without the nested
+            relationships. Every new screen request from product turned into a two-week back-and-forth
+            negotiation between frontend and backend teams about what shape the response should take.
+          </p>
+          <p>
+            Over-fetching was rampant. A call to <code>/api/v2/projects</code> returned full
+            project objects — including deeply nested member lists and activity feeds — even when a
+            component only needed the project name and last-modified date. On mobile, this translated
+            directly into wasted bandwidth and slower perceived performance in markets where
+            connectivity is unreliable.
+          </p>
+          <p>
+            Under-fetching was equally painful. The project detail page required four round trips
+            before it could render meaningful content: one for the project, one for its members,
+            one for the open issue count, and one for the latest activity. Waterfall loading was the
+            norm, not the exception.
+          </p>
+        </section>
+
+        <aside aria-label="Pull quote">
+          <p>
+            "Every new screen request turned into a two-week negotiation about what shape the
+            response should take."
+          </p>
+        </aside>
+
+        <section aria-labelledby="our-approach-heading">
+          <h2 id="our-approach-heading">Our Approach</h2>
+          <p>
+            Rather than a big-bang cutover, we ran GraphQL alongside our existing REST API for
+            four months. We used Apollo Server on top of our existing Node.js services, resolving
+            fields against the same data layer the REST handlers already called. This meant no
+            database schema changes and no service rewrites — just a new translation layer.
+          </p>
+          <p>
+            Our first schema focused on the three highest-traffic resource types: projects,
+            users, and issues. We defined the types collaboratively — frontend leads wrote the
+            queries they wished they could make, and backend engineers reviewed feasibility and
+            flagged N+1 risks early. DataLoader batching was added before we shipped to production,
+            not as an afterthought.
+          </p>
+          <p>
+            Here is the simplified type definition that replaced our three most-requested REST
+            endpoints:
+          </p>
+          <pre><code>type Project {
+  id: ID!
+  name: String!
+  description: String
+  members(limit: Int = 10): [User!]!
+  openIssueCount: Int!
+  lastActivityAt: DateTime!
+}
+
+type User {
+  id: ID!
+  displayName: String!
+  avatarUrl: String
+  role: ProjectRole!
+}
+
+type Query {
+  project(id: ID!): Project
+  projects(ownerId: ID, archived: Boolean): [Project!]!
+}</code></pre>
+          <p>
+            With this schema, the dashboard summary view went from nine REST calls to a single
+            GraphQL query that fetched exactly the fields it needed. The iOS app sent the same
+            query but requested fewer fields — no new endpoint, no new ticket, no waiting.
+          </p>
+        </section>
+
+        <section aria-labelledby="results-heading">
+          <h2 id="results-heading">Results</h2>
+          <p>
+            Six months after migrating our first client to GraphQL, the numbers were clear.
+            Average payload size dropped by 62% for the dashboard and 78% for the mobile app.
+            The time-to-first-meaningful-paint on our project detail page fell from 1.8 seconds
+            to 640 milliseconds — a reduction of over 60% — because we eliminated the waterfall
+            of sequential REST requests.
+          </p>
+          <p>
+            Backend engineer time spent on new-endpoint requests dropped from roughly 30% of
+            sprint capacity to under 5%. Frontend teams now add new views without waiting on a
+            backend release; they query for the shape they need and the resolver handles it.
+          </p>
+          <p>
+            There were real costs too. Schema design requires upfront discipline. Our first attempt
+            at a mutation API was too coarse-grained and had to be partially redesigned after
+            three months. Caching is also genuinely harder — we moved from simple HTTP caching
+            to a combination of Apollo Client's normalized cache and server-side persisted queries.
+            Neither was free to implement. But for a product with a broad and evolving API surface,
+            the trade-offs have been worth it.
+          </p>
+        </section>
+
+        <footer>
+          <section aria-labelledby="author-bio-heading">
+            <h2 id="author-bio-heading">About the author</h2>
+            <img src="/authors/priya-sharma/avatar.jpg" alt="" width="80" height="80" />
+            <div>
+              <p>
+                <strong>Priya Sharma</strong> is a staff engineer at Stackwright, where she leads
+                the platform APIs team. Before Stackwright she worked on distributed data systems
+                at Thoughtworks and holds a master's degree in computer science from IIT Bombay.
+                She writes about API design, developer experience, and distributed systems.
+              </p>
+              <p>
+                <a href="/authors/priya-sharma">More articles by Priya Sharma</a>
+              </p>
+            </div>
+          </section>
+        </footer>
+      </article>
+
+      <section aria-labelledby="related-articles-heading">
+        <h2 id="related-articles-heading">Related Articles</h2>
+        <ul>
+          <li>
+            <!-- h3 assumes this card is inside a section with an h2 heading. -->
+            <article aria-labelledby="related-1-title">
+              <h3 id="related-1-title">
+                <a href="/blog/dataloader-batching-graphql">
+                  Eliminating N+1 Queries With DataLoader in GraphQL
+                </a>
+              </h3>
+              <p>
+                A practical guide to using DataLoader for batching and caching database calls in
+                GraphQL resolvers, with real query-count benchmarks.
+              </p>
+              <dl>
+                <dt>Author</dt>
+                <dd>James Okafor</dd>
+                <dt>Published</dt>
+                <dd><time datetime="2025-10-03">October 3, 2025</time></dd>
+              </dl>
+            </article>
+          </li>
+          <li>
+            <!-- h3 assumes this card is inside a section with an h2 heading. -->
+            <article aria-labelledby="related-2-title">
+              <h3 id="related-2-title">
+                <a href="/blog/graphql-schema-design-mistakes">
+                  Five Schema Design Mistakes We Made (And How to Avoid Them)
+                </a>
+              </h3>
+              <p>
+                Lessons learned from three production GraphQL schemas: over-normalisation,
+                mutation granularity, and connection pagination gotchas.
+              </p>
+              <dl>
+                <dt>Author</dt>
+                <dd>Priya Sharma</dd>
+                <dt>Published</dt>
+                <dd><time datetime="2025-09-18">September 18, 2025</time></dd>
+              </dl>
+            </article>
+          </li>
+          <li>
+            <!-- h3 assumes this card is inside a section with an h2 heading. -->
+            <article aria-labelledby="related-3-title">
+              <h3 id="related-3-title">
+                <a href="/blog/apollo-client-normalized-cache">
+                  Understanding Apollo Client's Normalized Cache
+                </a>
+              </h3>
+              <p>
+                How Apollo Client stores query results, how cache IDs work, and how to configure
+                type policies to prevent stale data without over-fetching.
+              </p>
+              <dl>
+                <dt>Author</dt>
+                <dd>Meera Nair</dd>
+                <dt>Published</dt>
+                <dd><time datetime="2025-08-27">August 27, 2025</time></dd>
+              </dl>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="comments-heading" id="comments">
+        <h2 id="comments-heading">Comments</h2>
+
+        <ol>
+          <li>
+            <article aria-labelledby="comment-1-author">
+              <header>
+                <strong id="comment-1-author">Daniel Fröhlich</strong>
+                <time datetime="2025-11-13T09:14:00Z">November 13, 2025 at 9:14 am</time>
+              </header>
+              <p>
+                Really thorough write-up, Priya. We went through a similar migration last year and
+                the DataLoader piece was where we stubbed our toe hardest. We shipped to production
+                without it and had to roll back two hours later after the database fell over under
+                N+1 pressure from the new resolver tree. Would love to see a follow-up post
+                specifically on your batching strategy.
+              </p>
+            </article>
+          </li>
+          <li>
+            <article aria-labelledby="comment-2-author">
+              <header>
+                <strong id="comment-2-author">Saoirse Brennan</strong>
+                <time datetime="2025-11-14T14:52:00Z">November 14, 2025 at 2:52 pm</time>
+              </header>
+              <p>
+                The caching point is worth expanding. We switched to persisted queries about four
+                months in and it made a huge difference — both for cacheability and for security,
+                since you can lock the API to only known query hashes in production. One thing I'd
+                add: if you're also serving third-party developers who write their own queries,
+                persisted queries obviously don't work for them, so you end up needing two separate
+                execution paths anyway.
+              </p>
+            </article>
+          </li>
+        </ol>
+
+        <section aria-labelledby="leave-comment-heading">
+          <h3 id="leave-comment-heading">Leave a comment</h3>
+          <form method="post" action="/blog/rest-to-graphql/comments" aria-labelledby="leave-comment-heading">
+            <p id="required-fields-note">
+              Fields marked <span aria-hidden="true">*</span> are required.
+            </p>
+            <div>
+              <label for="comment-name">
+                Name <span aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text"
+                id="comment-name"
+                name="name"
+                autocomplete="name"
+                required
+                aria-describedby="required-fields-note"
+              />
+            </div>
+            <div>
+              <label for="comment-email">
+                Email address <span aria-hidden="true">*</span>
+              </label>
+              <p id="email-hint" class="hint">Your email will not be published.</p>
+              <input
+                type="email"
+                id="comment-email"
+                name="email"
+                autocomplete="email"
+                required
+                aria-describedby="email-hint"
+              />
+            </div>
+            <div>
+              <label for="comment-body">
+                Comment <span aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="comment-body"
+                name="comment"
+                rows="6"
+                required
+              ></textarea>
+            </div>
+            <button type="submit">Post comment</button>
+          </form>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <nav aria-label="Footer">
+        <ul>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/tutorials">Tutorials</a></li>
+          <li><a href="/open-source">Open Source</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+      </nav>
+      <p>
+        <small>&copy; 2025 Stackwright. All rights reserved.</small>
+      </p>
+    </footer>
+  </body>
+</html>

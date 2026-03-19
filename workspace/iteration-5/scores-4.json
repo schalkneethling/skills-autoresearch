@@ -1,0 +1,61 @@
+{
+  "eval_id": 5,
+  "eval_name": "blog-article-page",
+  "scores": {
+    "element_choice": {
+      "score": 2,
+      "justification": "Excellent use of <time datetime>, <pre><code>, <article>, <aside>, <dl> for metadata, and <ol> for ordered comments. The one minor issue: <address> (line 150) wraps a 'More articles by Priya Sharma' link — this is a slight semantic stretch since <address> is for contact information, not a content discovery link, even if it's author-related."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used precisely where native HTML doesn't provide a label: aria-labelledby on <article> and all <section> elements, aria-label on <nav> and <aside>, aria-hidden on decorative asterisks, and aria-describedby for the email hint. No redundant role attributes anywhere."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single h1 for the article title, h2 for all article sections and top-level page sections (Related Articles, Comments, About the author), and h3 for nested content (related article titles, comment author headings, Leave a comment). No skipped levels throughout."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "All key landmarks present and correctly scoped: <header>/<footer> outside <main>, <main> wrapping only primary content, <nav aria-label> for both primary and footer navs, <aside> for pull quote, <section aria-labelledby> throughout. Skip links for both main content and comments are the first focusable elements."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Fully realistic content: detailed narrative article text with specific metrics (14 API calls, 38% load time reduction), real-feeling author bio with job title and employer, realistic related article titles with plausible authors and dates, and substantive comment text that engages with the article."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "All inputs have explicit <label> elements; name/email fields grouped under <fieldset>/<legend>; appropriate type attributes (text, email); autocomplete attributes on both fields; aria-describedby associates the email hint; required indicated on all fields."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Nav items in <ul>, related article cards in <ul> (count matters), comments in <ol> (temporal order is meaningful). All appropriate list types chosen correctly."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.86,
+  "expectations_met": [
+    "Article uses <article> element with aria-labelledby",
+    "<main> wraps article, related articles, and comments; site header and footer are outside it",
+    "Skip links ('Skip to main content', 'Skip to comments') are the first focusable elements",
+    "Article date uses <time datetime='2025-11-12'>",
+    "Article sections use h2 headings within the article",
+    "Pull quote uses <aside aria-label='Pull quote'> without <blockquote>",
+    "Code block uses <pre><code>",
+    "Author bio uses <footer> within <article>",
+    "Related articles section uses h2 and article cards in a <ul>",
+    "Each related article card uses <article>",
+    "Comments use <article> elements in an <ol>",
+    "Comment form uses <fieldset>/<legend>",
+    "Comment author names use <h3>, dates use <time>",
+    "Heading hierarchy is consistent: h1 → h2 → h3, no skipped levels"
+  ],
+  "expectations_missed": [
+    "<address> (line 150) wraps a 'More articles by Priya Sharma' link — contact info semantics are a stretch for a content discovery link, even in an author bio context"
+  ],
+  "additional_observations": [
+    "Use of <dl> for article metadata (author, published date, topic) is an excellent semantic choice",
+    "Comments correctly placed in <ol> rather than <ul>, reflecting temporal ordering",
+    "The comment textarea sits outside the <fieldset> intentionally, grouping only the personal details fields — a reasonable design decision",
+    "The form's aria-labelledby pointing to the same heading as its enclosing <section> is mildly redundant but harmless"
+  ]
+}

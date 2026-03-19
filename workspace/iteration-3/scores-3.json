@@ -1,0 +1,60 @@
+{
+  "eval_id": 4,
+  "eval_name": "multi-step-form",
+  "scores": {
+    "form_semantics": {
+      "score": 2,
+      "justification": "All inputs have visible labels, sub-groups within steps use <fieldset>/<legend> (Contact details, Delivery address, Credit card details), email error correctly uses aria-invalid='true' + aria-describedby, and autocomplete attributes are thorough. However, the key expectation that each top-level step be wrapped in a <fieldset> with <legend> is missed — steps use <section>/<h2> instead. Step 3 also has no <form> element wrapping the Place Order button."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> ('Checkout') for the page, <h2> for each of the three step headings, and <h3> for the 'Order summary' sub-section inside step 3. No skipped levels and the hierarchy reflects document structure correctly."
+    },
+    "element_choice": {
+      "score": 2,
+      "justification": "Native <button>, <select>, <input>, <form>, <table>, <nav>, <ol>, <fieldset>, and <legend> are all used appropriately. Minor issue: the 'Place Order' <button type='submit'> in step 3 is not inside any <form> element, making the submit type semantically incorrect."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "ARIA is used purposefully: aria-current='step' on the active progress <li>, aria-labelledby on <section> and <form> elements, aria-invalid + aria-describedby on the email field, aria-hidden on decorative asterisks. Minor redundancy: aria-labelledby on <form> duplicates the surrounding <section> label, and the aria-label on each <span class='step-number'> ('Step 1 of 3, current step') overlaps with the parent li's aria-current and adjacent visible text."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Product names are specific and realistic ('Wireless Noise-Cancelling Headphones — Colour: Midnight Black', 'USB-C Charging Cable (2m) — Pack of 2'), prices are plausible and the total ($179.97) is arithmetically correct. Error message copy is natural and actionable."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip link present targeting <main id='main-content' tabindex='-1'>, <header>, <main>, <footer> used correctly, <nav aria-label='Checkout progress'> labels the progress indicator, and each <section> has aria-labelledby. No overuse of landmarks."
+    },
+    "table_semantics": {
+      "score": 3,
+      "justification": "Order summary uses a full <table> with visually-hidden <caption>, <thead>, <tbody>, <tfoot>, and <th scope='col'> on all header cells. Not used for layout. tfoot correctly separates the total row."
+    },
+    "list_semantics": null
+  },
+  "composite_score": 2.57,
+  "expectations_met": [
+    "All inputs have associated <label> elements (not placeholder-only)",
+    "Email error uses aria-invalid='true' and aria-describedby pointing to error message",
+    "Error message text is actionable: 'Enter a valid email address, like name@example.com.'",
+    "Country uses native <select>",
+    "Progress indicator conveys current step accessibly via aria-current='step' and aria-label on step numbers",
+    "Card number (cc-number), expiry (cc-exp), and CVV (cc-csc) have appropriate autocomplete attributes",
+    "Phone field has type='tel'",
+    "Email field has type='email'",
+    "Order summary uses a <table> with proper thead/tbody/tfoot and th scope attributes",
+    "Submit/continue buttons are <button> elements with clear, descriptive labels",
+    "Placeholder on expiry field supplements but does not substitute for the label",
+    "Steps have h1 → h2 → h3 heading structure appropriate to the page",
+    "Required fields indicated with asterisk and explanatory note (not colour alone)"
+  ],
+  "expectations_missed": [
+    "Each step uses <fieldset> with <legend> for grouping — steps use <section>/<h2> instead; fieldsets only appear for sub-groups within steps",
+    "Place Order button in step 3 has type='submit' but is not inside a <form> element"
+  ],
+  "additional_observations": [
+    "The expiry field has both a hint <p> and a placeholder='MM / YY'; the hint makes the placeholder redundant but it does not substitute for the label",
+    "tabindex='-1' on <main> is correct to allow the skip link to move focus into the landmark",
+    "aria-labelledby on <form> elements is a minor but harmless redundancy since the form is already inside a labelled <section>"
+  ]
+}

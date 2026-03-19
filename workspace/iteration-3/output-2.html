@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Directory</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #1a1a1a;
+        background: #f5f5f5;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+        background: #005fcc;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        font-weight: 600;
+        z-index: 100;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      header {
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+        padding: 1rem 2rem;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: flex-end;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .toolbar label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #444;
+      }
+
+      .toolbar input[type="search"],
+      .toolbar select {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        background: #fff;
+        min-width: 160px;
+      }
+
+      .toolbar input[type="search"]:focus,
+      .toolbar select:focus {
+        outline: 2px solid #005fcc;
+        outline-offset: 1px;
+      }
+
+      .btn-download {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        background: #005fcc;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        align-self: flex-end;
+      }
+
+      .btn-download:focus {
+        outline: 2px solid #003a8c;
+        outline-offset: 2px;
+      }
+
+      .btn-download:hover {
+        background: #004ab5;
+      }
+
+      .table-wrapper {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+
+      caption {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        color: #555;
+        border-bottom: 1px solid #eee;
+        caption-side: top;
+      }
+
+      thead {
+        background: #f0f4f8;
+      }
+
+      th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #555;
+        border-bottom: 2px solid #ddd;
+        white-space: nowrap;
+      }
+
+      td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      tbody tr:hover {
+        background: #fafbfc;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+      }
+
+      .status-active {
+        background: #d1fae5;
+        color: #065f46;
+      }
+
+      .status-on-leave {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .status-departed {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .table-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-top: none;
+        border-radius: 0 0 6px 6px;
+      }
+
+      .results-summary {
+        font-size: 0.875rem;
+        color: #555;
+        margin: 0;
+      }
+
+      .pagination {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .pagination a,
+      .pagination button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2rem;
+        height: 2rem;
+        padding: 0 0.5rem;
+        font-size: 0.875rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #fff;
+        color: #1a1a1a;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .pagination a:hover,
+      .pagination button:hover {
+        background: #f0f4f8;
+      }
+
+      .pagination a:focus,
+      .pagination button:focus {
+        outline: 2px solid #005fcc;
+        outline-offset: 1px;
+      }
+
+      .pagination [aria-current="page"] {
+        background: #005fcc;
+        color: #fff;
+        border-color: #005fcc;
+        font-weight: 700;
+      }
+
+      .pagination [aria-disabled="true"] {
+        color: #aaa;
+        cursor: default;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#employee-search" class="skip-link">Skip to search</a>
+
+    <header>
+      <h1>Employee Directory</h1>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section aria-labelledby="directory-heading">
+        <h2 id="directory-heading" class="visually-hidden">Employee table</h2>
+
+        <search aria-label="Filter employees" id="employee-search">
+          <form class="toolbar" method="get">
+            <label for="search-query">
+              Search
+              <input
+                type="search"
+                id="search-query"
+                name="q"
+                placeholder="Name or keyword…"
+              />
+            </label>
+
+            <label for="filter-department">
+              Department
+              <select id="filter-department" name="dept">
+                <option value="">All departments</option>
+                <option value="engineering">Engineering</option>
+                <option value="design">Design</option>
+                <option value="marketing">Marketing</option>
+                <option value="sales">Sales</option>
+                <option value="hr">Human Resources</option>
+                <option value="finance">Finance</option>
+              </select>
+            </label>
+
+            <label for="filter-status">
+              Status
+              <select id="filter-status" name="status">
+                <option value="">All statuses</option>
+                <option value="active">Active</option>
+                <option value="on-leave">On Leave</option>
+                <option value="departed">Departed</option>
+              </select>
+            </label>
+
+            <button type="submit" class="btn-download">Download CSV</button>
+          </form>
+        </search>
+
+        <div class="table-wrapper">
+          <table>
+            <caption>
+              Current and former employees with department, role, start date,
+              and employment status. Use the filters above to narrow results.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Department</th>
+                <th scope="col">Role</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Amara Osei</td>
+                <td>Engineering</td>
+                <td>Senior Software Engineer</td>
+                <td>
+                  <time datetime="2019-03-11">11 Mar 2019</time>
+                </td>
+                <td>
+                  <span class="status-badge status-active">
+                    <span class="visually-hidden">Status: </span>Active
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Fatima Al-Rashid</td>
+                <td>Design</td>
+                <td>UX Lead</td>
+                <td>
+                  <time datetime="2020-07-06">6 Jul 2020</time>
+                </td>
+                <td>
+                  <span class="status-badge status-active">
+                    <span class="visually-hidden">Status: </span>Active
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Marcus Johansson</td>
+                <td>Sales</td>
+                <td>Account Executive</td>
+                <td>
+                  <time datetime="2021-01-18">18 Jan 2021</time>
+                </td>
+                <td>
+                  <span class="status-badge status-on-leave">
+                    <span class="visually-hidden">Status: </span>On Leave
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Priya Nair</td>
+                <td>Human Resources</td>
+                <td>HR Business Partner</td>
+                <td>
+                  <time datetime="2018-09-02">2 Sep 2018</time>
+                </td>
+                <td>
+                  <span class="status-badge status-active">
+                    <span class="visually-hidden">Status: </span>Active
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Tomás Ferreira</td>
+                <td>Engineering</td>
+                <td>Platform Engineer</td>
+                <td>
+                  <time datetime="2022-04-25">25 Apr 2022</time>
+                </td>
+                <td>
+                  <span class="status-badge status-active">
+                    <span class="visually-hidden">Status: </span>Active
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Lena Hoffmann</td>
+                <td>Marketing</td>
+                <td>Content Strategist</td>
+                <td>
+                  <time datetime="2017-11-14">14 Nov 2017</time>
+                </td>
+                <td>
+                  <span class="status-badge status-departed">
+                    <span class="visually-hidden">Status: </span>Departed
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>David Okonkwo</td>
+                <td>Finance</td>
+                <td>Financial Analyst</td>
+                <td>
+                  <time datetime="2023-02-06">6 Feb 2023</time>
+                </td>
+                <td>
+                  <span class="status-badge status-active">
+                    <span class="visually-hidden">Status: </span>Active
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>Yuki Tanaka</td>
+                <td>Engineering</td>
+                <td>Engineering Manager</td>
+                <td>
+                  <time datetime="2016-08-29">29 Aug 2016</time>
+                </td>
+                <td>
+                  <span class="status-badge status-on-leave">
+                    <span class="visually-hidden">Status: </span>On Leave
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <p class="results-summary">Showing 8 of 42 employees</p>
+
+          <nav aria-label="Pagination">
+            <ul class="pagination">
+              <li>
+                <a href="?page=0" aria-disabled="true" tabindex="-1">
+                  <span aria-hidden="true">&lsaquo;</span>
+                  <span class="visually-hidden">Previous page</span>
+                </a>
+              </li>
+              <li>
+                <a href="?page=1" aria-current="page">
+                  <span class="visually-hidden">Page </span>1
+                  <span class="visually-hidden">, current page</span>
+                </a>
+              </li>
+              <li>
+                <a href="?page=2">
+                  <span class="visually-hidden">Page </span>2
+                </a>
+              </li>
+              <li>
+                <a href="?page=3">
+                  <span class="visually-hidden">Page </span>3
+                </a>
+              </li>
+              <li>
+                <a href="?page=4">
+                  <span class="visually-hidden">Page </span>4
+                </a>
+              </li>
+              <li>
+                <a href="?page=5">
+                  <span class="visually-hidden">Page </span>5
+                </a>
+              </li>
+              <li>
+                <a href="?page=2">
+                  <span aria-hidden="true">&rsaquo;</span>
+                  <span class="visually-hidden">Next page</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+{
+  "eval_id": 2,
+  "eval_name": "faq-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: <details>/<summary> for expandable questions, <code> for the /flowboard slash command, <a href='tel:'> for the phone number, <a href='mailto:'> for email addresses, and <search> for the filter. No <dl> misuse for Q&A pairs, no div-based interactive elements."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used only where native HTML cannot provide semantics: aria-label on both <nav> elements and the <search> landmark, aria-labelledby on all <section> elements, aria-current='page' on the breadcrumb terminal item, and tabindex='-1' on <main> for skip-link targeting. No redundant role attributes anywhere."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Exactly one <h1> ('Frequently Asked Questions'), three <h2> category headings, and a fourth <h2> for 'Still need help?' — all siblings under the h1 with no skipped levels and no headings chosen for visual size."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Full landmark set: <header> and <footer> outside <main>, <nav aria-label='Primary'> for site nav, <nav aria-label='Breadcrumb'> inside main, <search> for the filter, <section aria-labelledby> for each category and the help section, and two skip links ('Skip to main content', 'Skip to FAQ search') as the first focusable elements."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "The search input has a visible <label> ('Search questions') with a matching for/id pair, uses type='search', and is wrapped in the <search> landmark. No placeholder-only labelling."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "All questions and answers are realistic, product-specific, and varied in length. No lorem ipsum or placeholder text; emails, phone numbers, and navigation paths are plausible and consistent."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Breadcrumb uses <ol> (order matters), site nav uses <ul>, and FAQ items within each category use <ul> — all correct list types. No lists used purely for styling."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Breadcrumb uses <nav aria-label='Breadcrumb'>",
+    "<main> wraps only the FAQ content — site header and footer are outside it",
+    "Two skip links present as first focusable elements: 'Skip to main content' and 'Skip to FAQ search'",
+    "Breadcrumb items are in an <ol>",
+    "FAQ categories use <h2> headings",
+    "Individual questions use <details>/<summary> for progressive disclosure",
+    "Questions are NOT marked up as <dl>",
+    "Expandable pattern uses native <details>/<summary>, not custom ARIA disclosure",
+    "Search/filter input has a visible <label> ('Search questions')",
+    "'Still need help?' uses <h2>",
+    "Contact link is an <a> element, phone number is <a href='tel:+18005551234'>",
+    "The page has a single <h1>",
+    "No heading levels are skipped",
+    "Footer contains no <address> — appropriate since it is not author/owner contact info"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "Good use of the <search> element as a landmark wrapping the filter input, with both a landmark-level aria-label and a proper <label> for the input itself serving distinct purposes.",
+    "CSS has a minor specificity mismatch (.breadcrumb ol targets a nested ol but the ol itself carries the class) that would affect visual rendering, though this has no impact on semantic correctness."
+  ]
+}

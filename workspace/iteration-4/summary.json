@@ -1,0 +1,198 @@
+{
+  "overall_composite": 2.87,
+  "num_evals": 8,
+  "dimension_averages": {
+    "element_choice": {
+      "average": 2.88,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "pricing-comparison-table",
+        "score": 2,
+        "justification": "CTAs are <a> elements linking to appropriate URLs, plan cards are <li> items in <ul>, prices use <strong> (not headings). Minor issue: the brand name 'Forge' in the <header> is wrapped in a <p> rather than a more appropriate element like a <span> or <a>. The <style> block for .visually-hidden is placed inside <body> rather than <head>."
+      }
+    },
+    "aria_discipline": {
+      "average": 2.75,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "multi-step-form",
+        "score": 2,
+        "justification": "ARIA is used appropriately throughout: aria-current='step' on the active progress item, aria-label on the <nav>, aria-invalid/aria-describedby on the error field, aria-hidden on decorative icons and redundant visible labels. Minor issue: the <form> carries aria-label='Checkout' when the adjacent <h2>Checkout</h2> could be referenced via aria-labelledby, making the aria-label slightly redundant rather than additive."
+      }
+    },
+    "heading_hierarchy": {
+      "average": 3.0,
+      "count": 8,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "Single <h1> ('Running Shoes'), logical h2s for sections ('Showing 6 of 48 results', footer sections, sidebar 'Filters'), and h3 for product names. No skipped levels. A CSS comment explicitly documents that h3 assumes placement under an h2 context and instructs to change it for reuse at the top level, addressing the configurability concern."
+      }
+    },
+    "landmark_structure": {
+      "average": 2.75,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 2,
+        "justification": "All major landmarks are present and correctly labelled (<header>, <nav aria-label='Primary'>, <search>, <aside>, <main>, <footer>, <nav aria-label='Secondary'>), <main> correctly excludes the site header and footer, and three skip links are provided. However, the filter sidebar is missing a <form> wrapper \u2014 a key expectation \u2014 which means there is no form landmark for the filter controls despite the fieldsets being well-structured internally."
+      }
+    },
+    "list_semantics": {
+      "average": 3.0,
+      "count": 7,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "Navigation items are correctly in <ul> within <nav>, the six product cards are wrapped in a <ul> (unordered, as sequence is not meaningful), and footer nav links are in a <ul>. List types are appropriate throughout."
+      }
+    },
+    "form_semantics": {
+      "average": 2.67,
+      "count": 6,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 2,
+        "justification": "All filter checkboxes have explicit <label> elements, each filter group is wrapped in <fieldset> with <legend>, and the 'in stock only' toggle uses a native checkbox. The search form is properly structured with a <label> and correct input type. The significant gap is the absence of a <form> element wrapping the filter fieldsets, which is a stated key expectation and also means filters cannot be submitted or reset as a unit."
+      }
+    },
+    "content_realism": {
+      "average": 3.0,
+      "count": 8,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "Six distinct, real product names (Nike Air Zoom Pegasus 41, Adidas Ultraboost 24, Brooks Ghost 16, ASICS Gel-Kayano 31, New Balance Fresh Foam X 1080v13, Hoka Clifton 9) with varied, realistic prices ($129.99\u2013$189.95) and product-specific descriptions. Alt text is descriptive and product-specific."
+      }
+    },
+    "table_semantics": {
+      "average": 3.0,
+      "count": 3,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "data-table-with-controls",
+        "score": 3,
+        "justification": "Table uses <caption>, <thead>, <tbody>, and all header cells have scope='col'. Dates use <time datetime>. No layout table usage."
+      }
+    }
+  },
+  "weakest_dimensions": [
+    {
+      "dimension": "form_semantics",
+      "average": 2.67
+    },
+    {
+      "dimension": "aria_discipline",
+      "average": 2.75
+    },
+    {
+      "dimension": "landmark_structure",
+      "average": 2.75
+    }
+  ],
+  "strongest_dimensions": [
+    {
+      "dimension": "table_semantics",
+      "average": 3.0
+    },
+    {
+      "dimension": "content_realism",
+      "average": 3.0
+    },
+    {
+      "dimension": "list_semantics",
+      "average": 3.0
+    }
+  ],
+  "eval_summaries": [
+    {
+      "eval_id": 1,
+      "eval_name": "product-listing-page",
+      "composite_score": 2.71,
+      "expectations_missed": [
+        "Filter sidebar uses <form> \u2014 the fieldsets and labels are correct but there is no wrapping <form> element, so the filters are not a form landmark and cannot be submitted or reset natively"
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "faq-page",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "data-table-with-controls",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "multi-step-form",
+      "composite_score": 2.88,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "blog-article-page",
+      "composite_score": 2.86,
+      "expectations_missed": [
+        "Comment form does not use <fieldset>/<legend> to group the related fields (name, email, comment textarea)"
+      ]
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "dashboard-sidebar-nav",
+      "composite_score": 3.0,
+      "expectations_missed": [
+        "Key expectation listed card names as <h2>, but the output uses <h3> under an <h2> 'All projects' section heading \u2014 the h3 is technically more correct given the hierarchy, so this is not a real miss"
+      ]
+    },
+    {
+      "eval_id": 7,
+      "eval_name": "pricing-comparison-table",
+      "composite_score": 2.71,
+      "expectations_missed": [
+        "Yes/No values are conveyed by Unicode symbols (\u2713/\u2715) with aria-label overrides rather than visible text ('Yes'/'No'); the expectation calls for visible text to be present alongside or instead of icons"
+      ]
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "settings-form-with-grouped-controls",
+      "composite_score": 2.83,
+      "expectations_missed": []
+    }
+  ],
+  "missed_expectations": [
+    {
+      "eval_name": "product-listing-page",
+      "expectation": "Filter sidebar uses <form> \u2014 the fieldsets and labels are correct but there is no wrapping <form> element, so the filters are not a form landmark and cannot be submitted or reset natively"
+    },
+    {
+      "eval_name": "blog-article-page",
+      "expectation": "Comment form does not use <fieldset>/<legend> to group the related fields (name, email, comment textarea)"
+    },
+    {
+      "eval_name": "dashboard-sidebar-nav",
+      "expectation": "Key expectation listed card names as <h2>, but the output uses <h3> under an <h2> 'All projects' section heading \u2014 the h3 is technically more correct given the hierarchy, so this is not a real miss"
+    },
+    {
+      "eval_name": "pricing-comparison-table",
+      "expectation": "Yes/No values are conveyed by Unicode symbols (\u2713/\u2715) with aria-label overrides rather than visible text ('Yes'/'No'); the expectation calls for visible text to be present alongside or instead of icons"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "eval_id": 4,
+  "eval_name": "multi-step-form",
+  "scores": {
+    "form_semantics": {
+      "score": 3,
+      "justification": "All inputs have explicit labels; steps 1 and 2 use fieldset/legend; correct input types (email, tel) and autocomplete attributes (cc-number, cc-exp, cc-csc) throughout; email field correctly uses aria-invalid='true' and aria-describedby referencing both hint and error; error message is actionable ('Enter a valid email address, like name@example.com'); required fields marked with required attribute and visible asterisk with explanatory note; no placeholder-only fields."
+    },
+    "heading_hierarchy": {
+      "score": 2,
+      "justification": "Single h1 ('Checkout') is correct. Step 3 uses an h2, which is appropriate. However, steps 1 and 2 rely solely on their legend elements for labelling with no corresponding heading element, creating an inconsistent document outline where steps 1 and 2 have no heading-level presence while step 3 does."
+    },
+    "element_choice": {
+      "score": 2,
+      "justification": "Nearly all elements are semantically correct: native select, button elements, ol for ordered progress steps, table for order summary, form/fieldset/legend for grouped inputs. One issue: 'aria-hidden: true' appears as a CSS declaration inside .error-message::before — ARIA attributes are not valid CSS properties and will have no effect, meaning the warning emoji '⚠' will be announced by screen readers."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "aria-current='step' correctly marks the active progress step, and all nav/section landmarks are labelled. However, completed steps (step-complete class) convey completion only visually with no accessible text equivalent, leaving screen reader users unable to distinguish completed from pending steps. Additionally, both the section and the nested form reference the same aria-labelledby id, creating a redundant double-landmark announcement for the same label text."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Product names are specific and realistic ('Wireless Noise-Cancelling Headphones', 'USB-C Charging Cable (2m)'), prices are plausible and the total is arithmetically correct, country options are real countries, and hint text is genuinely informative rather than placeholder filler."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip link present as first focusable element targeting main; header, main, and nav used correctly; nav has aria-label='Checkout progress'; section elements use aria-labelledby; main correctly excludes the header and wraps only primary content. No overuse of landmark elements."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Progress steps are correctly marked up as an ol (ordered list) inside a nav, reflecting that step order is meaningful. No other list-worthy collections are present in the document."
+    },
+    "table_semantics": {
+      "score": 3,
+      "justification": "Order summary uses a full table structure with caption, thead, tbody, tfoot, and th elements with scope='col'. Not used for layout. The tfoot correctly separates the total row from item rows."
+    }
+  },
+  "composite_score": 2.63,
+  "expectations_met": [
+    "Each form step uses <fieldset> with <legend> for grouping (steps 1 and 2)",
+    "All inputs have associated <label> elements — no placeholder-only fields",
+    "Email error uses aria-invalid='true' and aria-describedby pointing to error message element",
+    "Error message text is actionable: states the problem and provides a fix example",
+    "Country uses native <select> with real country options",
+    "aria-current='step' marks the current progress step accessibly",
+    "Card number, expiry, CVV have autocomplete='cc-number', 'cc-exp', 'cc-csc' respectively",
+    "Phone field has type='tel'",
+    "Email field has type='email'",
+    "Order summary in step 3 uses a <table> with proper thead/tbody/tfoot/caption/th[scope]",
+    "Submit/continue buttons are <button> elements with clear, descriptive labels",
+    "Required fields indicated via required attribute, visible asterisk, and legend note (not colour-only)",
+    "Single h1 for the page; step 3 uses h2 appropriately"
+  ],
+  "expectations_missed": [
+    "Completed steps in the progress indicator have no accessible text indicating completion — aria-current marks the active step but step-complete is CSS-only with no screen-reader equivalent",
+    "Steps 1 and 2 lack heading elements (h2); only the legend labels them, making the document outline inconsistent with step 3 which has an h2",
+    "aria-hidden: true inside a CSS pseudo-element declaration is not a valid CSS property and has no effect — the warning emoji will be read aloud by screen readers"
+  ],
+  "additional_observations": [
+    "The form and its parent section both use aria-labelledby pointing to the same id, creating a redundant double-landmark label announcement",
+    "Placeholder text is used on card number, expiry, and CVV fields but only as supplementary hints alongside real labels — not as label substitutes, so this is acceptable",
+    "tabindex='-1' on main is correctly used to make the skip-link target focusable"
+  ]
+}

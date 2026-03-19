@@ -1,0 +1,214 @@
+{
+  "overall_composite": 2.88,
+  "num_evals": 8,
+  "dimension_averages": {
+    "element_choice": {
+      "average": 2.88,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "multi-step-form",
+        "score": 2,
+        "justification": "Nearly all elements are semantically correct: native select, button elements, ol for ordered progress steps, table for order summary, form/fieldset/legend for grouped inputs. One issue: 'aria-hidden: true' appears as a CSS declaration inside .error-message::before \u2014 ARIA attributes are not valid CSS properties and will have no effect, meaning the warning emoji '\u26a0' will be announced by screen readers."
+      }
+    },
+    "aria_discipline": {
+      "average": 2.75,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "multi-step-form",
+        "score": 2,
+        "justification": "aria-current='step' correctly marks the active progress step, and all nav/section landmarks are labelled. However, completed steps (step-complete class) convey completion only visually with no accessible text equivalent, leaving screen reader users unable to distinguish completed from pending steps. Additionally, both the section and the nested form reference the same aria-labelledby id, creating a redundant double-landmark announcement for the same label text."
+      }
+    },
+    "heading_hierarchy": {
+      "average": 2.62,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 2,
+        "justification": "Single h1, no skipped levels, prices not headings \u2014 hierarchy is correct. However product card h3 is hardcoded with no comment indicating it should be configurable when the component is reused at different nesting depths."
+      }
+    },
+    "landmark_structure": {
+      "average": 2.88,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "settings-form-with-grouped-controls",
+        "score": 2,
+        "justification": "Skip link, header, and main with id are all present and correct. No footer, but the page is simple enough that its absence is not a significant gap. No unnecessary landmark overuse."
+      }
+    },
+    "form_semantics": {
+      "average": 3.0,
+      "count": 5,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "All inputs have visible <label> elements, each filter group wrapped in <fieldset>/<legend>, type='search' used for search input, autocomplete attribute present. No placeholder-only labels. Clean, fully accessible form structure."
+      }
+    },
+    "content_realism": {
+      "average": 3.0,
+      "count": 7,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "Six realistic product names (Nike Air Zoom Pegasus 41, Adidas Ultraboost 24, etc.) with varied prices and detailed, accurate descriptions. No placeholder text or generic 'Product N' names."
+      }
+    },
+    "list_semantics": {
+      "average": 3.0,
+      "count": 7,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "Navigation items in <ul> within <nav>, product cards in <ul class='product-grid'>, footer navigation in <ul>. Correct unordered list type throughout \u2014 sequence is not meaningful for any of these collections."
+      }
+    },
+    "table_semantics": {
+      "average": 3.0,
+      "count": 3,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "data-table-with-controls",
+        "score": 3,
+        "justification": "Full table structure used: <table>, <caption>, <thead>, <tbody>, and all header cells use <th scope='col'>. Caption clearly describes the table's purpose. Not used for layout."
+      }
+    }
+  },
+  "weakest_dimensions": [
+    {
+      "dimension": "heading_hierarchy",
+      "average": 2.62
+    },
+    {
+      "dimension": "aria_discipline",
+      "average": 2.75
+    },
+    {
+      "dimension": "element_choice",
+      "average": 2.88
+    }
+  ],
+  "strongest_dimensions": [
+    {
+      "dimension": "table_semantics",
+      "average": 3.0
+    },
+    {
+      "dimension": "list_semantics",
+      "average": 3.0
+    },
+    {
+      "dimension": "content_realism",
+      "average": 3.0
+    }
+  ],
+  "eval_summaries": [
+    {
+      "eval_id": 1,
+      "eval_name": "product-listing-page",
+      "composite_score": 2.86,
+      "expectations_missed": [
+        "Product card heading level is hardcoded to h3 with no comment or documentation noting it should be configurable when the component is composed at different nesting depths"
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "faq-page",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "data-table-with-controls",
+      "composite_score": 2.88,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "multi-step-form",
+      "composite_score": 2.63,
+      "expectations_missed": [
+        "Completed steps in the progress indicator have no accessible text indicating completion \u2014 aria-current marks the active step but step-complete is CSS-only with no screen-reader equivalent",
+        "Steps 1 and 2 lack heading elements (h2); only the legend labels them, making the document outline inconsistent with step 3 which has an h2",
+        "aria-hidden: true inside a CSS pseudo-element declaration is not a valid CSS property and has no effect \u2014 the warning emoji will be read aloud by screen readers"
+      ]
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "blog-article-page",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "dashboard-sidebar-nav",
+      "composite_score": 3.0,
+      "expectations_missed": [
+        "Key expectation states project card names should be <h2>, but they are <h3> \u2014 this is caused by an intermediate <h2> 'All projects' section heading. The resulting h1\u2192h2\u2192h3 hierarchy is valid and arguably better structured, but does not literally match the expectation."
+      ]
+    },
+    {
+      "eval_id": 7,
+      "eval_name": "pricing-comparison-table",
+      "composite_score": 3.0,
+      "expectations_missed": [
+        "'Most Popular' in the table header column is aria-hidden='true', so screen reader users navigating the table won't hear it \u2014 only users who encounter the plan card <h3> first will. Minor gap in discoverability within the table context."
+      ]
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "settings-form-with-grouped-controls",
+      "composite_score": 2.67,
+      "expectations_missed": [
+        "aria-describedby='email-notifications-hint' on the email toggle references a non-existent id \u2014 the hint <span> has no id attribute, so the association is broken"
+      ]
+    }
+  ],
+  "missed_expectations": [
+    {
+      "eval_name": "product-listing-page",
+      "expectation": "Product card heading level is hardcoded to h3 with no comment or documentation noting it should be configurable when the component is composed at different nesting depths"
+    },
+    {
+      "eval_name": "multi-step-form",
+      "expectation": "Completed steps in the progress indicator have no accessible text indicating completion \u2014 aria-current marks the active step but step-complete is CSS-only with no screen-reader equivalent"
+    },
+    {
+      "eval_name": "multi-step-form",
+      "expectation": "Steps 1 and 2 lack heading elements (h2); only the legend labels them, making the document outline inconsistent with step 3 which has an h2"
+    },
+    {
+      "eval_name": "multi-step-form",
+      "expectation": "aria-hidden: true inside a CSS pseudo-element declaration is not a valid CSS property and has no effect \u2014 the warning emoji will be read aloud by screen readers"
+    },
+    {
+      "eval_name": "dashboard-sidebar-nav",
+      "expectation": "Key expectation states project card names should be <h2>, but they are <h3> \u2014 this is caused by an intermediate <h2> 'All projects' section heading. The resulting h1\u2192h2\u2192h3 hierarchy is valid and arguably better structured, but does not literally match the expectation."
+    },
+    {
+      "eval_name": "pricing-comparison-table",
+      "expectation": "'Most Popular' in the table header column is aria-hidden='true', so screen reader users navigating the table won't hear it \u2014 only users who encounter the plan card <h3> first will. Minor gap in discoverability within the table context."
+    },
+    {
+      "eval_name": "settings-form-with-grouped-controls",
+      "expectation": "aria-describedby='email-notifications-hint' on the email toggle references a non-existent id \u2014 the hint <span> has no id attribute, so the association is broken"
+    }
+  ]
+}

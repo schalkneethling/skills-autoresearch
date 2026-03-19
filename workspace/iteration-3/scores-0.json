@@ -1,0 +1,62 @@
+{
+  "eval_id": 1,
+  "eval_name": "product-listing-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: <article> for product cards, <button> for all interactive controls, <address> for contact info, <p> for prices, <ul> for nav and product lists. No div/span used where a semantic element would serve."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "Mostly disciplined: <nav> elements are labelled, <section> and <aside> landmarks are labelled, aria-current is used correctly, aria-labelledby on 'Add to cart' buttons is a legitimate technique. One redundancy: role=\"search\" on the <form> inside the <search> element is unnecessary because <search> already exposes the search landmark role."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single h1 ('Running Shoes'), h2 for section headings (filter sidebar, results count, footer sections), h3 for product names — no skipped levels. A comment explicitly notes the h3 assumption and instructs reusers to adjust the level if the component is lifted to a different context."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "All expected landmarks are present and correctly placed: <header>, <nav aria-label=\"Main\">, <search>, <aside>, <main id=\"main-content\">, <footer>. Three skip links (content, search, filters) are the first focusable elements and appropriate for this page's complexity. <main> correctly excludes the site header, search bar, and footer. <section> in footer has aria-labelledby."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "All inputs have associated <label> elements. Each filter group is wrapped in a <fieldset> with a <legend>. Correct input types used (type=\"search\", type=\"checkbox\"). The in-stock toggle uses a native checkbox. No placeholder-only labels."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Six realistic product names (Nike Air Zoom Pegasus 41, Adidas Ultraboost 24, Brooks Ghost 16, ASICS Gel-Kayano 31, Hoka Clifton 9, New Balance Fresh Foam X 1080v13) with varied, plausible prices and specific product descriptions. No 'Product 1' or lorem ipsum anywhere."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items are in <ul> within <nav>. Product cards are in a <ul> (unordered, as sequence is not meaningful). Footer nav links are in <ul>. Correct list types throughout."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.86,
+  "expectations_met": [
+    "Uses <header>, <nav>, <main>, <aside>, <footer> landmarks appropriately",
+    "<main> contains only the primary page content — site header, footer, and primary nav are outside it",
+    "Skip navigation links are the first focusable elements — 'Skip to main content', 'Skip to search', and 'Skip to filters' all present",
+    "Navigation uses <nav> with a label that does NOT include the word 'navigation'",
+    "Search uses the <search> element",
+    "Filter sidebar uses <form> with <fieldset>/<legend> for each filter group",
+    "Product cards use <article> (self-contained)",
+    "Product cards are in a <ul> (unordered)",
+    "Heading hierarchy flows logically: h1 for page, h2 for sections, h3 for product names",
+    "Product card heading level is documented via inline comment noting it should be adjusted when reused at different nesting levels",
+    "Buttons are <button> elements, not <div> or <a> with click handlers",
+    "'Add to cart' buttons have accessible names via aria-labelledby referencing both the button and the product name element",
+    "Price is not marked up as a heading — uses <p>",
+    "Filter checkboxes use proper <label> elements, not placeholders",
+    "The 'in stock only' toggle uses a native checkbox"
+  ],
+  "expectations_missed": [
+    "No ARIA attributes used where native HTML provides the same semantics — role=\"search\" on the <form> inside the <search> element is redundant since <search> already provides the search landmark role"
+  ],
+  "additional_observations": [
+    "tabindex=\"-1\" on <main> is correctly applied to allow skip links to programmatically focus it",
+    "<address> is used correctly for business contact information in the footer",
+    "aria-current=\"page\" is used correctly on the active navigation link",
+    "Three skip links provided (content, search, filters) is thorough and appropriate for this page's complexity with both a search bar and a filter sidebar"
+  ]
+}

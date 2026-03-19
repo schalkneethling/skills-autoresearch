@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Directory</title>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#employee-search" class="skip-link">Skip to search</a>
+
+  <header>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/employees" aria-current="page">Employees</a></li>
+        <li><a href="/departments">Departments</a></li>
+        <li><a href="/reports">Reports</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <h1>Employee Directory</h1>
+
+    <search id="employee-search" aria-label="Filter employees">
+      <label for="q">Search</label>
+      <input type="search" id="q" name="q" placeholder="Search by name or role…">
+
+      <label for="dept-filter">Department</label>
+      <select id="dept-filter" name="dept">
+        <option value="">All Departments</option>
+        <option value="engineering">Engineering</option>
+        <option value="design">Design</option>
+        <option value="marketing">Marketing</option>
+        <option value="sales">Sales</option>
+        <option value="hr">Human Resources</option>
+        <option value="finance">Finance</option>
+      </select>
+
+      <label for="status-filter">Status</label>
+      <select id="status-filter" name="status">
+        <option value="">All Statuses</option>
+        <option value="active">Active</option>
+        <option value="on-leave">On Leave</option>
+        <option value="departed">Departed</option>
+      </select>
+
+      <button type="submit">Apply filters</button>
+    </search>
+
+    <button type="button">Download CSV</button>
+
+    <table>
+      <caption>Current and former employees across all departments, showing their role, start date, and employment status.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Department</th>
+          <th scope="col">Role</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Priya Chakraborty</td>
+          <td>Engineering</td>
+          <td>Senior Backend Developer</td>
+          <td><time datetime="2019-03-15">March 15, 2019</time></td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>Marcus Johansson</td>
+          <td>Design</td>
+          <td>Lead UX Designer</td>
+          <td><time datetime="2020-07-01">July 1, 2020</time></td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>Aisha Kenyatta</td>
+          <td>Marketing</td>
+          <td>Content Strategist</td>
+          <td><time datetime="2021-01-10">January 10, 2021</time></td>
+          <td>On Leave</td>
+        </tr>
+        <tr>
+          <td>David Chen-Watanabe</td>
+          <td>Engineering</td>
+          <td>DevOps Engineer</td>
+          <td><time datetime="2018-11-20">November 20, 2018</time></td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>Sofia Bergström</td>
+          <td>Human Resources</td>
+          <td>HR Business Partner</td>
+          <td><time datetime="2022-04-05">April 5, 2022</time></td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>James Okonkwo</td>
+          <td>Sales</td>
+          <td>Regional Sales Manager</td>
+          <td><time datetime="2017-09-12">September 12, 2017</time></td>
+          <td>Departed</td>
+        </tr>
+        <tr>
+          <td>Mei-Ling Tanaka</td>
+          <td>Finance</td>
+          <td>Financial Analyst</td>
+          <td><time datetime="2023-02-28">February 28, 2023</time></td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>Carlos Mendoza-Rivera</td>
+          <td>Engineering</td>
+          <td>Frontend Developer</td>
+          <td><time datetime="2021-08-16">August 16, 2021</time></td>
+          <td>On Leave</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Showing 8 of 42 employees</p>
+
+    <nav aria-label="Pagination">
+      <ul>
+        <li><a href="?page=0" aria-disabled="true">Previous</a></li>
+        <li><a href="?page=1" aria-current="page">1</a></li>
+        <li><a href="?page=2">2</a></li>
+        <li><a href="?page=3">3</a></li>
+        <li><a href="?page=4">4</a></li>
+        <li><a href="?page=5">5</a></li>
+        <li><a href="?page=2">Next</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <footer>
+    <p>Employee Directory — Internal use only</p>
+  </footer>
+</body>
+</html>

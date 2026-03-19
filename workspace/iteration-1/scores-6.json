@@ -1,0 +1,56 @@
+{
+  "eval_id": 7,
+  "eval_name": "pricing-comparison-table",
+  "scores": {
+    "table_semantics": {
+      "score": 3,
+      "justification": "Full table structure with <caption>, <thead>, <tbody>, <th scope='col'> for plan names, and <th scope='row'> for every feature row. Boolean values use plain text 'Yes'/'No' with no icon-only patterns."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "CTAs are <a> elements linking to real URLs (appropriate), prices are in <p><strong> (not headings), plan cards use <article>, and the plan list uses <ul>. No div/span substitutions where semantic elements exist."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1>, followed by <h2> section headings, then <h3> for individual plan names — no skipped levels. Prices are not headings."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used only where needed: aria-label on <nav>, aria-labelledby on <section> and <article> elements. No redundant role attributes. 'Most Popular' badge is a <span> inside the <h3>, making it naturally accessible without extra ARIA. tabindex='-1' on <main> is correct for the skip-link target."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Correct use of <header>, <nav aria-label='Primary'>, <main id='main-content'>, <footer>, and labelled <section> elements. Skip link is present and properly implemented."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "All content is realistic and specific: real pricing tiers, concrete feature values (5 projects, 10GB, 10 team members), and a plausible intro paragraph. No placeholder text."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "<ul> used for navigation items and for the plan card collection. Count of plans is meaningful to users, making the list semantics appropriate."
+    },
+    "form_semantics": null
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Feature comparison uses <table> for two-dimensional data",
+    "Table has <caption> describing its purpose",
+    "Plan names are <th scope='col'> in the header row",
+    "Feature names are <th scope='row'> in each data row",
+    "Yes/No values are plain text — not conveyed by colour or icons alone",
+    "'Most Popular' badge is inside the <h3> heading and read naturally by screen readers",
+    "CTAs use <a> elements linking to appropriate URLs",
+    "'Contact Sales' is an <a> linking to /contact-sales",
+    "Plan names above the table use <h3> — correct level within the document outline",
+    "Prices are not headings; they use <p><strong>",
+    "Single <h1> on the page",
+    "Table uses <thead> and <tbody>",
+    "Boolean features use text 'Yes'/'No' without icon-only patterns"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "The visually-hidden <h2 id='plans-heading'> for the plan cards section is a nice touch — gives the section a programmatic label without cluttering the visual layout.",
+    "skip-link implementation is correct with transform-based show-on-focus pattern and tabindex='-1' on the target."
+  ]
+}

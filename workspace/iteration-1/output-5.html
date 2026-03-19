@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects — Dashboard</title>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#primary-nav" class="skip-link">Skip to navigation</a>
+
+    <div class="layout">
+      <aside aria-label="Sidebar">
+        <div class="sidebar-logo">
+          <a href="/">
+            <img src="logo.svg" alt="App home" />
+          </a>
+        </div>
+
+        <nav id="primary-nav" aria-label="Primary">
+          <ul>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/projects" aria-current="page">Projects</a></li>
+            <li><a href="/team">Team</a></li>
+            <li><a href="/reports">Reports</a></li>
+            <li><a href="/settings">Settings</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-label="Secondary">
+          <ul>
+            <li><a href="/help">Help &amp; Support</a></li>
+            <li><a href="/whats-new">What&#x2019;s New</a></li>
+          </ul>
+
+          <div class="user-profile">
+            <button popovertarget="user-menu" type="button">
+              <img src="avatar.png" alt="" />
+              <span>Alex Chen</span>
+            </button>
+            <ul id="user-menu" popover>
+              <li><a href="/profile">Profile</a></li>
+              <li><a href="/preferences">Preferences</a></li>
+              <li><button type="button">Sign Out</button></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <main id="main-content" tabindex="-1">
+        <h1>Projects</h1>
+        <p>Manage and track all your active projects, monitor progress, and collaborate with your team.</p>
+
+        <section aria-labelledby="projects-list-heading">
+          <h2 id="projects-list-heading" class="visually-hidden">Project list</h2>
+          <ul class="project-cards">
+            <li>
+              <article aria-labelledby="project-1-name">
+                <h3 id="project-1-name">Website Redesign</h3>
+                <dl>
+                  <dt>Status</dt>
+                  <dd><span class="badge badge--active">Active</span></dd>
+                  <dt>Last updated</dt>
+                  <dd><time datetime="2026-03-15">March 15, 2026</time></dd>
+                  <dt>Members</dt>
+                  <dd>8 members</dd>
+                </dl>
+              </article>
+            </li>
+            <li>
+              <article aria-labelledby="project-2-name">
+                <h3 id="project-2-name">Mobile App v2</h3>
+                <dl>
+                  <dt>Status</dt>
+                  <dd><span class="badge badge--paused">Paused</span></dd>
+                  <dt>Last updated</dt>
+                  <dd><time datetime="2026-03-10">March 10, 2026</time></dd>
+                  <dt>Members</dt>
+                  <dd>5 members</dd>
+                </dl>
+              </article>
+            </li>
+            <li>
+              <article aria-labelledby="project-3-name">
+                <h3 id="project-3-name">Brand Guidelines</h3>
+                <dl>
+                  <dt>Status</dt>
+                  <dd><span class="badge badge--complete">Complete</span></dd>
+                  <dt>Last updated</dt>
+                  <dd><time datetime="2026-02-28">February 28, 2026</time></dd>
+                  <dt>Members</dt>
+                  <dd>3 members</dd>
+                </dl>
+              </article>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

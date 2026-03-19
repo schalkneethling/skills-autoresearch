@@ -1,0 +1,219 @@
+{
+  "overall_composite": 2.89,
+  "num_evals": 8,
+  "dimension_averages": {
+    "element_choice": {
+      "average": 3.0,
+      "count": 8,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "Every element is the best semantic match: <button> for all interactive controls, <article> for product cards, <address> for contact info, <search> for the search bar, native <input type='checkbox'> for filters. No div/span used where a semantic element exists."
+      }
+    },
+    "aria_discipline": {
+      "average": 2.88,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 2,
+        "justification": "ARIA is used sparingly and nav labels are correctly applied without the word 'navigation'. However, 'Add to cart' buttons use aria-describedby (which adds description, not name) rather than aria-label or aria-labelledby, so all six buttons share the identical accessible name 'Add to cart' \u2014 the distinguishability requirement is not met."
+      }
+    },
+    "heading_hierarchy": {
+      "average": 2.62,
+      "count": 8,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 2,
+        "justification": "Single h1, no skipped levels. However, product names are placed at h2 directly under the h1 with no intermediate section heading, whereas the expected pattern (h1 page \u2192 h2 sections \u2192 h3 product names) was not followed. The heading level is also hardcoded without any note about configurability."
+      }
+    },
+    "landmark_structure": {
+      "average": 3.0,
+      "count": 8,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "All five major landmarks (<header>, <nav>, <main>, <aside>, <footer>) are used correctly, <search> is used for the search bar, and skip links ('Skip to main content', 'Skip to search', 'Skip to filters') are the first focusable elements. Both <nav> elements are labelled without the word 'navigation', and <main> contains only the page-unique primary content."
+      }
+    },
+    "list_semantics": {
+      "average": 3.0,
+      "count": 7,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "Navigation items, filter options, and product cards are all wrapped in <ul>, correctly communicating count to assistive technology. Footer nav links are also in a <ul>. No lists are misused for purely decorative grouping."
+      }
+    },
+    "form_semantics": {
+      "average": 2.67,
+      "count": 6,
+      "min": 2,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "blog-article-page",
+        "score": 2,
+        "justification": "All inputs and the textarea have associated <label> elements with matching for/id pairs; appropriate input types (text, email) are used; <button type='submit'> is correct. No <fieldset>/<legend> wrapping the form group, and no error-handling pattern (aria-invalid, aria-describedby) is present, which are minor omissions."
+      }
+    },
+    "content_realism": {
+      "average": 3.0,
+      "count": 6,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "product-listing-page",
+        "score": 3,
+        "justification": "All six products have realistic brand names, model numbers, and prices (e.g., Nike Air Zoom Pegasus 41 at $129.99). Descriptions are specific and varied in length. Navigation labels, contact details, and footer links are all plausible real-world content."
+      }
+    },
+    "table_semantics": {
+      "average": 3.0,
+      "count": 3,
+      "min": 3,
+      "max": 3,
+      "weakest_eval": {
+        "eval_name": "data-table-with-controls",
+        "score": 3,
+        "justification": "Full table structure: <caption>, <thead>, <tbody>, and all header cells use <th scope='col'>. <time datetime> is used for all date values. Table is used only for tabular data, not layout."
+      }
+    }
+  },
+  "weakest_dimensions": [
+    {
+      "dimension": "heading_hierarchy",
+      "average": 2.62
+    },
+    {
+      "dimension": "form_semantics",
+      "average": 2.67
+    },
+    {
+      "dimension": "aria_discipline",
+      "average": 2.88
+    }
+  ],
+  "strongest_dimensions": [
+    {
+      "dimension": "table_semantics",
+      "average": 3.0
+    },
+    {
+      "dimension": "content_realism",
+      "average": 3.0
+    },
+    {
+      "dimension": "list_semantics",
+      "average": 3.0
+    }
+  ],
+  "eval_summaries": [
+    {
+      "eval_id": 1,
+      "eval_name": "product-listing-page",
+      "composite_score": 2.71,
+      "expectations_missed": [
+        "Heading hierarchy should flow h1 \u2192 h2 (sections) \u2192 h3 (product names); instead product names are placed at h2 with no intermediate section heading",
+        "Product card heading level is hardcoded to h2 with no documentation that it should be configurable based on context",
+        "'Add to cart' buttons do not have accessible names that distinguish which product \u2014 aria-describedby provides description only and does not change the accessible name, leaving all six buttons with the identical name 'Add to cart'"
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "faq-page",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "data-table-with-controls",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "multi-step-form",
+      "composite_score": 2.88,
+      "expectations_missed": [
+        "Steps 1 and 2 lack explicit heading elements inside their fieldsets \u2014 only step 3 has an <h2>; a consistent approach (either headings inside all steps or none) would be cleaner, though the current structure is not technically invalid"
+      ]
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "blog-article-page",
+      "composite_score": 2.71,
+      "expectations_missed": [
+        "Comment form lacks <fieldset>/<legend> grouping \u2014 the expectation lists this as preferred over labels-only",
+        "'Leave a Comment' uses <h2> while nested inside the 'Comments' <h2> section, making it a same-level sibling heading in a child section rather than the expected <h3>"
+      ]
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "dashboard-sidebar-nav",
+      "composite_score": 3.0,
+      "expectations_missed": [
+        "Key expectation states project card names should be <h2>, but the implementation uses <h3> \u2014 this is architecturally correct given the intermediate visually-hidden <h2> section heading, but diverges from the stated expectation"
+      ]
+    },
+    {
+      "eval_id": 7,
+      "eval_name": "pricing-comparison-table",
+      "composite_score": 3.0,
+      "expectations_missed": []
+    },
+    {
+      "eval_id": 8,
+      "eval_name": "settings-form-with-grouped-controls",
+      "composite_score": 2.83,
+      "expectations_missed": [
+        "The two privacy checkboxes ('Show online status', 'Allow search engines to index my profile') are not wrapped in a <fieldset> with a <legend> \u2014 they are related controls that benefit from grouping semantics, currently only grouped by a div"
+      ]
+    }
+  ],
+  "missed_expectations": [
+    {
+      "eval_name": "product-listing-page",
+      "expectation": "Heading hierarchy should flow h1 \u2192 h2 (sections) \u2192 h3 (product names); instead product names are placed at h2 with no intermediate section heading"
+    },
+    {
+      "eval_name": "product-listing-page",
+      "expectation": "Product card heading level is hardcoded to h2 with no documentation that it should be configurable based on context"
+    },
+    {
+      "eval_name": "product-listing-page",
+      "expectation": "'Add to cart' buttons do not have accessible names that distinguish which product \u2014 aria-describedby provides description only and does not change the accessible name, leaving all six buttons with the identical name 'Add to cart'"
+    },
+    {
+      "eval_name": "multi-step-form",
+      "expectation": "Steps 1 and 2 lack explicit heading elements inside their fieldsets \u2014 only step 3 has an <h2>; a consistent approach (either headings inside all steps or none) would be cleaner, though the current structure is not technically invalid"
+    },
+    {
+      "eval_name": "blog-article-page",
+      "expectation": "Comment form lacks <fieldset>/<legend> grouping \u2014 the expectation lists this as preferred over labels-only"
+    },
+    {
+      "eval_name": "blog-article-page",
+      "expectation": "'Leave a Comment' uses <h2> while nested inside the 'Comments' <h2> section, making it a same-level sibling heading in a child section rather than the expected <h3>"
+    },
+    {
+      "eval_name": "dashboard-sidebar-nav",
+      "expectation": "Key expectation states project card names should be <h2>, but the implementation uses <h3> \u2014 this is architecturally correct given the intermediate visually-hidden <h2> section heading, but diverges from the stated expectation"
+    },
+    {
+      "eval_name": "settings-form-with-grouped-controls",
+      "expectation": "The two privacy checkboxes ('Show online status', 'Allow search engines to index my profile') are not wrapped in a <fieldset> with a <legend> \u2014 they are related controls that benefit from grouping semantics, currently only grouped by a div"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "skill_source": "~/dev/opensource/webdev-agent-skills/semantic-html",
+  "max_iterations": 5,
+  "target_score": 3.0
+}

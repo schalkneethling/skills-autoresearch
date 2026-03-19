@@ -1,0 +1,52 @@
+{
+  "eval_id": 8,
+  "eval_name": "settings-form-with-grouped-controls",
+  "scores": {
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input has an associated <label> via for/id. All sections use <fieldset>/<legend>. Radio groups are nested in their own <fieldset> with a <legend>. Toggles use native checkbox inputs. File upload uses <input type='file'> with a label. Textarea has a label. No placeholder-only fields. autocomplete attribute used on display name."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "'Delete Account' is a <button type='button'> and 'Save Changes' is a <button type='submit'>. All interactive controls use native elements. No div-based interactive patterns. Correct use of <textarea>, <input type='file'>, and <input type='checkbox'> for toggles."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> ('My Account') in the header. A visually-hidden <h2> ('Account Settings') anchors the main content outline. Legends serve as section headings for each fieldset group — no redundant heading+legend duplication. No skipped levels."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used sparingly: <form> has aria-label='Account settings' which is appropriate since there's no visible heading directly labelling the form. No redundant role attributes. Skip link present. No aria-* used where native HTML suffices. tabindex='-1' on <main> is correct for skip-link target."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip link to #main-content present. <header>, <main> with id used correctly. Form is the primary content inside <main>. Page structure is simple and landmarks are not overused."
+    },
+    "content_realism": {
+      "score": 2,
+      "justification": "Controls have realistic labels and plausible names/values. However, inputs are empty with no example/default content, and the page lacks a realistic user context (e.g., pre-populated display name). Minor issue — structure handles variability well."
+    }
+  },
+  "composite_score": 2.83,
+  "expectations_met": [
+    "Each settings section uses <fieldset> with <legend>",
+    "All inputs have <label> elements",
+    "Radio button groups are within a <fieldset> with a <legend> describing the group",
+    "Toggle switches use checkbox inputs (not custom div patterns)",
+    "File upload uses <input type='file'> with a label",
+    "Textarea has a label",
+    "'Delete Account' is a <button> — not a link",
+    "'Save Changes' is a <button type='submit'>",
+    "Legends serve as visual headings — no redundant legend AND heading for same text",
+    "No placeholder-only inputs",
+    "Radio buttons have matching name attributes within their group",
+    "The form as a whole is a <form> element"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "Nested fieldsets (for radio sub-groups inside outer fieldsets) use inline styles to remove default border/padding — functional but inline styles are minor style debt",
+    "autocomplete='nickname' on display name is a thoughtful accessibility/UX touch",
+    "Visually-hidden h2 provides a clean document outline without cluttering the visual UI",
+    "Skip link is correctly implemented and positioned as the first focusable element"
+  ]
+}

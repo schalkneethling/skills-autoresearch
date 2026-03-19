@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects — Acme Dashboard</title>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#primary-nav" class="skip-link">Skip to navigation</a>
+
+    <div class="layout">
+      <nav id="primary-nav" aria-label="Primary">
+        <div class="sidebar-header">
+          <a href="/" aria-label="Acme — go to homepage">
+            <img src="/logo.svg" alt="" width="32" height="32" />
+            <span>Acme</span>
+          </a>
+        </div>
+
+        <ul>
+          <li>
+            <a href="/dashboard">Dashboard</a>
+          </li>
+          <li>
+            <a href="/projects" aria-current="page">Projects</a>
+          </li>
+          <li>
+            <a href="/team">Team</a>
+          </li>
+          <li>
+            <a href="/reports">Reports</a>
+          </li>
+          <li>
+            <a href="/settings">Settings</a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <nav aria-label="Support">
+            <ul>
+              <li>
+                <a href="/help">Help &amp; Support</a>
+              </li>
+              <li>
+                <a href="/whats-new">What's New</a>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="user-menu">
+            <button popovertarget="user-dropdown">
+              <img src="/avatars/alex-chen.jpg" alt="" width="32" height="32" />
+              <span>Alex Chen</span>
+            </button>
+
+            <ul id="user-dropdown" popover>
+              <li><a href="/profile">Profile</a></li>
+              <li><a href="/preferences">Preferences</a></li>
+              <li><button type="button">Sign Out</button></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <main id="main-content" tabindex="-1">
+        <h1>Projects</h1>
+        <p>
+          Manage and track all your active projects in one place. View project
+          status, see recent activity, and collaborate with your team members.
+        </p>
+
+        <section aria-labelledby="projects-list-heading">
+          <h2 id="projects-list-heading">All projects</h2>
+
+          <ul>
+            <li>
+              <!-- h3 assumes this card is inside a section with an h2 heading. -->
+              <article aria-labelledby="project-1-name">
+                <h3 id="project-1-name">Nebula Design System</h3>
+                <p>
+                  <span class="visually-hidden">Status: </span>
+                  <span class="badge badge--active">
+                    Active
+                    <span class="visually-hidden">(active)</span>
+                  </span>
+                </p>
+                <dl>
+                  <dt>Last updated</dt>
+                  <dd>
+                    <time datetime="2026-03-17">17 March 2026</time>
+                  </dd>
+                  <dt>Members</dt>
+                  <dd>8 members</dd>
+                </dl>
+              </article>
+            </li>
+
+            <li>
+              <article aria-labelledby="project-2-name">
+                <h3 id="project-2-name">Horizon Mobile App</h3>
+                <p>
+                  <span class="visually-hidden">Status: </span>
+                  <span class="badge badge--paused">
+                    Paused
+                    <span class="visually-hidden">(paused)</span>
+                  </span>
+                </p>
+                <dl>
+                  <dt>Last updated</dt>
+                  <dd>
+                    <time datetime="2026-03-05">5 March 2026</time>
+                  </dd>
+                  <dt>Members</dt>
+                  <dd>5 members</dd>
+                </dl>
+              </article>
+            </li>
+
+            <li>
+              <article aria-labelledby="project-3-name">
+                <h3 id="project-3-name">Atlas Data Pipeline</h3>
+                <p>
+                  <span class="visually-hidden">Status: </span>
+                  <span class="badge badge--complete">
+                    Complete
+                    <span class="visually-hidden">(complete)</span>
+                  </span>
+                </p>
+                <dl>
+                  <dt>Last updated</dt>
+                  <dd>
+                    <time datetime="2026-02-28">28 February 2026</time>
+                  </dd>
+                  <dt>Members</dt>
+                  <dd>12 members</dd>
+                </dl>
+              </article>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

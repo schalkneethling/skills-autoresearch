@@ -1,0 +1,56 @@
+{
+  "eval_id": 6,
+  "eval_name": "dashboard-sidebar-nav",
+  "scores": {
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Both skip links present at top of document ('Skip to main content' and 'Skip to navigation'). `<aside>` wraps the sidebar, two `<nav>` elements each have distinct `aria-label` values, `<main>` correctly contains only page-specific content, and the `<section>` is labelled via `aria-labelledby`."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single `<h1>` for 'Projects', a visually-hidden `<h2>` labels the project list section, and `<h3>` headings name each project card — a clean h1→h2→h3 hierarchy with no skipped levels."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "All interactive elements are native: `<button popovertarget>` for the user menu trigger, `<a>` for Profile/Preferences, `<button>` for Sign Out, `<time datetime>` for all dates, `<article>` for project cards. Avatar `alt=\"\"` is correct since the button already contains the visible name 'Alex Chen'."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used only where necessary: `aria-label` on both `<nav>` and `<aside>` landmarks (appropriate given multiple same-type landmarks), `aria-current=\"page\"` on the active nav item, `aria-labelledby` on the `<section>`. No redundant role attributes anywhere. `tabindex=\"-1\"` on `<main>` is correct to support skip-link focus."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Both nav sections use `<ul>` for their items, the popover user menu uses `<ul>`, project cards are wrapped in `<ul>`, and card metadata uses `<dl>` for key-value pairs — all list types correctly chosen for their content."
+    },
+    "element_choice_extra": null,
+    "form_semantics": null,
+    "content_realism": null,
+    "table_semantics": null
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Sidebar navigation uses <nav> with a descriptive aria-label ('Primary')",
+    "<main> wraps only the projects content area; sidebar is in <aside> outside <main>",
+    "Both 'Skip to main content' and 'Skip to navigation' skip links are the first focusable elements",
+    "Two <nav> elements each have distinct labels ('Primary' and 'Secondary')",
+    "Nav items are in <ul> lists within each <nav>",
+    "Current page ('Projects') indicated with aria-current='page'",
+    "User dropdown uses <button popovertarget> with Popover API (<ul popover>) — not <details>/<summary>",
+    "'Profile' and 'Preferences' are <a> links; 'Sign Out' is a <button>",
+    "Main content area uses <main>",
+    "Project cards are in a <ul> list",
+    "Status badges convey status via text ('Active', 'Paused', 'Complete'), not colour alone",
+    "Dates use <time> with datetime attribute on all three cards",
+    "'Projects' page heading is <h1>",
+    "The secondary nav section has aria-label='Secondary' distinguishing it from primary nav",
+    "Logo is an <a href='/'> link containing an <img> with alt text"
+  ],
+  "expectations_missed": [
+    "Key expectation states project card names should be <h2>, but the implementation uses <h3> — this is architecturally correct given the intermediate visually-hidden <h2> section heading, but diverges from the stated expectation"
+  ],
+  "additional_observations": [
+    "The visually-hidden <h2> 'Project list' inside a <section aria-labelledby> is an excellent pattern that both labels the landmark and justifies the h3 card headings",
+    "Using <dl> for card metadata (Status, Last updated, Members) is a strong semantic choice for key-value data",
+    "<aside aria-label='Sidebar'> correctly names the complementary landmark to disambiguate it"
+  ]
+}

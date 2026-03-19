@@ -1,0 +1,61 @@
+{
+  "eval_id": 3,
+  "eval_name": "data-table-with-controls",
+  "scores": {
+    "table_semantics": {
+      "score": 3,
+      "justification": "Full table structure: <caption>, <thead>, <tbody>, and all header cells use <th scope='col'>. <time datetime> is used for all date values. Table is used only for tabular data, not layout."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "All interactive elements are native: <button> for Download CSV and Apply filters, <a> for pagination and nav, <select> for filters, <input type='search'> for the search field, and <time datetime> for all dates. Previous/Next and page links are <a> elements. 'Showing 8 of 42' is a <p>."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input and select has a visible <label> with correct for/id association. All filter controls are grouped inside a <search> landmark. Native <select> elements used for department and status filters. Minor: 'Apply filters' uses type='submit' inside <search> without a wrapping <form>, so the button has no form to submit, but element choices and labeling are otherwise correct."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used sparingly and appropriately: aria-label on both <nav> elements and <search>, aria-current='page' on both the active nav link and the current pagination page, aria-disabled='true' on the disabled Previous link. No redundant roles (no role='navigation' on <nav>, no role='button' on <button>)."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> for the page title. No subheadings needed and none added. 'Showing 8 of 42' is correctly a <p>, not a heading."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Full landmark set: <header>, <main id='main-content'>, <footer>, labelled <nav> for primary navigation and pagination, and <search> for filter controls. Two skip links present targeting main content and the search element."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Eight rows of diverse, realistic employee data with varied names, departments, roles, dates, and all three status values represented. No placeholder content."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items and pagination items are both wrapped in <ul> within their respective <nav> elements, correctly conveying count and grouping."
+    }
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Uses <table> with <caption>, <thead>, <tbody>",
+    "Header cells use <th scope='col'>",
+    "Status column content is not conveyed by colour alone — text labels used exclusively",
+    "Search input has a <label>",
+    "Department and status filters use native <select> elements",
+    "Filter controls are grouped in a <search> element",
+    "'Download CSV' is a <button type='button'>",
+    "Pagination uses <nav aria-label='Pagination'>",
+    "Pagination indicates current page with aria-current='page'",
+    "Previous/Next are <a> elements",
+    "'Showing 8 of 42 employees' is a <p>",
+    "Table is not wrapped in role='grid'",
+    "No table semantics stripped by CSS display properties"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "<time datetime> used for all eight date values — excellent element_choice detail beyond the minimum",
+    "aria-disabled='true' on the Previous link when on page 1 is a thoughtful accessibility touch",
+    "<button type='submit'> inside <search> without a wrapping <form> means the submit type has no target form; type='button' would be more precise, but this is a very minor issue",
+    "Skip links provided for both main content and the search landmark, well-matched to page complexity"
+  ]
+}

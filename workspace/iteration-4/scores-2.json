@@ -1,0 +1,61 @@
+{
+  "eval_id": 3,
+  "eval_name": "data-table-with-controls",
+  "scores": {
+    "table_semantics": {
+      "score": 3,
+      "justification": "Table uses <caption>, <thead>, <tbody>, and all header cells have scope='col'. Dates use <time datetime>. No layout table usage."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "All interactive elements are native: <button>, <input type='search'>, <select>, <a> for pagination links. Dates use <time datetime>. SVG icons are aria-hidden with focusable=false. No div-based interactives."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input and select has an explicit <label> via for/id. Controls are wrapped in <search> with a nested <form>. No placeholder-only fields. Appropriate input type='search' used."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used sparingly and correctly: aria-label on <search> and <nav>, aria-current='page' on active pagination link, aria-hidden on decorative SVGs, aria-disabled alongside disabled on the Previous button. No redundant role attributes."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> in the page header, <h2> for the directory section — no skipped levels, no headings used decoratively."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Page uses <header>, <main> (with id for skip link), <search aria-label>, and <nav aria-label>. Two skip links at the top of the body target main content and employee search. All landmarks are appropriately labelled."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Eight rows of realistic, varied employee data with real-sounding names from diverse backgrounds, varied departments, roles, start dates, and mixed statuses. No placeholder content."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Pagination uses <ul> within <nav>, which is correct for an unordered set of page links. No spurious list usage elsewhere."
+    }
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Uses <table> with <caption>, <thead>, <tbody>",
+    "Header cells use <th scope='col'>",
+    "Status column content is not conveyed by colour alone — text label is present inside each badge",
+    "Search input has a <label>",
+    "Department and status filters use native <select> elements",
+    "Filter controls are grouped in a <search> element containing a <form>",
+    "'Download CSV' is a <button>",
+    "Pagination uses <nav> with aria-label",
+    "Pagination current page indicated with aria-current='page'",
+    "Previous is a <button>; Next is an <a>",
+    "'Showing 8 of 42 employees' is a <p>",
+    "Table is not wrapped in role='grid'",
+    "No CSS display properties strip table semantics"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "Excellent use of two skip links targeting both main content and the search area",
+    "<time datetime> used for all start dates — best practice not explicitly required but well done",
+    "Visually hidden '(employment status)' text appended to badge labels is thoughtful but arguably redundant given the column header already communicates this — minor over-engineering, not a deduction",
+    "Previous button correctly uses both disabled and aria-disabled='true' for compatibility"
+  ]
+}

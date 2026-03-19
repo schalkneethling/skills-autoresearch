@@ -1,0 +1,62 @@
+{
+  "eval_id": 4,
+  "eval_name": "multi-step-form",
+  "scores": {
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input has a visible label, each step is wrapped in a fieldset/legend, email demonstrates aria-invalid='true' + aria-describedby with an actionable error message, correct input types (email, tel) and autocomplete attributes (cc-number, cc-exp, cc-csc, postal-code, etc.) are used throughout, required fields are indicated with both the required attribute and a visual asterisk, and no placeholder substitutes for a label."
+    },
+    "heading_hierarchy": {
+      "score": 2,
+      "justification": "Single h1 'Checkout' is correct, and the h1→h2 jump to 'Order summary' inside step 3 is valid; however only step 3 has an explicit heading inside its fieldset while steps 1 and 2 rely solely on their legend elements, creating a slightly inconsistent document outline."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "All interactive elements are native (button, input, select); button[type=button] is used for step navigation and button[type=submit] for final submission; the progress indicator is an ol inside nav; the order summary uses a fully structured table — every element is the correct semantic match."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used only where needed: aria-current='step' on the active step li, aria-invalid + aria-describedby on the erroneous email field, aria-hidden on decorative asterisks, and aria-label on the checkout steps nav; no redundant role or aria attributes duplicate native semantics."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Product names ('Wireless Bluetooth Headphones', 'USB-C Charging Cable (2-pack)') and prices ($79.99, $15.98, $95.97) are realistic and varied; a plausible set of countries is provided; the shop name, copyright year, and form action path are all believable."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip link targets main, header/main/footer landmarks are all present and correctly scoped, the checkout-steps nav is labelled with aria-label, and tabindex='-1' on main supports programmatic focus from the skip link; no landmarks are overused."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "The progress indicator correctly uses an ol (ordered, because step sequence matters) inside a nav; no other list-worthy collections are present."
+    },
+    "table_semantics": {
+      "score": 3,
+      "justification": "The order summary table has a caption, thead/tbody/tfoot, th scope='col' for column headers, and th scope='row' colspan='2' for the total row — full correct structure for two-dimensional tabular data."
+    }
+  },
+  "composite_score": 2.88,
+  "expectations_met": [
+    "Each step uses <fieldset> with <legend> for grouping",
+    "All inputs have associated <label> elements (not placeholder-only)",
+    "Email error uses aria-invalid='true' and aria-describedby pointing to error message",
+    "Error message text is actionable ('Enter a valid email address, like name@example.com')",
+    "Country uses native <select>",
+    "Progress indicator conveys current step accessibly via aria-current='step' within a labelled <nav>",
+    "Card number, expiry, CVV fields have appropriate autocomplete attributes (cc-number, cc-exp, cc-csc)",
+    "Phone field has type='tel'",
+    "Email field has type='email'",
+    "Order summary uses a <table> with caption, thead, tbody, tfoot, and scoped th elements",
+    "Submit/continue buttons are <button> elements with clear, descriptive labels",
+    "No placeholder text used as a substitute for labels",
+    "Required fields indicated via required attribute and visible asterisk (not colour alone)"
+  ],
+  "expectations_missed": [
+    "Steps 1 and 2 lack explicit heading elements inside their fieldsets — only step 3 has an <h2>; a consistent approach (either headings inside all steps or none) would be cleaner, though the current structure is not technically invalid"
+  ],
+  "additional_observations": [
+    "tabindex='-1' on <main> is a valid pattern to support skip-link programmatic focus",
+    "The legend for step 1 includes visible '* required fields' text while the asterisk itself is aria-hidden, correctly pairing visual and programmatic required indication",
+    "card-expiry uses placeholder='MM/YY' as supplemental format hint alongside a proper label — acceptable usage"
+  ]
+}

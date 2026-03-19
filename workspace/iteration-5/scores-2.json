@@ -1,0 +1,62 @@
+{
+  "eval_id": 3,
+  "eval_name": "data-table-with-controls",
+  "scores": {
+    "table_semantics": {
+      "score": 3,
+      "justification": "Full table structure with <caption>, <thead>, <tbody>, and <th scope='col'> on every header cell. Status values are conveyed via visible text labels inside badges, not by colour alone. Table is not used for layout."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: <input type='search'> for the search field, native <select> for filters, <button type='submit'> for Download CSV, <time datetime='…'> for all start dates, <p> for the count line, and <button>/<a> for pagination controls. No divs used in place of semantic elements."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "All three inputs have explicit <label> elements with matching for/id pairs. Controls are wrapped in both <search> (landmark) and <form method='get'>, which is correct. Appropriate input type ('search') used. No placeholder-as-label pattern."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "Mostly disciplined: <search> and <nav> are both labelled, no redundant role attributes. Minor issue: aria-current='page' is placed on the <li> element rather than the <a> inside it; assistive technologies expect aria-current on the interactive element itself. Additionally, the Previous <button> already has visible text 'Previous', making the aria-label slightly redundant (though it adds clarifying context)."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Exactly one <h1> ('Employee Directory') on the page with no skipped levels. No headings are used decoratively for visual sizing."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Appropriate landmarks used throughout: <header>, <main id='main-content'>, <search aria-label='…'>, <nav aria-label='…'>, and <footer>. Skip link targets <main> and is visually hidden until focused. No landmark overuse."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Eight rows of realistic employees with diverse names, varied departments, roles, and start dates spanning 2015–2022. All three status values are represented. No placeholder or Lorem ipsum content."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Pagination controls are correctly structured as a <ul> inside <nav>. No other collections on the page require list markup."
+    }
+  },
+  "composite_score": 2.88,
+  "expectations_met": [
+    "Uses <table> with <caption>, <thead>, <tbody>",
+    "Header cells use <th scope='col'>",
+    "Status column content is not conveyed by colour alone — visible text labels present inside badges",
+    "Search input has a <label>",
+    "Department and status filters use native <select> elements",
+    "Filter controls are grouped in both a <search> element and a <form>",
+    "'Download CSV' is a <button type='submit'>",
+    "Pagination uses <nav> with aria-label",
+    "Previous is a <button>, Next is an <a> — neither is a div",
+    "'Showing 8 of 42 employees' is a <p>",
+    "Table is not wrapped in role='grid'",
+    "No CSS display properties strip table semantics"
+  ],
+  "expectations_missed": [
+    "aria-current='page' is placed on the <li> rather than on the <a> element; assistive technologies process aria-current more reliably on the interactive element itself"
+  ],
+  "additional_observations": [
+    "Excellent use of <time datetime='…'> for all start-date cells",
+    "Skip link implemented correctly with CSS transform hide/show on focus",
+    "Using both <search> (HTML landmark element) and <form> together is well-structured and idiomatic",
+    "Disabled Previous button correctly uses the disabled attribute alongside pointer-events: none"
+  ]
+}

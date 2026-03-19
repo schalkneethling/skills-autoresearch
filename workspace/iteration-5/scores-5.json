@@ -1,0 +1,56 @@
+{
+  "eval_id": 6,
+  "eval_name": "dashboard-sidebar-nav",
+  "scores": {
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Both skip links ('Skip to main content' and 'Skip to navigation') appear as the first focusable elements, appropriate for a sidebar layout where nav is not at the top of the DOM. <main> wraps only page content; sidebar is in <aside> outside <main>. Both <nav> elements are distinctly labelled. <section> is labelled via aria-labelledby."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> 'Projects', <h2> 'All projects' for the section, and <h3> for each project card name — a clean h1→h2→h3 hierarchy with no skipped levels. A comment in the HTML even notes the h3 assumes the section context."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "Logo uses <a href='/'><img alt='Acme'></a>. Dropdown trigger uses <button popovertarget> with the Popover API; <ul popover> is the target. Profile/Preferences are <a> links; Sign Out uses <form><button type='submit'>. Dates use <time datetime>. Metadata uses <dl>. Avatar alt='' correctly marks it decorative since the button has visible text."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "No redundant ARIA roles on native elements. Both <nav> elements carry aria-label; the <section> uses aria-labelledby. The <aside> has aria-label='Sidebar' which is acceptable for landmark disambiguation. tabindex='-1' on <main> is correct to make it a skip-link target."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Primary nav items, secondary nav items, and dropdown items are all in <ul> within their respective <nav> elements. Project cards are wrapped in a <ul class='project-cards'> with each card in an <li>. Key-value metadata inside cards correctly uses <dl>."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Project names are realistic and distinct (Meridian Platform Redesign, Compass Analytics Integration, Lighthouse Mobile App v2). Statuses, dates, and member counts are varied and plausible. No placeholder content."
+    }
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Sidebar navigation uses <nav> with a descriptive label ('Primary')",
+    "<main> wraps only the projects content area — sidebar is in <aside> outside <main>",
+    "Both 'Skip to main content' and 'Skip to navigation' links are the first focusable elements",
+    "Two <nav> elements each have a distinct aria-label",
+    "Nav items are in a <ul> list",
+    "Current page 'Projects' is marked with aria-current='page'",
+    "User dropdown uses a <button> with popovertarget (Popover API), not <details>/<summary>",
+    "Profile and Preferences are <a> links; Sign Out is a <form><button type='submit'>",
+    "Main content area uses <main>",
+    "Project cards are in a <ul> list",
+    "Status badges include visually-hidden 'Status: ' prefix — not conveyed by colour alone",
+    "Dates use <time datetime='...'>",
+    "'Projects' page heading is <h1>",
+    "Project card names are <h3>, appropriate given the intermediate <h2> 'All projects' section heading (h1→h2→h3 is correct)",
+    "Secondary nav has aria-label='Support and account', clearly distinct from the primary nav",
+    "Logo is an <a href='/'> containing <img alt='Acme'>"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "The use of <article> for each project card is well-chosen — each card is self-contained and could stand alone.",
+    "The <dl> inside each card for last-updated and member-count metadata is an excellent application of definition list semantics for key-value pairs.",
+    "The popover target is a <ul> element, which is semantically valid and avoids unnecessary wrapper divs.",
+    "The comment on each card noting the h3 assumption shows authorial awareness of heading hierarchy constraints in reusable components."
+  ]
+}

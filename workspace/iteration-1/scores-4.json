@@ -1,0 +1,62 @@
+{
+  "eval_id": 5,
+  "eval_name": "blog-article-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is correctly chosen: <article> for the main article and cards/comments, <time datetime> for all dates, <pre><code> for the code block, <aside> for the pull quote (no <blockquote>), <strong> for comment author names, <footer> within <article> for the author bio, and <button type='submit'>. No div/span used where semantic elements exist."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used sparingly and correctly: <nav aria-label='Main'>, <aside aria-label='Pull quote'>, and all <section> elements carry aria-labelledby pointing to their headings. No redundant ARIA (no role='button' on buttons, no role='navigation' on nav). tabindex='-1' on <main> is appropriate to support the skip link."
+    },
+    "heading_hierarchy": {
+      "score": 2,
+      "justification": "Single <h1> for the article title; <h2> for all article sections, author bio, Related Articles, and Comments; <h3> for related article card titles — all correct. Minor issue: the 'Leave a Comment' section uses <h2> while being structurally nested inside the <section> headed by the 'Comments' <h2>, making it a sibling heading level inside a child section rather than a subordinate <h3>."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip link is the first focusable element targeting <main id='main-content'>. <header>, <nav aria-label='Main'>, <main>, <aside>, and <footer> are all used correctly. Site header and footer are outside <main>. All <section> elements are labelled with aria-labelledby. <footer> within <article> correctly scopes the author bio."
+    },
+    "form_semantics": {
+      "score": 2,
+      "justification": "All inputs and the textarea have associated <label> elements with matching for/id pairs; appropriate input types (text, email) are used; <button type='submit'> is correct. No <fieldset>/<legend> wrapping the form group, and no error-handling pattern (aria-invalid, aria-describedby) is present, which are minor omissions."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "All content is realistic and specific: concrete statistics (120 endpoints, 38% load time reduction, 52% payload decrease), plausible author bios, varied commenter names, and a real-looking GraphQL query example. No lorem ipsum or placeholder text anywhere."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items are in <ul> within <nav>, and the three related article cards are wrapped in a <ul> with each card as an <li>. List types are appropriate and count-relevant collections are consistently marked up as lists."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.71,
+  "expectations_met": [
+    "The article uses the <article> element",
+    "<main> wraps the article, related articles, and comments — site header and footer are outside it",
+    "Skip navigation link is the first focusable element ('Skip to main content')",
+    "Article date uses <time datetime='2025-11-12'>",
+    "Article sections use <h2> headings within the article",
+    "Pull quote uses <aside> without <blockquote>",
+    "Code block uses <pre><code>",
+    "Author bio uses <footer> within <article>",
+    "Related articles section has an <h2> heading and cards in a <ul>",
+    "Each related article card uses <article>",
+    "Comments are each an <article> with <header>",
+    "Comment form uses proper <label> elements for all fields",
+    "Comment author names use <strong>, dates use <time>",
+    "<address> element is not used (correctly absent — no contact info context)",
+    "Heading hierarchy: h1 for article title, h2 for sections, h2 for Related Articles, h2 for Comments",
+    "No heading levels are skipped"
+  ],
+  "expectations_missed": [
+    "Comment form lacks <fieldset>/<legend> grouping — the expectation lists this as preferred over labels-only",
+    "'Leave a Comment' uses <h2> while nested inside the 'Comments' <h2> section, making it a same-level sibling heading in a child section rather than the expected <h3>"
+  ],
+  "additional_observations": [
+    "All <section> elements are labelled with aria-labelledby, which elevates them to proper landmarks — good discipline",
+    "The GraphQL code block is a realistic, syntactically correct query that reinforces content realism"
+  ]
+}

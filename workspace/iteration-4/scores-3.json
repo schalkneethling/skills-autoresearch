@@ -1,0 +1,61 @@
+{
+  "eval_id": 4,
+  "eval_name": "multi-step-form",
+  "scores": {
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input has a visible <label>. All three steps use <fieldset>/<legend>. Email field correctly uses aria-invalid='true' and aria-describedby referencing both the hint and the error paragraph. Error message is actionable ('Enter a valid email address, like name@example.com.'). Correct input types (email, tel, text), full autocomplete attributes on all fields including cc-number/cc-exp/cc-csc. Required fields indicated with asterisk + explanatory note and the native required attribute — not colour-only."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> for the site name in <header>, <h2> for 'Checkout' in <main>. Step titles are <legend> elements inside fieldsets — the correct choice for form group labels, not heading elements — so there are no skipped or misused heading levels."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "All interactive controls are native elements (<button>, <input>, <select>). Progress indicator uses <nav>/<ol>/<li>. Order summary uses a fully-structured <table> with <caption>, <thead>, <tbody>, <tfoot>. No div or span used in place of a semantic element."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "ARIA is used appropriately throughout: aria-current='step' on the active progress item, aria-label on the <nav>, aria-invalid/aria-describedby on the error field, aria-hidden on decorative icons and redundant visible labels. Minor issue: the <form> carries aria-label='Checkout' when the adjacent <h2>Checkout</h2> could be referenced via aria-labelledby, making the aria-label slightly redundant rather than additive."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Content is fully realistic: real person name (Margaret Okonkwo), plausible email and address placeholders, named products with variants (colour, size), specific prices that sum correctly ($158.00 + $94.50 = $252.50). No 'Product 1' or Lorem ipsum anywhere."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip link present and targets <main>. <header>, <main>, and <nav> (with aria-label) used correctly. <main> wraps only page-specific content. No spurious section or landmark overuse."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Progress steps are in an <ol> (ordered, since sequence matters). No lists used gratuitously."
+    },
+    "table_semantics": {
+      "score": 3,
+      "justification": "<table> used for genuine two-dimensional tabular order data with <caption>, <thead>/<tbody>/<tfoot>, and <th scope='col'> on all column headers. Not used for layout."
+    }
+  },
+  "composite_score": 2.88,
+  "expectations_met": [
+    "Each step uses <fieldset> with <legend> for grouping",
+    "All inputs have associated <label> elements (not placeholder-only)",
+    "Email error uses aria-invalid='true' and aria-describedby pointing to error message",
+    "Error message text is actionable — states problem and gives a concrete example fix",
+    "Country uses native <select>",
+    "Progress indicator conveys current step accessibly via aria-current='step' and descriptive aria-labels on step bubbles",
+    "Card number, expiry, CVV fields use autocomplete='cc-number', 'cc-exp', 'cc-csc'",
+    "Phone field has type='tel'",
+    "Email field has type='email'",
+    "Order summary uses a <table> with full semantic structure",
+    "Submit and Back buttons are <button> elements with clear labels",
+    "No placeholder text used as a substitute for labels",
+    "Steps use <legend> rather than all-h1 or all-h2; page heading hierarchy is h1 → h2",
+    "Required fields indicated with asterisk + explanatory note + native required attribute"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "aria-label='Checkout' on the <form> works, but aria-labelledby pointing to the <h2> would be marginally preferable to avoid redundancy",
+    "The required-note paragraph hides the asterisk from screen readers via aria-hidden, but the native required attribute on each input still conveys required status to assistive technology — net result is correct",
+    "role='alert' on the error paragraph is a good addition for dynamic injection scenarios"
+  ]
+}

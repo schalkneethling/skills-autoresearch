@@ -1,0 +1,62 @@
+{
+  "eval_id": 3,
+  "eval_name": "data-table-with-controls",
+  "scores": {
+    "table_semantics": {
+      "score": 3,
+      "justification": "Full table structure used: <table>, <caption>, <thead>, <tbody>, and all header cells use <th scope='col'>. Caption clearly describes the table's purpose. Not used for layout."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "All interactive elements are native: <button> for Download CSV, <input type='search'> for search, <select> for filters, <a> elements for pagination. Dates use <time> with datetime attributes. No div/span used where semantic elements exist."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input and select has a visible <label> element. Controls are grouped in a <search> wrapping a <form>. Native select elements used for dropdowns. No placeholder-as-label pattern."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used sparingly and only where needed: aria-label on <search> and <nav>, aria-current='page' on the current pagination link, aria-hidden on decorative SVG and span characters. No redundant ARIA roles on native elements."
+    },
+    "heading_hierarchy": {
+      "score": 2,
+      "justification": "Single <h1> in <main> for 'Employee Directory' is correct. However, the <header> contains a <p> for 'Acme Corp' rather than a heading — acceptable since the page h1 is the primary heading. The visually-hidden h2 for the section is appropriate. Minor: two h1-like elements could be flagged since header has no heading at all, but this is not a hierarchy violation."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Skip links present for both main content and search. <header>, <main>, <search>, <section aria-labelledby>, and <nav aria-label> all used correctly. <main> contains only primary page content. All navigations and the search landmark are labelled."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Eight rows of realistic, diverse employee data with varied names, departments, roles, dates, and statuses. No placeholder content. 'Showing 8 of 42 employees' reflects plausible real-world pagination context."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Pagination items are wrapped in <ol> within <nav>, which is appropriate as page order matters. No other list contexts are applicable to this page structure."
+    }
+  },
+  "composite_score": 2.88,
+  "expectations_met": [
+    "Uses <table> with <caption>, <thead>, <tbody>",
+    "Header cells use <th scope='col'>",
+    "Status column content is not conveyed by colour alone — text labels ('Active', 'On Leave', 'Departed') are present inside the badge",
+    "Search input has a <label>",
+    "Department and status filters use native <select> elements",
+    "Filter controls are grouped in a <search> element wrapping a <form>",
+    "'Download CSV' is a <button>",
+    "Pagination uses <nav> with aria-label='Pagination'",
+    "Pagination links clearly indicate current page with aria-current='page'",
+    "Previous/Next are <a> elements with appropriate rel attributes",
+    "'Showing 8 of 42 employees' is a <p> element",
+    "Table is not wrapped in role='grid'",
+    "No CSS display properties strip table semantics"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "Excellent use of <search> element wrapping the <form> for the filter toolbar",
+    "Skip links provided for both main content and the search/filter area — thorough keyboard accessibility",
+    "Dates use <time datetime='...'> with machine-readable ISO format and human-readable display text",
+    "SVG icon in Download CSV button has aria-hidden='true' and focusable='false' — correct pattern",
+    "The <header> contains only a <p> for 'Acme Corp' with no heading — minor, but acceptable since the page h1 serves as the primary title"
+  ]
+}

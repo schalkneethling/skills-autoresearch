@@ -1,0 +1,61 @@
+{
+  "eval_id": 1,
+  "eval_name": "product-listing-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: native <button> for actions, <article> for product cards, <address> correctly scoped to contact info, <search> for search, <strong> for price emphasis, <small> for fine print. No div/span used where semantic elements exist."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used only where native HTML cannot provide the semantics: aria-labelledby to name landmarks and articles, aria-labelledby on buttons to compose unique accessible names from button text + product name, tabindex=-1 on main for skip-link focus management. No redundant role attributes anywhere."
+    },
+    "heading_hierarchy": {
+      "score": 2,
+      "justification": "Single h1, no skipped levels, prices not headings — hierarchy is correct. However product card h3 is hardcoded with no comment indicating it should be configurable when the component is reused at different nesting depths."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "All required landmarks present and correctly scoped: header, nav (labelled 'Main'), search, aside (labelledby), main (id for skip target), footer, footer nav (labelled 'Footer'), section with aria-labelledby. Three skip links appear as first focusable elements. <main> correctly excludes site header, sidebar, and footer."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "All inputs have visible <label> elements, each filter group wrapped in <fieldset>/<legend>, type='search' used for search input, autocomplete attribute present. No placeholder-only labels. Clean, fully accessible form structure."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Six realistic product names (Nike Air Zoom Pegasus 41, Adidas Ultraboost 24, etc.) with varied prices and detailed, accurate descriptions. No placeholder text or generic 'Product N' names."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items in <ul> within <nav>, product cards in <ul class='product-grid'>, footer navigation in <ul>. Correct unordered list type throughout — sequence is not meaningful for any of these collections."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.86,
+  "expectations_met": [
+    "Uses <header>, <nav>, <main>, <aside>, <footer> landmarks appropriately",
+    "<main> contains only the primary page content — site header, footer, and primary nav are outside it",
+    "Skip navigation links are the first focusable elements — 'Skip to main content', 'Skip to search', and 'Skip to filters' all present",
+    "Navigation uses <nav> with labels 'Main' and 'Footer' — neither includes the word 'navigation'",
+    "Search uses the <search> element",
+    "Filter sidebar uses <form> with <fieldset>/<legend> for each filter group (Price Range, Category, Availability)",
+    "Product cards use <article> (self-contained)",
+    "Product cards are in a <ul>",
+    "Heading hierarchy flows logically: h1 for page, h2 for sections, h3 for product names",
+    "Buttons are <button> elements",
+    "'Add to cart' buttons have accessible names that distinguish which product via aria-labelledby",
+    "Price is not marked up as a heading",
+    "No ARIA attributes used where native HTML provides the same semantics",
+    "Filter checkboxes use proper <label> elements",
+    "The 'in stock only' toggle uses a native checkbox"
+  ],
+  "expectations_missed": [
+    "Product card heading level is hardcoded to h3 with no comment or documentation noting it should be configurable when the component is composed at different nesting depths"
+  ],
+  "additional_observations": [
+    "The aria-label on <search> reads 'Search and filter products' but the filters live in a separate <aside> — a minor label inaccuracy that does not harm usability",
+    "aria-labelledby on <article> elements explicitly associates each card with its heading, a useful pattern for AT even though the heading is already a descendant",
+    "tabindex=-1 on <main> is correct practice for skip-link focus targets"
+  ]
+}

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout — Step 1 of 3: Shipping Information</title>
+    <style>
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+        background: #000;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        z-index: 100;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 48rem;
+        margin: 0 auto;
+        padding: 1rem 1.5rem;
+        color: #1a1a1a;
+      }
+
+      /* Progress indicator */
+      .checkout-progress {
+        margin-bottom: 2rem;
+      }
+
+      .checkout-progress ol {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 0;
+      }
+
+      .checkout-progress li {
+        flex: 1;
+        text-align: center;
+        padding: 0.75rem 0.5rem;
+        border-bottom: 3px solid #ccc;
+        font-size: 0.875rem;
+        color: #555;
+      }
+
+      .checkout-progress li[aria-current="step"] {
+        border-bottom-color: #0060df;
+        color: #0060df;
+        font-weight: 600;
+      }
+
+      .checkout-progress li.step-complete {
+        border-bottom-color: #00a550;
+        color: #00a550;
+      }
+
+      .step-number {
+        display: block;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+
+      /* Form styles */
+      fieldset {
+        border: none;
+        padding: 0;
+        margin: 0 0 1.5rem 0;
+      }
+
+      legend {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        padding: 0;
+        width: 100%;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-bottom: 1rem;
+      }
+
+      label {
+        font-weight: 500;
+        font-size: 0.9375rem;
+      }
+
+      input,
+      select {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #767676;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-family: inherit;
+      }
+
+      input[aria-invalid="true"] {
+        border-color: #c50000;
+        border-width: 2px;
+      }
+
+      .hint {
+        font-size: 0.8125rem;
+        color: #555;
+        margin: 0;
+      }
+
+      .error {
+        font-size: 0.875rem;
+        color: #c50000;
+        margin: 0;
+        font-weight: 500;
+      }
+
+      .required-note {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: #555;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      /* Form steps — only the active step is shown */
+      .checkout-step {
+        display: none;
+      }
+
+      .checkout-step[aria-current="true"] {
+        display: block;
+      }
+
+      /* Step navigation */
+      .step-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        justify-content: flex-end;
+      }
+
+      .btn-primary {
+        background: #0060df;
+        color: #fff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-family: inherit;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #0060df;
+        border: 2px solid #0060df;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-family: inherit;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      /* Order summary */
+      .order-summary table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .order-summary th,
+      .order-summary td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .order-summary th {
+        font-weight: 600;
+      }
+
+      .order-summary tfoot td {
+        font-weight: 700;
+        font-size: 1.0625rem;
+        border-bottom: none;
+        border-top: 2px solid #1a1a1a;
+      }
+
+      .text-right {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+      <p>ShopName</p>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <h1>Checkout</h1>
+
+      <!-- Progress indicator -->
+      <nav aria-label="Checkout progress">
+        <ol class="checkout-progress">
+          <li aria-current="step">
+            <!-- aria-current="step" communicates the active step to AT;
+                 the visually-hidden text clarifies completion state. -->
+            <span class="step-number" aria-label="Step 1 of 3, current step">1</span>
+            <span>Shipping</span>
+          </li>
+          <li>
+            <span class="step-number" aria-label="Step 2 of 3, not yet reached">2</span>
+            <span>Payment</span>
+          </li>
+          <li>
+            <span class="step-number" aria-label="Step 3 of 3, not yet reached">3</span>
+            <span>Review</span>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Step 1: Shipping Information -->
+      <section aria-labelledby="step1-heading" class="checkout-step" aria-current="true">
+        <h2 id="step1-heading">Shipping Information</h2>
+
+        <form aria-labelledby="step1-heading" novalidate>
+          <p class="required-note">
+            Fields marked <span aria-hidden="true">*</span> are required.
+          </p>
+
+          <fieldset>
+            <legend>Contact details</legend>
+
+            <div class="form-group">
+              <label for="full-name">Full name <span aria-hidden="true">*</span></label>
+              <input
+                type="text"
+                id="full-name"
+                name="full-name"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email address <span aria-hidden="true">*</span></label>
+              <p id="email-hint" class="hint">We'll send your order confirmation here.</p>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                required
+                aria-invalid="true"
+                aria-describedby="email-hint email-error"
+              />
+              <p id="email-error" class="error" role="alert">
+                Enter a valid email address, like name@example.com.
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone number <span aria-hidden="true">*</span></label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                autocomplete="tel"
+                required
+              />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Delivery address</legend>
+
+            <div class="form-group">
+              <label for="street-address">Street address <span aria-hidden="true">*</span></label>
+              <input
+                type="text"
+                id="street-address"
+                name="street-address"
+                autocomplete="street-address"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City <span aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  autocomplete="address-level2"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="postal-code">Postal code <span aria-hidden="true">*</span></label>
+                <input
+                  type="text"
+                  id="postal-code"
+                  name="postal-code"
+                  autocomplete="postal-code"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="country">Country <span aria-hidden="true">*</span></label>
+              <select id="country" name="country" autocomplete="country" required>
+                <option value="">Select a country</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="GB">United Kingdom</option>
+                <option value="AU">Australia</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <div class="step-actions">
+            <button type="button" class="btn-primary">Continue to Payment</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Step 2: Payment Method -->
+      <section aria-labelledby="step2-heading" class="checkout-step">
+        <h2 id="step2-heading">Payment Method</h2>
+
+        <form aria-labelledby="step2-heading" novalidate>
+          <p class="required-note">
+            Fields marked <span aria-hidden="true">*</span> are required.
+          </p>
+
+          <fieldset>
+            <legend>Credit card details</legend>
+
+            <div class="form-group">
+              <label for="card-number">Card number <span aria-hidden="true">*</span></label>
+              <p id="card-number-hint" class="hint">Enter the 16-digit number on the front of your card.</p>
+              <input
+                type="text"
+                id="card-number"
+                name="card-number"
+                autocomplete="cc-number"
+                inputmode="numeric"
+                pattern="[0-9\s]{13,19}"
+                maxlength="19"
+                required
+                aria-describedby="card-number-hint"
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="expiry">Expiry date <span aria-hidden="true">*</span></label>
+                <p id="expiry-hint" class="hint">MM / YY</p>
+                <input
+                  type="text"
+                  id="expiry"
+                  name="expiry"
+                  autocomplete="cc-exp"
+                  inputmode="numeric"
+                  placeholder="MM / YY"
+                  maxlength="7"
+                  required
+                  aria-describedby="expiry-hint"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="cvv">Security code (CVV) <span aria-hidden="true">*</span></label>
+                <p id="cvv-hint" class="hint">3 or 4 digits on the back of your card.</p>
+                <input
+                  type="text"
+                  id="cvv"
+                  name="cvv"
+                  autocomplete="cc-csc"
+                  inputmode="numeric"
+                  maxlength="4"
+                  required
+                  aria-describedby="cvv-hint"
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="step-actions">
+            <button type="button" class="btn-secondary">Back to Shipping</button>
+            <button type="button" class="btn-primary">Review Order</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Step 3: Order Review -->
+      <section aria-labelledby="step3-heading" class="checkout-step">
+        <h2 id="step3-heading">Review Your Order</h2>
+
+        <div class="order-summary">
+          <!-- h3 assumes this is inside the step3 section with h2 above.
+               Do not change to h2 unless the section heading is removed. -->
+          <h3>Order summary</h3>
+
+          <table>
+            <caption class="visually-hidden">Items in your order</caption>
+            <thead>
+              <tr>
+                <th scope="col">Item</th>
+                <th scope="col" class="text-right">Qty</th>
+                <th scope="col" class="text-right">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Wireless Noise-Cancelling Headphones</strong><br />
+                  <span>Colour: Midnight Black</span>
+                </td>
+                <td class="text-right">1</td>
+                <td class="text-right">$149.99</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>USB-C Charging Cable (2m)</strong><br />
+                  <span>Pack of 2</span>
+                </td>
+                <td class="text-right">2</td>
+                <td class="text-right">$29.98</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2">Total</td>
+                <td class="text-right">$179.97</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-secondary">Back to Payment</button>
+          <button type="submit" class="btn-primary">Place Order</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 ShopName. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

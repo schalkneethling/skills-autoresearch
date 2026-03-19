@@ -1,0 +1,61 @@
+{
+  "eval_id": 5,
+  "eval_name": "blog-article-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is semantically precise: <article> for main and card content, <time datetime> for all dates, <pre><code> for the code block, <aside> (not <blockquote>) for the pull quote, <address> correctly scoped to author contact links, <dl> for key-value metadata, <strong> for comment author names, and native form elements throughout. No div-for-semantic-element substitutions."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used only where needed: aria-label on unlabelled landmarks (nav, aside, footer nav), aria-labelledby on sections and articles, aria-describedby linking the email hint, aria-hidden on decorative asterisks, and tabindex=-1 on the skip-link target. No redundant role attributes or ARIA compensating for non-semantic markup."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single h1 for the article title; h2 for all major sections (The Problem, Our Approach, Results, About the Author, Related Articles, Comments); h3 for Leave a Comment (subsection of Comments) and for related article card titles (subsection of Related Articles). No skipped levels, no multiple h1s."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "<main> correctly wraps the article, related articles, and comments section while the site header and footer remain outside it. All nav elements are aria-labelled, all sections have aria-labelledby, the pull quote uses <aside>, and two appropriate skip links (to main content and to comments) appear as the first focusable elements."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "All three inputs (text, email, textarea) have explicit <label> elements. Appropriate type attributes (type=email) and autocomplete attributes (name, email) are present. The email hint is linked via aria-describedby. Required fields carry both the required attribute and a visible asterisk indicator. <button type=submit> used correctly."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "All content is fully realistic: a detailed narrative article about a real technology migration, a working DataLoader code sample, specific metrics (4.3 to 1.1 requests, 62% payload reduction), realistic commenter names and substantive comments, and plausible related article titles and authors. No lorem ipsum or placeholder text anywhere."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Nav items use <ul> within <nav>, related article cards are wrapped in <ul> (unordered collection), and comments are wrapped in <ol> (chronologically ordered). Footer nav also uses <ul>. List types are correctly matched to content semantics."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "The article uses the <article> element",
+    "<main> wraps the article, related articles, and comments — site header and footer are outside it",
+    "Skip navigation links are the first focusable elements ('Skip to main content' and 'Skip to comments')",
+    "Article date uses <time> with a datetime attribute (datetime='2025-11-12')",
+    "Article sections use h2 headings within the article",
+    "Pull quote uses <aside> (not <blockquote>)",
+    "Code block uses <pre><code>",
+    "Author bio uses <footer> within the <article>",
+    "Related articles section uses an h2 heading and article cards in a <ul>",
+    "Each related article card uses <article>",
+    "Comments are each an <article> (self-contained, in an <ol>)",
+    "Comment form uses proper <label> elements for all fields",
+    "Comment author names use <strong>, dates use <time>",
+    "<address> used correctly for author contact links only",
+    "Heading hierarchy is consistent: h1 for article title, h2 for sections, related articles, and comments headings",
+    "No heading levels are skipped"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "<dl> used for article metadata (author, published date, topics) — a well-chosen key-value structure",
+    "Comments in <ol> rather than <ul> reflects their chronological ordering — a thoughtful choice",
+    "tabindex=-1 on <main> correctly supports programmatic focus from the skip link",
+    "aria-labelledby on <article> elements for comments references <strong> author names — valid and useful for screen reader navigation"
+  ]
+}

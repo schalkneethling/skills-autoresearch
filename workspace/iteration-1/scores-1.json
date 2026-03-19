@@ -1,0 +1,53 @@
+{
+  "eval_id": 2,
+  "eval_name": "faq-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: <details>/<summary> for expandable questions, <nav><ol> for breadcrumb, <search> for the filter, <label> for the input, <a href='tel:...'> for the phone number. No <dl> misuse for FAQ items and no inappropriate <address> usage."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used only where necessary: aria-label on <nav> and <search> landmarks (required to distinguish them), aria-labelledby on <section> elements, aria-current='page' on the breadcrumb current item, tabindex='-1' on <main> for skip-link targeting. No redundant ARIA anywhere."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Exactly one <h1> ('Frequently Asked Questions'), all three FAQ categories and 'Still need help?' correctly use <h2>, no levels skipped. Heading levels reflect document structure, not visual size."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Both skip links ('Skip to main content' and 'Skip to search') appear as the first focusable elements, appropriate for this page's complexity. <header>, <main>, <nav aria-label='Breadcrumb'>, <search>, and <section aria-labelledby> are all used correctly. <main> wraps only page-unique content; <header> is outside it."
+    },
+    "form_semantics": {
+      "score": 3,
+      "justification": "The search input has a visible <label> associated via 'for'/'id', uses type='search', and has a helpful placeholder that supplements (not replaces) the label. No issues for a single-field filter form."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Breadcrumb correctly uses <ol> (order matters for position/hierarchy). No other list content on the page where counts would be relevant to users."
+    }
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Breadcrumb uses <nav> with aria-label='Breadcrumb'",
+    "<main> wraps only the FAQ content — <header> is outside it",
+    "Both 'Skip to main content' and 'Skip to search' skip links are the first focusable elements",
+    "Breadcrumb items are in an <ol>",
+    "FAQ categories use <h2> headings",
+    "Individual questions use <details>/<summary> for progressive disclosure",
+    "Questions are NOT marked up as <dl>",
+    "The expandable pattern uses native <details>/<summary>, not custom ARIA disclosure",
+    "Search/filter input has a visible <label>",
+    "'Still need help?' uses an <h2>",
+    "Contact link is an <a> element, phone number is an <a href='tel:+18005551234'>",
+    "The page has a single <h1>",
+    "No heading levels are skipped",
+    "No <address> misused for support contact info (correctly omitted)"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "Good use of the <search> landmark element for the filter, correctly labelled with aria-label to distinguish it as a landmark",
+    "aria-current='page' on the final breadcrumb item is a nice accessibility touch not explicitly required by the prompt",
+    "tabindex='-1' on <main> ensures the skip link target receives focus correctly in all browsers"
+  ]
+}

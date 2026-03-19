@@ -1,0 +1,197 @@
+{
+  "skill_name": "semantic-html",
+  "target_score": 2.7,
+  "max_iterations": 5,
+  "scoring_dimensions": [
+    "element_choice",
+    "aria_discipline",
+    "heading_hierarchy",
+    "landmark_structure",
+    "form_semantics",
+    "content_realism",
+    "list_semantics",
+    "table_semantics"
+  ],
+  "evals": [
+    {
+      "id": 1,
+      "name": "product-listing-page",
+      "prompt": "Create the HTML for a product listing page. The page has a site header with logo and main navigation, a search bar, a sidebar with filter options (price range checkboxes, category checkboxes, an 'in stock only' toggle), and a main content area showing 6 product cards. Each card has an image, product name, price, a short description, and an 'Add to cart' button. There's also a footer with contact info and secondary nav links. Use realistic product names and prices — not 'Product 1'. The page title is 'Running Shoes — SportGear'.",
+      "focus_dimensions": ["element_choice", "landmark_structure", "heading_hierarchy", "list_semantics", "aria_discipline"],
+      "key_expectations": [
+        "Uses <header>, <nav>, <main>, <aside>, <footer> landmarks appropriately",
+        "<main> contains only the primary page content — site header, footer, and primary nav are outside it",
+        "Skip navigation links are the first focusable elements — at minimum 'Skip to content', with 'Skip to search' also appropriate given the search bar",
+        "Navigation uses <nav> with a label that does NOT include the word 'navigation'",
+        "Search uses the <search> element",
+        "Filter sidebar uses <form> with <fieldset>/<legend> for each filter group",
+        "Product cards use <article> (they are self-contained)",
+        "Product cards are in a <ul> (unordered — the count helps the user, but sequence is not meaningful)",
+        "Heading hierarchy flows logically: h1 for page, h2 for sections, h3 for product names",
+        "Product card heading level is not hardcoded to h3 — ideally configurable or documented",
+        "Buttons are <button> elements, not <div> or <a> with click handlers",
+        "'Add to cart' buttons have accessible names that distinguish which product",
+        "Price is not marked up as a heading",
+        "No ARIA attributes used where native HTML provides the same semantics",
+        "Filter checkboxes use proper <label> elements, not placeholders",
+        "The 'in stock only' toggle uses a native checkbox or switch pattern, not a custom div"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "faq-page",
+      "prompt": "Create the HTML for a FAQ page for a SaaS product called 'FlowBoard'. The page should have: a page header with breadcrumb navigation (Home > Support > FAQ), a search/filter input to narrow down questions, 3 FAQ categories ('Getting Started', 'Billing & Plans', 'Integrations') each with 3-4 questions, and a 'Still need help?' section at the bottom with a link to contact support and a phone number. Questions should be expandable. Use realistic questions and short but helpful answers.",
+      "focus_dimensions": ["element_choice", "heading_hierarchy", "landmark_structure", "aria_discipline"],
+      "key_expectations": [
+        "Breadcrumb uses <nav> with an aria-label like 'Breadcrumb'",
+        "<main> wraps only the FAQ content — site header and footer are outside it",
+        "Skip navigation links are the first focusable elements — 'Skip to content' at minimum, 'Skip to search' also appropriate given the search/filter input",
+        "Breadcrumb items are in an <ol> (ordered — position matters)",
+        "FAQ categories use <h2> headings",
+        "Individual questions use <details>/<summary> for progressive disclosure",
+        "Questions are NOT marked up as <dl> (these are not term-definition pairs)",
+        "The expandable pattern uses native <details>/<summary>, not custom ARIA disclosure",
+        "Search/filter input has a visible or visually hidden <label>",
+        "'Still need help?' uses an appropriate heading level (h2)",
+        "Contact link is an <a> element, phone number is an <a href='tel:...'> ",
+        "The page has a single <h1>",
+        "No heading levels are skipped",
+        "Contact info in footer uses <address> only if it's about the site owner/author"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "data-table-with-controls",
+      "prompt": "Create an HTML page showing employee data in a table. The table has columns: Name, Department, Role, Start Date, and Status (Active/On Leave/Departed). Above the table there's a toolbar with: a search input, a dropdown to filter by department, a dropdown to filter by status, and a 'Download CSV' button. The table should have 8 rows of realistic employee data. Below the table, show 'Showing 8 of 42 employees' and pagination controls (Previous, page numbers 1-5, Next). Include a caption that describes the table.",
+      "focus_dimensions": ["table_semantics", "element_choice", "form_semantics", "aria_discipline"],
+      "key_expectations": [
+        "Uses <table> with <caption>, <thead>, <tbody>",
+        "Header cells use <th scope='col'>",
+        "Status column content is not conveyed by colour alone",
+        "Search input has a <label>",
+        "Department and status filters use native <select> elements",
+        "Filter controls are grouped in a <form> or <search> element",
+        "'Download CSV' is a <button> (or <a> with download attribute if linking to a file)",
+        "Pagination uses <nav> with a label",
+        "Pagination links/buttons clearly indicate current page (aria-current='page')",
+        "Previous/Next are <button> or <a> elements, not divs",
+        "'Showing 8 of 42 employees' is a <p> or status text, not a heading",
+        "Table is not wrapped in a role='grid' unless genuinely interactive",
+        "No table semantics are stripped by CSS display properties (or if they are, roles restore them)"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "multi-step-form",
+      "prompt": "Create the HTML for a multi-step checkout form for an online store. Step 1: Shipping information (full name, email, phone, street address, city, postal code, country dropdown). Step 2: Payment method (credit card with card number, expiry, CVV — just the fields, no actual processing). Step 3: Order review showing a summary of 2 items with quantities and a total. Each step should be clearly delineated. Include a progress indicator showing which step the user is on. Include proper error message markup for when a field is invalid, demonstrated on the email field.",
+      "focus_dimensions": ["form_semantics", "heading_hierarchy", "element_choice", "aria_discipline", "content_realism"],
+      "key_expectations": [
+        "Each step uses <fieldset> with <legend> for grouping",
+        "All inputs have associated <label> elements (not placeholder-only)",
+        "Email error uses aria-invalid='true' and aria-describedby pointing to error message",
+        "Error message text is actionable (states problem AND guides fix)",
+        "Country uses native <select>",
+        "Progress indicator conveys current step accessibly (not just visually)",
+        "Card number, expiry, CVV fields have appropriate autocomplete attributes",
+        "Phone field has type='tel'",
+        "Email field has type='email'",
+        "Order summary in step 3 could use a <table> or <dl> — either is acceptable",
+        "Submit/continue buttons are <button> elements with clear labels",
+        "No placeholder text used as a substitute for labels",
+        "Steps have heading structure that fits the page (not all h1 or all h2)",
+        "Required fields are indicated (not just with colour)"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "blog-article-page",
+      "prompt": "Create the HTML for a blog article page. The article is titled 'Why We Migrated From REST to GraphQL' by 'Priya Sharma', published on '2025-11-12'. The page has: site header with logo and nav, the article itself with an intro paragraph, 3 sections with h2 headings ('The Problem', 'Our Approach', 'Results'), a code block in the second section, an aside with a pull quote from the article, author bio at the bottom of the article, a 'Related Articles' section showing 3 article cards, a comments section with 2 existing comments (each with author name, date, and comment text), and a 'Leave a comment' form (name, email, comment textarea). Use realistic content — don't use lorem ipsum.",
+      "focus_dimensions": ["element_choice", "landmark_structure", "heading_hierarchy", "aria_discipline", "content_realism"],
+      "key_expectations": [
+        "The article uses the <article> element",
+        "<main> wraps the article, related articles, and comments — site header and footer are outside it",
+        "Skip navigation links are the first focusable elements — 'Skip to content' is sufficient for this page layout",
+        "Article date uses <time> with a datetime attribute",
+        "Article sections use headings (h2) within the article",
+        "Pull quote uses <aside> (tangentially related content)",
+        "The pull quote does NOT use <blockquote> unless it's genuinely a quote from another source",
+        "Code block uses <pre><code>",
+        "Author bio could use <footer> within the <article> (contact info about the author)",
+        "Related articles section uses a heading (h2) and article cards in a list",
+        "Each related article card uses <article>",
+        "Comments are each an <article> (self-contained, could be syndicated)",
+        "Comment form uses <fieldset>/<legend> or at minimum proper <label> elements",
+        "Comment author name and date use appropriate elements (<strong>/<b> or <span> for name, <time> for date)",
+        "The <address> element is used correctly if present (only for contact info about the author/owner)",
+        "Heading hierarchy is consistent: h1 for article title, h2 for sections, h2 for 'Related Articles', h2 for 'Comments'",
+        "No heading levels are skipped"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "dashboard-sidebar-nav",
+      "prompt": "Create the HTML for a dashboard layout. It has: a fixed sidebar with the app logo, a primary navigation (Dashboard, Projects, Team, Reports, Settings — where 'Projects' is the current page), a secondary navigation section at the bottom of the sidebar ('Help & Support', 'What's New', user avatar with name 'Alex Chen' and a dropdown menu with Profile, Preferences, Sign Out). The main content area has a page heading 'Projects', a description paragraph, and 3 project cards each with a project name, status badge (Active/Paused/Complete), last updated date, and member count. Don't write any CSS — just the HTML structure.",
+      "focus_dimensions": ["landmark_structure", "heading_hierarchy", "element_choice", "aria_discipline", "list_semantics"],
+      "key_expectations": [
+        "Sidebar navigation uses <nav> with a descriptive label",
+        "<main> wraps only the projects content area — the sidebar navigation is outside it",
+        "Skip navigation links are the first focusable elements — 'Skip to content' at minimum, with 'Skip to navigation' also appropriate since the sidebar nav is not at the top of the DOM",
+        "If there are two <nav> elements, each has a distinct label",
+        "Nav items are in a <ul> list",
+        "Current page ('Projects') is indicated with aria-current='page'",
+        "User dropdown menu uses a <button> with the Popover API — not <details>/<summary> (which is for content disclosure, not action menus) and not a custom ARIA-heavy solution",
+        "Dropdown menu items: 'Profile' and 'Preferences' are links, 'Sign Out' is a button or form",
+        "Main content area uses <main>",
+        "Project cards are in a list",
+        "Status badges are not conveyed by colour alone",
+        "Dates use <time> with datetime attribute",
+        "'Projects' page heading is <h1>",
+        "Project card names are appropriate heading level (h2)",
+        "The secondary nav section has a label distinguishing it from the primary nav",
+        "Logo is either a link to home or an appropriate element, with alt text if an image"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "pricing-comparison-table",
+      "prompt": "Create the HTML for a pricing page with 3 plan tiers: 'Starter' ($9/mo), 'Professional' ($29/mo), and 'Enterprise' (custom pricing). Show a comparison table of features across plans. Features: 'Projects' (5 / Unlimited / Unlimited), 'Storage' (10GB / 100GB / Unlimited), 'Team members' (1 / 10 / Unlimited), 'API access' (No / Yes / Yes), 'Priority support' (No / No / Yes), 'Custom integrations' (No / No / Yes). Each plan also has a CTA button ('Start Free Trial' for first two, 'Contact Sales' for Enterprise). The Professional plan should be highlighted as 'Most Popular'. Include a heading and a brief intro paragraph.",
+      "focus_dimensions": ["table_semantics", "element_choice", "heading_hierarchy", "aria_discipline"],
+      "key_expectations": [
+        "Feature comparison uses a <table> (data has meaningful rows AND columns)",
+        "Table has <caption>",
+        "Plan names are <th scope='col'> in the header row",
+        "Feature names are <th scope='row'> in each row",
+        "Yes/No values are not conveyed only by colour or icons — text is present",
+        "'Most Popular' badge is accessible (not just visual)",
+        "CTA buttons are <button> or <a> elements depending on where they lead",
+        "'Contact Sales' is a link if it goes to a contact page, button if it opens a modal",
+        "Plan names above the table (if present as cards) use appropriate heading levels",
+        "Prices are not headings",
+        "The page has one h1",
+        "Table structure uses <thead> and <tbody>",
+        "Boolean features (API access: Yes/No) don't use checkmark icons without text alternatives"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "settings-form-with-grouped-controls",
+      "prompt": "Create the HTML for an account settings page. It has sections for: 'Profile' (display name text input, bio textarea, avatar upload), 'Notifications' (email notifications toggle, push notifications toggle, notification frequency radio buttons: Instant/Daily Digest/Weekly Digest), 'Privacy' (profile visibility radio: Public/Friends Only/Private, checkboxes for 'Show online status' and 'Allow search engines to index my profile'), and a 'Danger Zone' section with a 'Delete Account' button that is visually distinct. Each section should be clearly grouped. Include a 'Save Changes' button at the bottom.",
+      "focus_dimensions": ["form_semantics", "element_choice", "heading_hierarchy", "aria_discipline"],
+      "key_expectations": [
+        "Each settings section uses <fieldset> with <legend>",
+        "All inputs have <label> elements",
+        "Radio button groups are within a <fieldset> with a <legend> describing the group",
+        "Toggle switches use checkbox inputs (not custom div patterns)",
+        "File upload uses <input type='file'> with a label",
+        "Textarea has a label",
+        "'Delete Account' is a <button> — not a link",
+        "'Save Changes' is a <button type='submit'>",
+        "Section headings use consistent heading levels",
+        "Legends may serve as visual headings (no need for both legend AND heading for same text)",
+        "No placeholder-only inputs",
+        "Radio buttons have matching name attributes within their group",
+        "The form as a whole is a <form> element"
+      ]
+    }
+  ]
+}

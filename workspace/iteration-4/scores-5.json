@@ -1,0 +1,58 @@
+{
+  "eval_id": 6,
+  "eval_name": "dashboard-sidebar-nav",
+  "scores": {
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Both skip links present at the top ('Skip to main content' and 'Skip to navigation'), appropriate for a sidebar layout where the nav is not at the top of the DOM. Two <nav> elements each carry distinct aria-label values ('Primary', 'Support'). <main> correctly wraps only the projects content and is outside the sidebar nav. No missing landmarks."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> 'Projects', followed by <h2> 'All projects' as a section heading, then <h3> for each project card name — a correct and logical hierarchy with no skipped levels. Adding the intermediate <h2> section label is a superior approach to jumping straight to card headings."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "Button with popovertarget/popover API used for the user dropdown (not <details>/<summary>). <time> elements carry datetime attributes on all three dates. <article> used for self-contained project cards. <dl>/<dt>/<dd> used for card metadata key-value pairs. All interactive elements are native <button> or <a>."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used only where native HTML cannot provide the semantics: aria-label on both <nav> elements, aria-current='page' on the active nav link, aria-labelledby on the <section> and each <article>. tabindex='-1' on <main> is correct for skip-link targeting. No redundant role attributes anywhere; the visually-hidden badge text adds status label context without duplicating ARIA roles."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Primary nav items are in a <ul>, secondary support nav items are in a <ul>, user dropdown items are in a <ul>, and the three project cards are wrapped in a <ul> — all collections where item count is meaningful to the user."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Realistic project names (Nebula Design System, Horizon Mobile App, Atlas Data Pipeline), varied member counts (8, 5, 12), and plausible recent dates. No placeholder text."
+    },
+    "form_semantics": null,
+    "table_semantics": null
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Sidebar navigation uses <nav> with aria-label='Primary'",
+    "<main> wraps only the projects content area; sidebar nav is outside it",
+    "Skip links ('Skip to main content' and 'Skip to navigation') are the first focusable elements",
+    "Both <nav> elements have distinct aria-label values",
+    "Nav items are in <ul> lists",
+    "Current page 'Projects' marked with aria-current='page'",
+    "User dropdown uses a <button> with the Popover API (popovertarget/popover attributes)",
+    "'Profile' and 'Preferences' are <a> links; 'Sign Out' is a <button>",
+    "<main> used for the projects content area",
+    "Project cards are in a <ul> list",
+    "Status badges use visible text labels not colour alone",
+    "Dates use <time> with datetime attributes",
+    "'Projects' page heading is <h1>",
+    "Project card names use <h3>, which is appropriate given the intermediate <h2> section heading",
+    "Secondary nav section has aria-label='Support' distinguishing it from primary",
+    "Logo is a link to '/' with aria-label and an img (alt='' is acceptable since the link label covers it)"
+  ],
+  "expectations_missed": [
+    "Key expectation listed card names as <h2>, but the output uses <h3> under an <h2> 'All projects' section heading — the h3 is technically more correct given the hierarchy, so this is not a real miss"
+  ],
+  "additional_observations": [
+    "Nesting <nav aria-label='Support'> inside <nav aria-label='Primary'> is valid HTML but unconventional; a sibling structure or wrapping the sidebar in <aside> would be a common alternative",
+    "The visually-hidden '(active)' span inside each badge is mildly redundant since the visible badge text already conveys the status, but it is harmless"
+  ]
+}

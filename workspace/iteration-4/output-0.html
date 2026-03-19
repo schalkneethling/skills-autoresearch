@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Running Shoes — SportGear</title>
+    <style>
+      /* Skip link */
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+        background: #000;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        z-index: 100;
+        text-decoration: none;
+      }
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      /* Visually hidden utility */
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* Reset / base */
+      *, *::before, *::after { box-sizing: border-box; }
+      body { margin: 0; font-family: system-ui, sans-serif; color: #1a1a1a; background: #f8f8f8; }
+      a { color: inherit; }
+      img { display: block; max-width: 100%; }
+
+      /* Site header */
+      .site-header {
+        background: #0f2a4a;
+        color: #fff;
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        height: 64px;
+      }
+      .site-logo {
+        font-size: 1.4rem;
+        font-weight: 700;
+        text-decoration: none;
+        color: #fff;
+        white-space: nowrap;
+      }
+      .main-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 1.5rem;
+      }
+      .main-nav a {
+        color: #d0e4f7;
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+      .main-nav a:hover { color: #fff; text-decoration: underline; }
+
+      /* Search bar */
+      .search-bar-wrapper {
+        background: #e9f0f8;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #c8d8e8;
+      }
+      .search-bar-wrapper form {
+        display: flex;
+        gap: 0.5rem;
+        max-width: 680px;
+      }
+      .search-bar-wrapper label {
+        font-weight: 600;
+        align-self: center;
+        white-space: nowrap;
+      }
+      .search-bar-wrapper input[type="search"] {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #aac0d6;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+      .search-bar-wrapper button {
+        padding: 0.5rem 1.25rem;
+        background: #0f2a4a;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      /* Page layout */
+      .page-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        padding: 0 1.5rem;
+        align-items: start;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        background: #fff;
+        border: 1px solid #dde6ef;
+        border-radius: 6px;
+        padding: 1.25rem;
+      }
+      .sidebar h2 {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #555;
+        margin: 0 0 1rem;
+      }
+      .sidebar fieldset {
+        border: none;
+        margin: 0 0 1.25rem;
+        padding: 0;
+      }
+      .sidebar fieldset:last-child { margin-bottom: 0; }
+      .sidebar legend {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        padding: 0;
+      }
+      .sidebar .filter-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.35rem;
+        font-size: 0.9rem;
+      }
+      .sidebar .filter-divider {
+        border: none;
+        border-top: 1px solid #e0e8f0;
+        margin: 1rem 0;
+      }
+      /* Toggle (in-stock) */
+      .toggle-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      .toggle-label input[type="checkbox"] {
+        width: 2.5rem;
+        height: 1.25rem;
+        cursor: pointer;
+        accent-color: #0f2a4a;
+      }
+
+      /* Main content */
+      .main-content { min-width: 0; }
+      .results-heading {
+        font-size: 0.95rem;
+        color: #555;
+        margin: 0 0 1rem;
+      }
+
+      /* Product grid */
+      .product-grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.25rem;
+      }
+
+      /* Product card */
+      .product-card {
+        background: #fff;
+        border: 1px solid #dde6ef;
+        border-radius: 6px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .product-card__image {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        background: #c8d8e8;
+      }
+      .product-card__body {
+        padding: 1rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      /* h3 assumes this card is inside a section with an h2 heading.
+         If reusing this markup at the top level, change to h2. */
+      .product-card__title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+        line-height: 1.3;
+      }
+      .product-card__price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #0f2a4a;
+        margin: 0;
+      }
+      .product-card__desc {
+        font-size: 0.85rem;
+        color: #555;
+        margin: 0;
+        flex: 1;
+        line-height: 1.5;
+      }
+      .product-card__cta {
+        margin-top: 0.75rem;
+        padding: 0.55rem 1rem;
+        background: #0f2a4a;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-align: center;
+        width: 100%;
+      }
+      .product-card__cta:hover { background: #17407a; }
+
+      /* Footer */
+      .site-footer {
+        background: #0f2a4a;
+        color: #d0e4f7;
+        margin-top: 3rem;
+        padding: 2rem 1.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        max-width: 100%;
+      }
+      .site-footer h2 {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #fff;
+        margin: 0 0 0.75rem;
+      }
+      .site-footer address {
+        font-style: normal;
+        font-size: 0.9rem;
+        line-height: 1.8;
+      }
+      .site-footer address a { color: #8bbde0; text-decoration: none; }
+      .site-footer address a:hover { text-decoration: underline; }
+      .footer-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .footer-nav a {
+        font-size: 0.9rem;
+        color: #8bbde0;
+        text-decoration: none;
+      }
+      .footer-nav a:hover { color: #fff; text-decoration: underline; }
+      .site-footer__copy {
+        grid-column: 1 / -1;
+        font-size: 0.8rem;
+        color: #7a9ab8;
+        margin-top: 0.5rem;
+        border-top: 1px solid #1e3d5e;
+        padding-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#product-search" class="skip-link">Skip to search</a>
+    <a href="#filters" class="skip-link">Skip to filters</a>
+
+    <header class="site-header">
+      <a href="/" class="site-logo" aria-label="SportGear — home">SportGear</a>
+      <nav class="main-nav" aria-label="Primary">
+        <ul>
+          <li><a href="/men">Men</a></li>
+          <li><a href="/women">Women</a></li>
+          <li><a href="/running">Running</a></li>
+          <li><a href="/training">Training</a></li>
+          <li><a href="/sale">Sale</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <search id="product-search" aria-label="Search products">
+      <div class="search-bar-wrapper">
+        <form action="/search" method="get">
+          <label for="site-search">Search</label>
+          <input
+            type="search"
+            id="site-search"
+            name="q"
+            value="running shoes"
+            placeholder="e.g. trail running shoes, size 10"
+          />
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    </search>
+
+    <div class="page-layout">
+      <aside id="filters" aria-label="Product filters">
+        <div class="sidebar">
+          <h2>Filters</h2>
+
+          <fieldset>
+            <legend>Price range</legend>
+            <div class="filter-option">
+              <input type="checkbox" id="price-under-80" name="price" value="under-80" />
+              <label for="price-under-80">Under $80</label>
+            </div>
+            <div class="filter-option">
+              <input type="checkbox" id="price-80-120" name="price" value="80-120" checked />
+              <label for="price-80-120">$80 – $120</label>
+            </div>
+            <div class="filter-option">
+              <input type="checkbox" id="price-120-160" name="price" value="120-160" />
+              <label for="price-120-160">$120 – $160</label>
+            </div>
+            <div class="filter-option">
+              <input type="checkbox" id="price-over-160" name="price" value="over-160" />
+              <label for="price-over-160">Over $160</label>
+            </div>
+          </fieldset>
+
+          <hr class="filter-divider" />
+
+          <fieldset>
+            <legend>Category</legend>
+            <div class="filter-option">
+              <input type="checkbox" id="cat-road" name="category" value="road" checked />
+              <label for="cat-road">Road running</label>
+            </div>
+            <div class="filter-option">
+              <input type="checkbox" id="cat-trail" name="category" value="trail" />
+              <label for="cat-trail">Trail running</label>
+            </div>
+            <div class="filter-option">
+              <input type="checkbox" id="cat-track" name="category" value="track" />
+              <label for="cat-track">Track &amp; race day</label>
+            </div>
+            <div class="filter-option">
+              <input type="checkbox" id="cat-crosstraining" name="category" value="crosstraining" />
+              <label for="cat-crosstraining">Cross-training</label>
+            </div>
+          </fieldset>
+
+          <hr class="filter-divider" />
+
+          <fieldset>
+            <legend>Availability</legend>
+            <label class="toggle-label" for="in-stock-only">
+              <input type="checkbox" id="in-stock-only" name="availability" value="in-stock" />
+              In stock only
+            </label>
+          </fieldset>
+        </div>
+      </aside>
+
+      <main id="main-content" tabindex="-1" class="main-content">
+        <h1>Running Shoes</h1>
+
+        <section aria-labelledby="results-heading">
+          <h2 id="results-heading" class="results-heading">Showing 6 of 48 results</h2>
+
+          <ul class="product-grid">
+            <li>
+              <!-- h3 assumes this card is inside a section with an h2 heading. -->
+              <article class="product-card">
+                <img
+                  class="product-card__image"
+                  src="https://placehold.co/400x300?text=Nike+Pegasus+41"
+                  alt="Nike Air Zoom Pegasus 41 in royal blue and white"
+                  width="400"
+                  height="300"
+                />
+                <div class="product-card__body">
+                  <h3 class="product-card__title" id="product-pegasus41">Nike Air Zoom Pegasus 41</h3>
+                  <p class="product-card__price">$139.99</p>
+                  <p class="product-card__desc">A versatile daily trainer with a responsive Zoom Air unit and breathable mesh upper. Suitable for easy runs to tempo efforts.</p>
+                  <button
+                    class="product-card__cta"
+                    id="btn-pegasus41"
+                    aria-labelledby="btn-pegasus41 product-pegasus41"
+                  >Add to cart</button>
+                </div>
+              </article>
+            </li>
+
+            <li>
+              <article class="product-card">
+                <img
+                  class="product-card__image"
+                  src="https://placehold.co/400x300?text=Adidas+Ultraboost+24"
+                  alt="Adidas Ultraboost 24 in core black with Boost midsole"
+                  width="400"
+                  height="300"
+                />
+                <div class="product-card__body">
+                  <h3 class="product-card__title" id="product-ultraboost24">Adidas Ultraboost 24</h3>
+                  <p class="product-card__price">$189.95</p>
+                  <p class="product-card__desc">Full-length Boost cushioning delivers exceptional energy return, while a Primeknit+ upper wraps your foot in adaptive comfort.</p>
+                  <button
+                    class="product-card__cta"
+                    id="btn-ultraboost24"
+                    aria-labelledby="btn-ultraboost24 product-ultraboost24"
+                  >Add to cart</button>
+                </div>
+              </article>
+            </li>
+
+            <li>
+              <article class="product-card">
+                <img
+                  class="product-card__image"
+                  src="https://placehold.co/400x300?text=Brooks+Ghost+16"
+                  alt="Brooks Ghost 16 in pearl white and pacific blue"
+                  width="400"
+                  height="300"
+                />
+                <div class="product-card__body">
+                  <h3 class="product-card__title" id="product-ghost16">Brooks Ghost 16</h3>
+                  <p class="product-card__price">$129.99</p>
+                  <p class="product-card__desc">Smooth heel-to-toe transitions and plush DNA Loft v3 cushioning make the Ghost a reliable choice for everyday mileage.</p>
+                  <button
+                    class="product-card__cta"
+                    id="btn-ghost16"
+                    aria-labelledby="btn-ghost16 product-ghost16"
+                  >Add to cart</button>
+                </div>
+              </article>
+            </li>
+
+            <li>
+              <article class="product-card">
+                <img
+                  class="product-card__image"
+                  src="https://placehold.co/400x300?text=ASICS+Gel-Kayano+31"
+                  alt="ASICS Gel-Kayano 31 in sunrise red and illuminate yellow"
+                  width="400"
+                  height="300"
+                />
+                <div class="product-card__body">
+                  <h3 class="product-card__title" id="product-kayano31">ASICS Gel-Kayano 31</h3>
+                  <p class="product-card__price">$159.95</p>
+                  <p class="product-card__desc">A stability running shoe engineered for overpronators. Dual-density midsole and rearfoot GEL technology absorb impact on long runs.</p>
+                  <button
+                    class="product-card__cta"
+                    id="btn-kayano31"
+                    aria-labelledby="btn-kayano31 product-kayano31"
+                  >Add to cart</button>
+                </div>
+              </article>
+            </li>
+
+            <li>
+              <article class="product-card">
+                <img
+                  class="product-card__image"
+                  src="https://placehold.co/400x300?text=New+Balance+Fresh+Foam+X+1080v13"
+                  alt="New Balance Fresh Foam X 1080v13 in sea salt and silver"
+                  width="400"
+                  height="300"
+                />
+                <div class="product-card__body">
+                  <h3 class="product-card__title" id="product-1080v13">New Balance Fresh Foam X 1080v13</h3>
+                  <p class="product-card__price">$164.99</p>
+                  <p class="product-card__desc">Maximalist cushioning with a plush Fresh Foam X midsole. Ideal for high-mileage weeks where comfort is the priority.</p>
+                  <button
+                    class="product-card__cta"
+                    id="btn-1080v13"
+                    aria-labelledby="btn-1080v13 product-1080v13"
+                  >Add to cart</button>
+                </div>
+              </article>
+            </li>
+
+            <li>
+              <article class="product-card">
+                <img
+                  class="product-card__image"
+                  src="https://placehold.co/400x300?text=Hoka+Clifton+9"
+                  alt="Hoka Clifton 9 in stone blue and ice water"
+                  width="400"
+                  height="300"
+                />
+                <div class="product-card__body">
+                  <h3 class="product-card__title" id="product-clifton9">Hoka Clifton 9</h3>
+                  <p class="product-card__price">$144.95</p>
+                  <p class="product-card__desc">Lightweight and ultra-cushioned, the Clifton 9 features a wider toe box and early-stage meta-rocker geometry for effortless forward motion.</p>
+                  <button
+                    class="product-card__cta"
+                    id="btn-clifton9"
+                    aria-labelledby="btn-clifton9 product-clifton9"
+                  >Add to cart</button>
+                </div>
+              </article>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <section aria-labelledby="footer-contact-heading">
+        <h2 id="footer-contact-heading">Contact us</h2>
+        <address>
+          SportGear Ltd.<br />
+          14 Harborview Industrial Park<br />
+          Portland, OR 97201<br />
+          <a href="tel:+15035550198">+1 (503) 555-0198</a><br />
+          <a href="mailto:support@sportgear.example.com">support@sportgear.example.com</a>
+        </address>
+      </section>
+
+      <nav class="footer-nav" aria-label="Secondary">
+        <h2>Quick links</h2>
+        <ul>
+          <li><a href="/about">About SportGear</a></li>
+          <li><a href="/returns">Returns &amp; exchanges</a></li>
+          <li><a href="/size-guide">Size guide</a></li>
+          <li><a href="/store-finder">Find a store</a></li>
+          <li><a href="/careers">Careers</a></li>
+          <li><a href="/privacy">Privacy policy</a></li>
+          <li><a href="/terms">Terms of service</a></li>
+        </ul>
+      </nav>
+
+      <p class="site-footer__copy">
+        &copy; 2026 SportGear Ltd. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>

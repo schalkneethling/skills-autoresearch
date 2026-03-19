@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects — Acme Dashboard</title>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#primary-nav" class="skip-link">Skip to navigation</a>
+
+    <div class="layout">
+      <aside aria-label="Sidebar">
+        <div class="sidebar-logo">
+          <a href="/">
+            <img src="/logo.svg" alt="Acme" width="120" height="32" />
+          </a>
+        </div>
+
+        <nav id="primary-nav" aria-label="Primary">
+          <ul>
+            <li>
+              <a href="/dashboard">Dashboard</a>
+            </li>
+            <li>
+              <a href="/projects" aria-current="page">Projects</a>
+            </li>
+            <li>
+              <a href="/team">Team</a>
+            </li>
+            <li>
+              <a href="/reports">Reports</a>
+            </li>
+            <li>
+              <a href="/settings">Settings</a>
+            </li>
+          </ul>
+        </nav>
+
+        <nav aria-label="Support and account" class="sidebar-secondary-nav">
+          <ul>
+            <li>
+              <a href="/help">Help &amp; Support</a>
+            </li>
+            <li>
+              <a href="/whats-new">What's New</a>
+            </li>
+            <li class="user-menu-item">
+              <button popovertarget="user-dropdown" class="user-menu-trigger">
+                <img src="/avatars/alex-chen.jpg" alt="" width="32" height="32" class="user-avatar" />
+                <span>Alex Chen</span>
+              </button>
+              <ul id="user-dropdown" popover>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/preferences">Preferences</a></li>
+                <li>
+                  <form method="post" action="/sign-out">
+                    <button type="submit">Sign Out</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main id="main-content" tabindex="-1">
+        <header>
+          <h1>Projects</h1>
+          <p>Track and manage all active projects across your organisation. Select a project to view its details, team members, and recent activity.</p>
+        </header>
+
+        <section aria-labelledby="projects-list-heading">
+          <h2 id="projects-list-heading">All projects</h2>
+          <ul class="project-cards">
+            <li>
+              <!-- h3 assumes this card is inside a section with an h2 heading. -->
+              <article class="project-card">
+                <header>
+                  <h3>Meridian Platform Redesign</h3>
+                  <span class="status-badge">
+                    <span class="visually-hidden">Status: </span>Active
+                  </span>
+                </header>
+                <dl>
+                  <div>
+                    <dt>Last updated</dt>
+                    <dd><time datetime="2026-03-17">17 March 2026</time></dd>
+                  </div>
+                  <div>
+                    <dt>Members</dt>
+                    <dd>8 members</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
+            <li>
+              <!-- h3 assumes this card is inside a section with an h2 heading. -->
+              <article class="project-card">
+                <header>
+                  <h3>Compass Analytics Integration</h3>
+                  <span class="status-badge">
+                    <span class="visually-hidden">Status: </span>Paused
+                  </span>
+                </header>
+                <dl>
+                  <div>
+                    <dt>Last updated</dt>
+                    <dd><time datetime="2026-02-28">28 February 2026</time></dd>
+                  </div>
+                  <div>
+                    <dt>Members</dt>
+                    <dd>5 members</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
+            <li>
+              <!-- h3 assumes this card is inside a section with an h2 heading. -->
+              <article class="project-card">
+                <header>
+                  <h3>Lighthouse Mobile App v2</h3>
+                  <span class="status-badge">
+                    <span class="visually-hidden">Status: </span>Complete
+                  </span>
+                </header>
+                <dl>
+                  <div>
+                    <dt>Last updated</dt>
+                    <dd><time datetime="2026-01-15">15 January 2026</time></dd>
+                  </div>
+                  <div>
+                    <dt>Members</dt>
+                    <dd>12 members</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

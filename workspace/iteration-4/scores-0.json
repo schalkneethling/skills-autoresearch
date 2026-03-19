@@ -1,0 +1,62 @@
+{
+  "eval_id": 1,
+  "eval_name": "product-listing-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the correct semantic match: <button> for CTAs, <article> for product cards, <address> correctly scoped to contact info, <fieldset>/<legend> for filter groups, <label> for all inputs, <p> for price (not a heading). No div/span used where a semantic element exists."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used sparingly and correctly. The aria-labelledby technique on 'Add to cart' buttons (referencing both the button id and the product heading id) is a valid approach to produce distinguishing accessible names. Nav labels don't duplicate native semantics, and there are no redundant role attributes."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> ('Running Shoes'), logical h2s for sections ('Showing 6 of 48 results', footer sections, sidebar 'Filters'), and h3 for product names. No skipped levels. A CSS comment explicitly documents that h3 assumes placement under an h2 context and instructs to change it for reuse at the top level, addressing the configurability concern."
+    },
+    "landmark_structure": {
+      "score": 2,
+      "justification": "All major landmarks are present and correctly labelled (<header>, <nav aria-label='Primary'>, <search>, <aside>, <main>, <footer>, <nav aria-label='Secondary'>), <main> correctly excludes the site header and footer, and three skip links are provided. However, the filter sidebar is missing a <form> wrapper — a key expectation — which means there is no form landmark for the filter controls despite the fieldsets being well-structured internally."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items are correctly in <ul> within <nav>, the six product cards are wrapped in a <ul> (unordered, as sequence is not meaningful), and footer nav links are in a <ul>. List types are appropriate throughout."
+    },
+    "form_semantics": {
+      "score": 2,
+      "justification": "All filter checkboxes have explicit <label> elements, each filter group is wrapped in <fieldset> with <legend>, and the 'in stock only' toggle uses a native checkbox. The search form is properly structured with a <label> and correct input type. The significant gap is the absence of a <form> element wrapping the filter fieldsets, which is a stated key expectation and also means filters cannot be submitted or reset as a unit."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Six distinct, real product names (Nike Air Zoom Pegasus 41, Adidas Ultraboost 24, Brooks Ghost 16, ASICS Gel-Kayano 31, New Balance Fresh Foam X 1080v13, Hoka Clifton 9) with varied, realistic prices ($129.99–$189.95) and product-specific descriptions. Alt text is descriptive and product-specific."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.71,
+  "expectations_met": [
+    "Uses <header>, <nav>, <main>, <aside>, <footer> landmarks appropriately",
+    "<main> contains only the primary page content — site header, footer, and primary nav are outside it",
+    "Skip navigation links present as first focusable elements: 'Skip to main content', 'Skip to search', 'Skip to filters'",
+    "Navigation uses <nav> with a label that does NOT include the word 'navigation'",
+    "Search uses the <search> element",
+    "Filter sidebar uses <fieldset>/<legend> for each filter group",
+    "Product cards use <article>",
+    "Product cards are in a <ul>",
+    "Heading hierarchy flows logically: h1 for page, h2 for sections, h3 for product names",
+    "Product card heading level assumption is documented via a CSS comment noting reuse caveat",
+    "Buttons are <button> elements",
+    "'Add to cart' buttons have accessible names that distinguish which product (via aria-labelledby referencing the product heading)",
+    "Price is not marked up as a heading — uses <p>",
+    "No ARIA attributes used where native HTML provides the same semantics",
+    "Filter checkboxes use proper <label> elements",
+    "The 'in stock only' toggle uses a native checkbox"
+  ],
+  "expectations_missed": [
+    "Filter sidebar uses <form> — the fieldsets and labels are correct but there is no wrapping <form> element, so the filters are not a form landmark and cannot be submitted or reset natively"
+  ],
+  "additional_observations": [
+    "The aria-labelledby pattern on buttons (referencing both the button's own id and the product heading id) is an excellent technique for producing unambiguous accessible names like 'Add to cart Nike Air Zoom Pegasus 41' without hiding the button's visible text",
+    "tabindex='-1' on <main> is correct practice to allow the skip link to move focus there programmatically",
+    "<address> is correctly scoped to the organisation's contact info within the footer, not misused for arbitrary addresses"
+  ]
+}

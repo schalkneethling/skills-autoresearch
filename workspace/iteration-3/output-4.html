@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why We Migrated From REST to GraphQL — DevInsights</title>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#comments" class="skip-link">Skip to comments</a>
+
+    <header>
+      <a href="/" aria-label="DevInsights home">
+        <img src="/logo.svg" alt="DevInsights" width="160" height="40" />
+      </a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="/articles">Articles</a></li>
+          <li><a href="/tutorials">Tutorials</a></li>
+          <li><a href="/topics">Topics</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <article aria-labelledby="article-title">
+        <header>
+          <h1 id="article-title">Why We Migrated From REST to GraphQL</h1>
+          <dl>
+            <dt>Author</dt>
+            <dd>
+              <a href="/authors/priya-sharma">Priya Sharma</a>
+            </dd>
+            <dt>Published</dt>
+            <dd>
+              <time datetime="2025-11-12">November 12, 2025</time>
+            </dd>
+          </dl>
+        </header>
+
+        <p>
+          After four years of building our platform on a REST API, we made the
+          decision to migrate to GraphQL. It wasn't an overnight choice — it
+          came after months of growing pains, developer frustration, and a
+          mounting list of performance complaints from our mobile clients. Here's
+          an honest account of what drove us to make the switch, how we
+          approached the migration, and what the numbers looked like on the
+          other side.
+        </p>
+
+        <section aria-labelledby="the-problem">
+          <h2 id="the-problem">The Problem</h2>
+          <p>
+            Our REST API had grown organically over the years. What started as a
+            clean, well-documented set of endpoints gradually became a sprawling
+            collection of over 200 routes, many of them overlapping in purpose
+            or returning more data than any single client actually needed.
+          </p>
+          <p>
+            The most painful symptom was over-fetching. Our mobile app's
+            dashboard screen required data from six separate endpoints — user
+            profile, recent activity, notifications, team members, project
+            summaries, and billing status. Six round trips on a 4G connection
+            meant users waited up to three seconds before they saw anything
+            meaningful. We tried batching calls on the server, but it felt like
+            papering over a deeper structural issue.
+          </p>
+          <p>
+            Under-fetching was the other side of the coin. For our web client,
+            displaying a project card meant hitting the projects endpoint, then
+            making follow-up requests for owner details and the latest activity
+            because the original response didn't include them. Our frontend
+            engineers had grown accustomed to writing request waterfalls as a
+            matter of course.
+          </p>
+          <p>
+            Version management made things worse. We were simultaneously
+            maintaining <code>/v1</code>, <code>/v2</code>, and a private
+            <code>/v3-beta</code> that only two internal teams were using. Every
+            schema change risked breaking one of the three versions, and
+            deprecating old endpoints was a months-long negotiation.
+          </p>
+        </section>
+
+        <aside aria-label="Pull quote">
+          <p>
+            "Six round trips on a 4G connection meant users waited up to three
+            seconds before they saw anything meaningful."
+          </p>
+        </aside>
+
+        <section aria-labelledby="our-approach">
+          <h2 id="our-approach">Our Approach</h2>
+          <p>
+            We didn't do a big-bang rewrite. Instead, we adopted a strangler fig
+            strategy — introducing GraphQL alongside our existing REST API and
+            gradually moving traffic over as each domain area was ready.
+          </p>
+          <p>
+            We chose Apollo Server running on Node.js, primarily because our
+            backend team already had strong TypeScript experience and the
+            ecosystem fit well. We started by defining the schema for the user
+            and project domains, which together accounted for roughly 60% of our
+            API traffic.
+          </p>
+          <p>
+            One early decision that paid off was enabling
+            <a href="https://www.apollographql.com/docs/apollo-server/performance/caching/">Apollo's response caching</a>
+            from the start. By annotating fields with cache hints in the schema,
+            we got significant cache hit rates without any client-side changes:
+          </p>
+          <pre><code>type Project @cacheControl(maxAge: 60) {
+  id: ID!
+  name: String!
+  owner: User @cacheControl(maxAge: 300)
+  createdAt: String!
+  updatedAt: String!
+  members: [User!]!
+  recentActivity: [ActivityEvent!]! @cacheControl(maxAge: 10)
+}</code></pre>
+          <p>
+            We ran both APIs in parallel for eight months. During that time, any
+            team shipping a new frontend feature was expected to use the GraphQL
+            endpoint. Existing REST consumers were not forced to migrate
+            immediately, but new work had to go through GraphQL. This gave us a
+            steady, low-pressure migration path rather than a hard cutover.
+          </p>
+        </section>
+
+        <section aria-labelledby="results">
+          <h2 id="results">Results</h2>
+          <p>
+            Twelve months after beginning the migration and six months after
+            shutting down the last REST endpoint, the results have been
+            meaningful and measurable.
+          </p>
+          <p>
+            Dashboard load time on mobile dropped from an average of 2.8 seconds
+            to 0.9 seconds — a 68% reduction. This came almost entirely from
+            collapsing six network requests into one and eliminating the
+            over-fetched fields that were slowing serialisation. Our 95th
+            percentile time-to-interactive improved by a similar margin.
+          </p>
+          <p>
+            Developer satisfaction also shifted noticeably. In our quarterly
+            survey, frontend engineers rated the API experience 4.3 out of 5,
+            up from 2.7 before the migration. The most cited reasons were
+            "I only get the data I ask for" and "the schema tells me everything
+            I need to know — I don't need to read the docs to discover fields."
+          </p>
+          <p>
+            We did hit some rough patches. N+1 query problems were initially
+            worse than with REST — our naive resolver implementation caused a
+            flood of database queries that we hadn't anticipated. We solved this
+            with
+            <a href="https://github.com/graphql/dataloader">DataLoader</a>,
+            but it took two sprints longer than we'd planned. If we were
+            starting again, we'd introduce DataLoader from day one rather than
+            retrofitting it after performance issues surfaced in production.
+          </p>
+          <p>
+            On balance, the migration was worth the effort. The codebase is more
+            maintainable, our mobile clients are faster, and onboarding new
+            frontend engineers takes noticeably less time because the schema
+            serves as living, queryable documentation.
+          </p>
+        </section>
+
+        <footer>
+          <section aria-labelledby="author-bio-heading">
+            <h2 id="author-bio-heading">About the author</h2>
+            <img
+              src="/authors/priya-sharma.jpg"
+              alt="Priya Sharma"
+              width="80"
+              height="80"
+            />
+            <div>
+              <p>
+                <strong>Priya Sharma</strong> is a senior software engineer at
+                Meridian Labs, where she leads the platform infrastructure team.
+                She has been building APIs for over a decade, with a particular
+                interest in developer experience and distributed systems. When
+                she's not arguing about schema design, she volunteers as a
+                mentor for early-career engineers through the Code Forward
+                programme.
+              </p>
+              <address>
+                <a href="/authors/priya-sharma">More articles by Priya</a>
+              </address>
+            </div>
+          </section>
+        </footer>
+      </article>
+
+      <section aria-labelledby="related-articles-heading">
+        <h2 id="related-articles-heading">Related Articles</h2>
+        <ul>
+          <li>
+            <!-- h3 assumes this card is inside a section with an h2 heading. -->
+            <article aria-labelledby="related-1">
+              <h3 id="related-1">
+                <a href="/articles/graphql-schema-design-patterns">
+                  GraphQL Schema Design Patterns That Scale
+                </a>
+              </h3>
+              <p>
+                Practical patterns for structuring GraphQL schemas in large
+                codebases, including federation, type composition, and
+                versioning strategies.
+              </p>
+              <dl>
+                <dt>Author</dt>
+                <dd>Marcus Webb</dd>
+                <dt>Published</dt>
+                <dd><time datetime="2025-10-04">October 4, 2025</time></dd>
+              </dl>
+            </article>
+          </li>
+          <li>
+            <!-- h3 assumes this card is inside a section with an h2 heading. -->
+            <article aria-labelledby="related-2">
+              <h3 id="related-2">
+                <a href="/articles/dataloader-solving-n-plus-one">
+                  Solving the N+1 Problem With DataLoader
+                </a>
+              </h3>
+              <p>
+                A deep dive into how DataLoader batches and caches database
+                calls to prevent query explosions in GraphQL resolvers.
+              </p>
+              <dl>
+                <dt>Author</dt>
+                <dd>Yuki Tanaka</dd>
+                <dt>Published</dt>
+                <dd><time datetime="2025-09-18">September 18, 2025</time></dd>
+              </dl>
+            </article>
+          </li>
+          <li>
+            <!-- h3 assumes this card is inside a section with an h2 heading. -->
+            <article aria-labelledby="related-3">
+              <h3 id="related-3">
+                <a href="/articles/api-versioning-strategies">
+                  API Versioning Strategies: REST, GraphQL, and gRPC Compared
+                </a>
+              </h3>
+              <p>
+                An objective look at how REST, GraphQL, and gRPC each handle
+                API evolution — and which approach fits which team constraints.
+              </p>
+              <dl>
+                <dt>Author</dt>
+                <dd>Aisha Okonkwo</dd>
+                <dt>Published</dt>
+                <dd><time datetime="2025-08-29">August 29, 2025</time></dd>
+              </dl>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section id="comments" aria-labelledby="comments-heading">
+        <h2 id="comments-heading">Comments</h2>
+        <ol>
+          <li>
+            <!-- h3 assumes this comment is inside a section with an h2 heading. -->
+            <article aria-labelledby="comment-author-1">
+              <header>
+                <h3 id="comment-author-1">Daniel Ferreira</h3>
+                <time datetime="2025-11-13">November 13, 2025</time>
+              </header>
+              <p>
+                Great write-up, Priya. We went through almost the exact same
+                journey at our company last year. The DataLoader lesson hit
+                home — we also had to retrofit it after hitting N+1 problems in
+                production and it was painful. One thing I'd add: schema
+                linting with tools like
+                <a href="https://the-guild.dev/graphql/inspector">GraphQL Inspector</a>
+                caught several breaking changes before they reached staging.
+                Highly recommend adding it to your CI pipeline early.
+              </p>
+            </article>
+          </li>
+          <li>
+            <!-- h3 assumes this comment is inside a section with an h2 heading. -->
+            <article aria-labelledby="comment-author-2">
+              <header>
+                <h3 id="comment-author-2">Saoirse Brennan</h3>
+                <time datetime="2025-11-15">November 15, 2025</time>
+              </header>
+              <p>
+                I appreciate the honesty about the rough patches — too many
+                migration post-mortems skip over the hard bits and just present
+                success metrics. Quick question: how did you handle
+                authentication and authorisation at the field level? We're at
+                the evaluation stage right now and that's the piece I'm most
+                uncertain about. Did you implement field-level permissions in
+                the resolvers directly, or did you use a library like
+                <a href="https://the-guild.dev/graphql/shield">GraphQL Shield</a>?
+              </p>
+            </article>
+          </li>
+        </ol>
+
+        <section aria-labelledby="leave-comment-heading">
+          <h2 id="leave-comment-heading">Leave a comment</h2>
+          <form method="post" action="/comments" aria-labelledby="leave-comment-heading">
+            <p>
+              Fields marked <span aria-hidden="true">*</span> are required.
+            </p>
+            <div>
+              <label for="comment-name">
+                Name <span aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text"
+                id="comment-name"
+                name="name"
+                autocomplete="name"
+                required
+              />
+            </div>
+            <div>
+              <label for="comment-email">
+                Email address <span aria-hidden="true">*</span>
+              </label>
+              <p id="comment-email-hint" class="hint">
+                Your email address will not be published.
+              </p>
+              <input
+                type="email"
+                id="comment-email"
+                name="email"
+                autocomplete="email"
+                aria-describedby="comment-email-hint"
+                required
+              />
+            </div>
+            <div>
+              <label for="comment-body">
+                Comment <span aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="comment-body"
+                name="comment"
+                rows="6"
+                required
+              ></textarea>
+            </div>
+            <button type="submit">Post comment</button>
+          </form>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <nav aria-label="Footer">
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Use</a></li>
+          <li><a href="/rss.xml">RSS Feed</a></li>
+        </ul>
+      </nav>
+      <p>
+        <small>&copy; 2025 DevInsights. All rights reserved.</small>
+      </p>
+    </footer>
+  </body>
+</html>

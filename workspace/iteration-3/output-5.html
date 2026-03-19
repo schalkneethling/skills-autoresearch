@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects — Acme App</title>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#primary-nav" class="skip-link">Skip to navigation</a>
+
+    <div class="dashboard-layout">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <header class="sidebar-header">
+          <a href="/" class="app-logo">
+            <img src="/logo.svg" alt="Acme App" width="120" height="32" />
+          </a>
+        </header>
+
+        <nav id="primary-nav" aria-label="Primary">
+          <ul>
+            <li>
+              <a href="/dashboard">Dashboard</a>
+            </li>
+            <li>
+              <a href="/projects" aria-current="page">Projects</a>
+            </li>
+            <li>
+              <a href="/team">Team</a>
+            </li>
+            <li>
+              <a href="/reports">Reports</a>
+            </li>
+            <li>
+              <a href="/settings">Settings</a>
+            </li>
+          </ul>
+        </nav>
+
+        <nav class="sidebar-secondary" aria-label="Support and account">
+          <ul>
+            <li>
+              <a href="/help">Help &amp; Support</a>
+            </li>
+            <li>
+              <a href="/whats-new">What's New</a>
+            </li>
+          </ul>
+
+          <div class="user-menu-wrapper">
+            <button popovertarget="user-dropdown" class="user-menu-trigger">
+              <img src="/avatars/alex-chen.jpg" alt="" class="user-avatar" width="32" height="32" />
+              <span>Alex Chen</span>
+            </button>
+
+            <ul id="user-dropdown" popover>
+              <li><a href="/profile">Profile</a></li>
+              <li><a href="/preferences">Preferences</a></li>
+              <li><button type="button">Sign Out</button></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Main content -->
+      <main id="main-content" tabindex="-1">
+        <h1>Projects</h1>
+        <p>Manage and track all your active projects, review progress, and collaborate with your team.</p>
+
+        <section aria-labelledby="projects-list-heading">
+          <h2 id="projects-list-heading">All projects</h2>
+
+          <ul class="project-cards">
+            <li>
+              <!-- h3 assumes this card is inside a section with an h2 heading. -->
+              <article class="project-card">
+                <h3>Website Redesign</h3>
+                <dl>
+                  <div>
+                    <dt>Status</dt>
+                    <dd>
+                      <span class="badge badge-active">
+                        Active
+                        <span class="visually-hidden">(current status)</span>
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Last updated</dt>
+                    <dd><time datetime="2026-03-15">March 15, 2026</time></dd>
+                  </div>
+                  <div>
+                    <dt>Members</dt>
+                    <dd>8 members</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
+
+            <li>
+              <!-- h3 assumes this card is inside a section with an h2 heading. -->
+              <article class="project-card">
+                <h3>Mobile App v2</h3>
+                <dl>
+                  <div>
+                    <dt>Status</dt>
+                    <dd>
+                      <span class="badge badge-paused">
+                        Paused
+                        <span class="visually-hidden">(current status)</span>
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Last updated</dt>
+                    <dd><time datetime="2026-03-10">March 10, 2026</time></dd>
+                  </div>
+                  <div>
+                    <dt>Members</dt>
+                    <dd>5 members</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
+
+            <li>
+              <!-- h3 assumes this card is inside a section with an h2 heading. -->
+              <article class="project-card">
+                <h3>API Integration</h3>
+                <dl>
+                  <div>
+                    <dt>Status</dt>
+                    <dd>
+                      <span class="badge badge-complete">
+                        Complete
+                        <span class="visually-hidden">(current status)</span>
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Last updated</dt>
+                    <dd><time datetime="2026-02-28">February 28, 2026</time></dd>
+                  </div>
+                  <div>
+                    <dt>Members</dt>
+                    <dd>3 members</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

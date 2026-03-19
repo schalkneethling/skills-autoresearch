@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — ShopName</title>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <p><a href="/">ShopName</a></p>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <h1>Checkout</h1>
+
+    <nav aria-label="Checkout steps">
+      <ol>
+        <li aria-current="step">Step 1: Shipping</li>
+        <li>Step 2: Payment</li>
+        <li>Step 3: Review</li>
+      </ol>
+    </nav>
+
+    <form action="/checkout" method="post">
+      <!-- Step 1: Shipping Information -->
+      <fieldset>
+        <legend>Shipping information <span aria-hidden="true">*</span> required fields</legend>
+
+        <p>
+          <label for="full-name">Full name <span aria-hidden="true">*</span></label>
+          <input type="text" id="full-name" name="full_name" required autocomplete="name">
+        </p>
+
+        <p>
+          <label for="email">Email address <span aria-hidden="true">*</span></label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            autocomplete="email"
+            aria-invalid="true"
+            aria-describedby="email-error"
+          >
+          <span id="email-error" class="error">Enter a valid email address, like name@example.com</span>
+        </p>
+
+        <p>
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel">
+        </p>
+
+        <p>
+          <label for="street-address">Street address <span aria-hidden="true">*</span></label>
+          <input type="text" id="street-address" name="street_address" required autocomplete="street-address">
+        </p>
+
+        <p>
+          <label for="city">City <span aria-hidden="true">*</span></label>
+          <input type="text" id="city" name="city" required autocomplete="address-level2">
+        </p>
+
+        <p>
+          <label for="postal-code">Postal code <span aria-hidden="true">*</span></label>
+          <input type="text" id="postal-code" name="postal_code" required autocomplete="postal-code">
+        </p>
+
+        <p>
+          <label for="country">Country <span aria-hidden="true">*</span></label>
+          <select id="country" name="country" required autocomplete="country">
+            <option value="">Select a country</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="GB">United Kingdom</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="AU">Australia</option>
+            <option value="JP">Japan</option>
+          </select>
+        </p>
+
+        <p>
+          <button type="button">Continue to payment</button>
+        </p>
+      </fieldset>
+
+      <!-- Step 2: Payment Method -->
+      <fieldset>
+        <legend>Payment details</legend>
+
+        <p>
+          <label for="card-number">Card number <span aria-hidden="true">*</span></label>
+          <input type="text" id="card-number" name="card_number" required inputmode="numeric" autocomplete="cc-number">
+        </p>
+
+        <p>
+          <label for="card-expiry">Expiry date <span aria-hidden="true">*</span></label>
+          <input type="text" id="card-expiry" name="card_expiry" required placeholder="MM/YY" autocomplete="cc-exp">
+        </p>
+
+        <p>
+          <label for="card-cvv">CVV <span aria-hidden="true">*</span></label>
+          <input type="text" id="card-cvv" name="card_cvv" required inputmode="numeric" autocomplete="cc-csc">
+        </p>
+
+        <p>
+          <button type="button">Continue to review</button>
+        </p>
+      </fieldset>
+
+      <!-- Step 3: Order Review -->
+      <fieldset>
+        <legend>Order review</legend>
+
+        <h2>Order summary</h2>
+
+        <table>
+          <caption>Items in your order</caption>
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Wireless Bluetooth Headphones</td>
+              <td>1</td>
+              <td>$79.99</td>
+            </tr>
+            <tr>
+              <td>USB-C Charging Cable (2-pack)</td>
+              <td>2</td>
+              <td>$15.98</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row" colspan="2">Total</th>
+              <td>$95.97</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <p>
+          <button type="submit">Place order</button>
+        </p>
+      </fieldset>
+    </form>
+  </main>
+
+  <footer>
+    <p><small>&copy; 2026 ShopName. All rights reserved.</small></p>
+  </footer>
+</body>
+</html>

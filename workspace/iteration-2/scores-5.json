@@ -1,0 +1,56 @@
+{
+  "eval_id": 6,
+  "eval_name": "dashboard-sidebar-nav",
+  "scores": {
+    "landmark_structure": {
+      "score": 3,
+      "justification": "Both skip links present and correctly ordered (skip to content + skip to navigation), <aside> labels the sidebar, both <nav> elements are distinctly labelled ('Primary' / 'Secondary'), <main> wraps only the page-unique content, and <section> uses aria-labelledby. No landmarks are overused."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single <h1> 'Projects', followed by an <h2> 'All projects' section heading, then <h3> for each project card name — a clean, unbroken hierarchy. Although the key expectation mentions h2 for card names, the h3 level is correct given the intermediate section heading and represents stronger document structure."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: <button popovertarget> for the dropdown trigger with native Popover API, <time datetime> for all dates, <dl>/<dt>/<dd> for card key-value metadata, <a> for all navigation links, <img alt='App home'> for the logo, and avatar alt='' (correct since the button's visible text 'Alex Chen' provides the accessible name)."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA used only where native HTML cannot provide semantics: aria-label on both <nav> landmarks (required), aria-current='page' on the active nav link, aria-labelledby on <section> and <article> elements, and tabindex='-1' on <main> to support the skip link. No redundant role attributes anywhere."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Nav items are in <ul> within each <nav>, project cards are in a <ul> (count is meaningful), and card metadata uses <dl>/<dt>/<dd> — an excellent choice for the key-value status/date/members data. All list types are appropriate."
+    },
+    "content_realism": null,
+    "form_semantics": null,
+    "table_semantics": null
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Sidebar navigation uses <nav> with a descriptive label ('Primary')",
+    "<main> wraps only the projects content area — sidebar is outside it",
+    "Both 'Skip to main content' and 'Skip to navigation' links are the first focusable elements",
+    "Both <nav> elements have distinct aria-labels ('Primary' and 'Secondary')",
+    "Nav items are in a <ul> list",
+    "Current page 'Projects' indicated with aria-current='page'",
+    "User dropdown uses <button popovertarget> with the Popover API — no <details> or heavy ARIA",
+    "'Profile' and 'Preferences' are links; 'Sign Out' is a <button>",
+    "Main content area uses <main>",
+    "Project cards are in a <ul> list",
+    "Status badges carry text content ('Active', 'Paused', 'Complete') — not colour alone",
+    "All dates use <time> with datetime attribute",
+    "'Projects' page heading is <h1>",
+    "Secondary nav section has a label ('Secondary') distinguishing it from primary nav",
+    "Logo is an <a href='/'> with <img alt='App home'>"
+  ],
+  "expectations_missed": [
+    "Key expectation states project card names should be <h2>, but they are <h3> — this is caused by an intermediate <h2> 'All projects' section heading. The resulting h1→h2→h3 hierarchy is valid and arguably better structured, but does not literally match the expectation."
+  ],
+  "additional_observations": [
+    "Excellent use of <dl>/<dt>/<dd> for card metadata (status, date, members) — a semantically strong choice rarely made",
+    "<article aria-labelledby> for each project card correctly marks self-contained content and provides an accessible name",
+    "Avatar img alt='' is correct because the button's visible text 'Alex Chen' already provides the accessible label",
+    "tabindex='-1' on <main> ensures the skip link can programmatically focus the landmark"
+  ]
+}

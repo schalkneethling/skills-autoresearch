@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ — FlowBoard Support</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        color: #1a1a2e;
+        background: #f8f9fb;
+        line-height: 1.6;
+      }
+
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+        left: 1rem;
+        top: 1rem;
+        background: #1a1a2e;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        z-index: 1000;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.2s;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      /* Site header */
+      .site-header {
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 0 2rem;
+      }
+
+      .site-header__inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+      }
+
+      .site-logo {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #2563eb;
+        text-decoration: none;
+      }
+
+      .site-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 2rem;
+      }
+
+      .site-nav a {
+        color: #374151;
+        text-decoration: none;
+        font-size: 0.9375rem;
+      }
+
+      .site-nav a:hover {
+        color: #2563eb;
+      }
+
+      /* Page layout */
+      .page-wrapper {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      /* Breadcrumb */
+      .breadcrumb {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-bottom: 1.75rem;
+      }
+
+      .breadcrumb ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        align-items: center;
+      }
+
+      .breadcrumb li + li::before {
+        content: "›";
+        margin-right: 0.25rem;
+        color: #9ca3af;
+      }
+
+      .breadcrumb a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      .breadcrumb [aria-current="page"] {
+        color: #374151;
+        font-weight: 500;
+      }
+
+      /* Page heading */
+      h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem;
+        line-height: 1.25;
+      }
+
+      .page-intro {
+        color: #4b5563;
+        margin: 0 0 2rem;
+        font-size: 1.0625rem;
+      }
+
+      /* Search */
+      .faq-search {
+        margin-bottom: 2.5rem;
+      }
+
+      .faq-search label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.9375rem;
+      }
+
+      .faq-search input[type="search"] {
+        width: 100%;
+        padding: 0.65rem 1rem;
+        font-size: 1rem;
+        border: 1.5px solid #d1d5db;
+        border-radius: 8px;
+        background: #fff;
+        color: #1a1a2e;
+        outline-offset: 2px;
+      }
+
+      .faq-search input[type="search"]:focus {
+        border-color: #2563eb;
+        outline: 2px solid #93c5fd;
+      }
+
+      /* FAQ categories */
+      .faq-categories {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      .faq-category {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .faq-category__header {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: #f1f5f9;
+      }
+
+      /* h2 assumes this section is under the page h1 */
+      .faq-category__heading {
+        font-size: 1.125rem;
+        font-weight: 700;
+        margin: 0;
+        color: #1e3a5f;
+      }
+
+      /* FAQ items */
+      .faq-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .faq-list li + li {
+        border-top: 1px solid #e5e7eb;
+      }
+
+      details {
+        padding: 0;
+      }
+
+      summary {
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        color: #1a1a2e;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        user-select: none;
+      }
+
+      summary::-webkit-details-marker {
+        display: none;
+      }
+
+      summary::after {
+        content: "+";
+        font-size: 1.25rem;
+        font-weight: 400;
+        color: #6b7280;
+        flex-shrink: 0;
+        transition: transform 0.2s;
+      }
+
+      details[open] summary::after {
+        content: "−";
+      }
+
+      summary:hover {
+        background: #f8f9fb;
+        color: #2563eb;
+      }
+
+      .faq-answer {
+        padding: 0 1.5rem 1.25rem;
+        color: #374151;
+        font-size: 0.9375rem;
+        line-height: 1.7;
+      }
+
+      .faq-answer p {
+        margin: 0;
+      }
+
+      .faq-answer p + p {
+        margin-top: 0.75rem;
+      }
+
+      /* Still need help */
+      .still-need-help {
+        margin-top: 3rem;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      /* h2 assumes this section is a sibling of other h2-level FAQ categories */
+      .still-need-help__heading {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem;
+        color: #1e3a5f;
+      }
+
+      .still-need-help p {
+        color: #374151;
+        margin: 0 0 1.5rem;
+        font-size: 0.9375rem;
+      }
+
+      .still-need-help__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .btn-primary {
+        display: inline-block;
+        background: #2563eb;
+        color: #fff;
+        padding: 0.625rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        text-decoration: none;
+        transition: background 0.15s;
+      }
+
+      .btn-primary:hover {
+        background: #1d4ed8;
+      }
+
+      .phone-contact {
+        font-size: 0.9375rem;
+        color: #374151;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .phone-contact a {
+        color: #2563eb;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .phone-contact a:hover {
+        text-decoration: underline;
+      }
+
+      /* Site footer */
+      .site-footer {
+        background: #1a1a2e;
+        color: #9ca3af;
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.875rem;
+        margin-top: 4rem;
+      }
+
+      .site-footer a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+
+      .site-footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#faq-search" class="skip-link">Skip to FAQ search</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="/" class="site-logo">FlowBoard</a>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="/features">Features</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><a href="/login">Log in</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <div class="page-wrapper">
+
+        <nav aria-label="Breadcrumb">
+          <ol class="breadcrumb">
+            <!-- Decorative › separators are injected via CSS ::before — no aria-hidden needed -->
+            <li><a href="/">Home</a></li>
+            <li><a href="/support">Support</a></li>
+            <li><span aria-current="page">FAQ</span></li>
+          </ol>
+        </nav>
+
+        <h1>Frequently Asked Questions</h1>
+        <p class="page-intro">
+          Browse answers to common questions about FlowBoard. Can't find what
+          you're looking for? Our support team is here to help.
+        </p>
+
+        <search aria-label="Filter FAQ questions" id="faq-search">
+          <label for="faq-filter">Search questions</label>
+          <input
+            type="search"
+            id="faq-filter"
+            name="q"
+            placeholder="e.g. how do I invite a teammate?"
+            autocomplete="off"
+          />
+        </search>
+
+        <div class="faq-categories">
+
+          <!-- Getting Started -->
+          <section aria-labelledby="cat-getting-started">
+            <div class="faq-category">
+              <div class="faq-category__header">
+                <!-- h2 assumes this is inside main, under the page h1 -->
+                <h2 id="cat-getting-started" class="faq-category__heading">Getting Started</h2>
+              </div>
+              <ul class="faq-list">
+                <li>
+                  <details>
+                    <summary>How do I create my first FlowBoard project?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        After signing up, click <strong>New Project</strong> in the top-right corner
+                        of your dashboard. Give it a name and choose a template — we offer Kanban,
+                        Scrum sprint, and simple to-do layouts. You can always change the layout
+                        later from Project Settings.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>How do I invite teammates to a project?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        Open your project and go to <strong>Settings &rsaquo; Members</strong>. Enter
+                        your teammate's email address and choose their role (Viewer, Editor, or
+                        Admin). They'll receive an invitation email with a link to join.
+                      </p>
+                      <p>
+                        If your plan includes SSO, you can also auto-provision members from your
+                        identity provider.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>Can I import tasks from Trello, Jira, or a CSV file?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        Yes. Go to <strong>Settings &rsaquo; Import</strong> and select your source.
+                        FlowBoard supports direct imports from Trello boards and Jira projects, and
+                        accepts CSV files in a standard format. Download our
+                        <a href="/templates/import-template.csv">CSV template</a> to see the
+                        required columns.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>Is there a mobile app?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        FlowBoard is available on iOS and Android. Search for "FlowBoard" in the
+                        App Store or Google Play. The mobile app supports viewing and editing tasks,
+                        leaving comments, and receiving push notifications for mentions and due-date
+                        reminders.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Billing & Plans -->
+          <section aria-labelledby="cat-billing">
+            <div class="faq-category">
+              <div class="faq-category__header">
+                <!-- h2 assumes this is inside main, under the page h1 -->
+                <h2 id="cat-billing" class="faq-category__heading">Billing &amp; Plans</h2>
+              </div>
+              <ul class="faq-list">
+                <li>
+                  <details>
+                    <summary>What's included in the free plan?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        The free plan includes up to 3 projects, 10 members, and 100 tasks per
+                        project. File attachments are limited to 5 MB each. Integrations and
+                        advanced automation are available on paid plans only.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>How do I upgrade or downgrade my plan?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        Go to <strong>Account &rsaquo; Billing &rsaquo; Change Plan</strong>. Upgrades
+                        take effect immediately and are prorated to your current billing cycle.
+                        Downgrades take effect at the end of your current billing period — your
+                        access continues until then.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>Do you offer discounts for non-profits or education?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        Yes — verified non-profits and accredited educational institutions receive
+                        50% off all paid plans. Email <a href="mailto:discounts@flowboard.io">discounts@flowboard.io</a>
+                        with proof of eligibility and we'll apply the discount to your account
+                        within two business days.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>What payment methods do you accept?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        We accept all major credit and debit cards (Visa, Mastercard, Amex, Discover)
+                        via Stripe. Annual plan customers can also pay by bank transfer or purchase
+                        order — contact <a href="mailto:billing@flowboard.io">billing@flowboard.io</a>
+                        to arrange this.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Integrations -->
+          <section aria-labelledby="cat-integrations">
+            <div class="faq-category">
+              <div class="faq-category__header">
+                <!-- h2 assumes this is inside main, under the page h1 -->
+                <h2 id="cat-integrations" class="faq-category__heading">Integrations</h2>
+              </div>
+              <ul class="faq-list">
+                <li>
+                  <details>
+                    <summary>Which integrations does FlowBoard support?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        FlowBoard connects natively with Slack, GitHub, GitLab, Google Drive,
+                        Figma, and Zapier. Via Zapier you can connect to thousands of additional
+                        tools. A full list is available in the
+                        <a href="/integrations">Integrations directory</a>.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>How do I connect FlowBoard to Slack?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        Go to <strong>Settings &rsaquo; Integrations &rsaquo; Slack</strong> and click
+                        <strong>Connect</strong>. You'll be redirected to Slack to authorise the
+                        app. Once connected, choose which channel should receive task notifications
+                        and which events should trigger them (new tasks, status changes, comments,
+                        due-date reminders).
+                      </p>
+                    </div>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>Can I create FlowBoard tasks from a GitHub pull request?</summary>
+                    <div class="faq-answer">
+                      <p>
+                        Yes. After connecting the GitHub integration, you can link a PR to an
+                        existing task or create a new task directly from a PR using the
+                        <code>/flowboard</code> slash command in a PR comment. The task will
+                        automatically update its status when the PR is merged or closed.
+                      </p>
+                    </div>
+                  </details>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+        </div><!-- /.faq-categories -->
+
+        <section aria-labelledby="still-need-help-heading" class="still-need-help">
+          <!-- h2 assumes this is a sibling section under the page h1 -->
+          <h2 id="still-need-help-heading" class="still-need-help__heading">Still need help?</h2>
+          <p>
+            Our support team is available Monday–Friday, 9&nbsp;am–6&nbsp;pm&nbsp;ET.
+            We typically respond within a few hours.
+          </p>
+          <div class="still-need-help__actions">
+            <a href="/support/contact" class="btn-primary">Contact support</a>
+            <span class="phone-contact">
+              Or call us:
+              <a href="tel:+18005551234">+1&nbsp;(800)&nbsp;555-1234</a>
+            </span>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        &copy; 2026 FlowBoard, Inc. &mdash;
+        <a href="/privacy">Privacy Policy</a> &middot;
+        <a href="/terms">Terms of Service</a> &middot;
+        <a href="/support">Support</a>
+      </p>
+    </footer>
+  </body>
+</html>

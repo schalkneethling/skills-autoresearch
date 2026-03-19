@@ -1,0 +1,61 @@
+{
+  "eval_id": 4,
+  "eval_name": "multi-step-form",
+  "scores": {
+    "form_semantics": {
+      "score": 3,
+      "justification": "Every input has a visible label; all three steps use fieldset/legend; email field correctly uses aria-invalid='true' and aria-describedby referencing both a hint and an actionable error message; appropriate input types (email, tel, text) and autocomplete values (cc-number, cc-exp, cc-csc, postal-code, etc.) throughout; required fields marked with aria-hidden asterisk plus visible 'required fields' note plus the required attribute — not colour-only."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single h1 ('Checkout') at page level; steps are correctly represented via fieldset legends rather than headings, which is semantically appropriate for grouped form sections. No skipped levels, no decorative heading use."
+    },
+    "element_choice": {
+      "score": 3,
+      "justification": "All interactive controls are native elements (button, input, select); ol used for the ordered progress steps; table with caption/thead/tbody/tfoot for the order summary; dl for the shipping/payment key-value summary; no div-as-button or other mismatches."
+    },
+    "aria_discipline": {
+      "score": 2,
+      "justification": "aria-current='step', aria-label on step markers, role='alert' on the error paragraph, and aria-describedby on the email field are all appropriate. Minor issue: each step marker has an aria-label (e.g. 'Step 2, Payment, current step') and the adjacent .step__label span ('Payment') is also read by screen readers, causing slight redundancy in announcement."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Realistic product names with colour/size variants and SKUs; plausible prices that sum correctly ($68 + 2×$129 = $326); real-feeling person name (Priya Ramaswamy), address, and partial card number used consistently across steps."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "header, main (with id and tabindex=-1), footer, and nav (aria-label='Checkout steps') all present and correctly scoped. Skip link present as the first focusable element. main wraps only page-unique content."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "ol used for the progress steps (order matters), nested inside a labelled nav. No lists used purely for styling."
+    },
+    "table_semantics": {
+      "score": 3,
+      "justification": "table used for the two-dimensional order data; includes caption, thead, tbody, tfoot, and th elements with scope='col'. Not used for layout."
+    }
+  },
+  "composite_score": 2.88,
+  "expectations_met": [
+    "Each step uses <fieldset> with <legend> for grouping",
+    "All inputs have associated <label> elements (not placeholder-only)",
+    "Email error uses aria-invalid='true' and aria-describedby pointing to error message",
+    "Error message text is actionable — states the problem ('missing a domain') and guides the fix (provides example address)",
+    "Country uses native <select>",
+    "Progress indicator conveys current step accessibly via aria-current='step' and aria-label on step markers",
+    "Card number uses autocomplete='cc-number', expiry uses autocomplete='cc-exp', CVV uses autocomplete='cc-csc'",
+    "Phone field has type='tel'",
+    "Email field has type='email'",
+    "Order summary uses <table> with full structure; <dl> also used for shipping/payment summary",
+    "Submit/continue buttons are <button> elements with descriptive labels",
+    "No placeholder text used as a substitute for labels",
+    "Steps appropriately use fieldset legends rather than redundant headings under the single h1",
+    "Required fields indicated with required attribute, asterisk notation, and visible text note — not colour-only"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "aria-label on step marker spans and the adjacent visible .step__label text are both announced by screen readers, producing minor redundancy (e.g. 'Step 2, Payment, current step … Payment'). Could be resolved by adding aria-hidden='true' to .step__label or restructuring so the aria-label lives on the li.",
+    "form elements carry aria-labelledby pointing to the legend id, which is a defensible pattern for exposing the form landmark label, though slightly redundant given the fieldset/legend already provides that association.",
+    "inputmode='numeric' on card and CVV fields is a thoughtful enhancement for mobile keyboards."
+  ]
+}

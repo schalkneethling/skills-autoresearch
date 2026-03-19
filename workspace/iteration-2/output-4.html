@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why We Migrated From REST to GraphQL — DevPulse</title>
+  <style>
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .skip-link {
+      position: absolute;
+      transform: translateY(-100%);
+      background: #000;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      z-index: 100;
+    }
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#comments" class="skip-link">Skip to comments</a>
+
+  <header>
+    <a href="/" aria-label="DevPulse — Home">
+      <img src="/images/devpulse-logo.svg" alt="DevPulse" width="140" height="36" />
+    </a>
+    <nav aria-label="Site">
+      <ul>
+        <li><a href="/articles">Articles</a></li>
+        <li><a href="/tutorials">Tutorials</a></li>
+        <li><a href="/topics">Topics</a></li>
+        <li><a href="/newsletter">Newsletter</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+
+    <article aria-labelledby="article-title">
+
+      <header>
+        <h1 id="article-title">Why We Migrated From REST to GraphQL</h1>
+        <dl>
+          <dt>Author</dt>
+          <dd>
+            <a href="/authors/priya-sharma">Priya Sharma</a>
+          </dd>
+          <dt>Published</dt>
+          <dd>
+            <time datetime="2025-11-12">November 12, 2025</time>
+          </dd>
+          <dt>Topics</dt>
+          <dd><a href="/topics/graphql">GraphQL</a></dd>
+          <dd><a href="/topics/api-design">API Design</a></dd>
+          <dd><a href="/topics/backend">Backend</a></dd>
+        </dl>
+      </header>
+
+      <p>
+        After three years of building on a REST API that served us well in the early days, our
+        engineering team made the decision to migrate our primary data layer to GraphQL. It wasn't
+        a decision we made lightly — we had hundreds of client integrations, a well-understood
+        codebase, and engineers who knew REST inside out. This is the story of why we made that
+        call, how we approached it, and what we learned.
+      </p>
+
+      <section aria-labelledby="section-the-problem">
+        <h2 id="section-the-problem">The Problem</h2>
+        <p>
+          Our REST API had grown organically over three years, and the cracks were starting to show.
+          Mobile clients were particularly affected: a single screen in our iOS app required up to
+          seven sequential API requests, each one dependent on data from the last. Network latency
+          on slower connections turned routine interactions into frustrating waits.
+        </p>
+        <p>
+          Over-fetching was rampant. Our <code>/users/{id}</code> endpoint returned 47 fields —
+          but the average client used fewer than ten. We were serialising, transmitting, and
+          deserialising data that would never be read. On high-traffic endpoints this added up to
+          measurable infrastructure cost and battery drain on mobile devices.
+        </p>
+        <p>
+          The other side of the coin was under-fetching: our product teams frequently needed data
+          relationships that required multiple round trips. Every new feature triggered a
+          conversation about whether to add a new endpoint, extend an existing one, or tell the
+          client team to make two requests. None of those options felt right.
+        </p>
+      </section>
+
+      <aside aria-label="Pull quote">
+        <p>
+          "Every new feature triggered a conversation about whether to add a new endpoint, extend
+          an existing one, or tell the client to make two requests. None of those options felt right."
+        </p>
+      </aside>
+
+      <section aria-labelledby="section-our-approach">
+        <h2 id="section-our-approach">Our Approach</h2>
+        <p>
+          We didn't rewrite everything at once. Instead, we ran GraphQL alongside our existing REST
+          API using a strangler fig pattern. New product features were built exclusively against the
+          GraphQL layer, while legacy REST endpoints remained available to existing integrations.
+          This let us validate our schema design with real product work before committing to a full
+          migration.
+        </p>
+        <p>
+          We used <a href="https://www.apollographql.com/">Apollo Server</a> and built our schema
+          collaboratively with frontend and mobile engineers — the people who would actually be
+          writing queries. This shifted the design conversation from "what should this endpoint
+          return?" to "what does the client actually need?" The difference in framing produced
+          better outcomes.
+        </p>
+        <p>
+          Our resolver architecture used DataLoader for batching and caching, which solved the
+          N+1 query problem we'd been worried about. A simplified example of how we structured a
+          user resolver:
+        </p>
+        <pre><code>// userResolver.js
+const { createBatchLoader } = require('./loaders');
+
+const userLoader = createBatchLoader(async (ids) => {
+  const users = await db.users.findMany({
+    where: { id: { in: ids } },
+  });
+  // Return in the same order as requested IDs
+  return ids.map((id) => users.find((u) => u.id === id) ?? null);
+});
+
+const resolvers = {
+  Query: {
+    user: (_, { id }) =&gt; userLoader.load(id),
+  },
+  User: {
+    posts: (user) =&gt; postLoader.load(user.id),
+    followers: (user) =&gt; followerLoader.load(user.id),
+  },
+};</code></pre>
+        <p>
+          We also invested heavily in schema governance from day one. A custom linting ruleset
+          enforced naming conventions, required descriptions on all types and fields, and prevented
+          breaking changes from landing on the main branch without a deprecation notice.
+        </p>
+      </section>
+
+      <section aria-labelledby="section-results">
+        <h2 id="section-results">Results</h2>
+        <p>
+          Six months after completing the migration, the numbers told a clear story. The average
+          number of network requests per screen on iOS dropped from 4.3 to 1.1. Response payload
+          sizes fell by an average of 62% — not because we were compressing more aggressively, but
+          because clients were simply requesting less.
+        </p>
+        <p>
+          Developer velocity improved in ways that are harder to quantify but easier to feel. Our
+          frontend engineers stopped waiting on backend changes to build new views. The schema
+          became a shared contract that both sides trusted, and the number of cross-team
+          "clarification" meetings dropped noticeably.
+        </p>
+        <p>
+          We also saw infrastructure savings: lower payload sizes and reduced request counts
+          translated directly to lower egress costs and a reduction in average server response
+          time. GraphQL wasn't a silver bullet — our schema governance overhead was real, and
+          onboarding new engineers took longer initially — but for our use case, the tradeoffs
+          were firmly in our favour.
+        </p>
+      </section>
+
+      <footer>
+        <section aria-labelledby="author-bio-heading">
+          <h2 id="author-bio-heading">About the Author</h2>
+          <div>
+            <img src="/images/authors/priya-sharma.jpg" alt="Priya Sharma" width="80" height="80" />
+            <div>
+              <p>
+                <strong>Priya Sharma</strong> is a Staff Engineer at Meridian Technologies, where she
+                leads the Platform team. She has been building APIs professionally for over a decade
+                and writes about distributed systems, developer experience, and engineering culture.
+              </p>
+              <address>
+                <a href="/authors/priya-sharma">More articles by Priya</a> ·
+                <a href="https://github.com/priyasharma-dev" rel="noopener noreferrer">GitHub</a> ·
+                <a href="https://bsky.app/profile/priyasharma.dev" rel="noopener noreferrer">Bluesky</a>
+              </address>
+            </div>
+          </div>
+        </section>
+      </footer>
+
+    </article>
+
+    <section aria-labelledby="related-articles-heading">
+      <h2 id="related-articles-heading">Related Articles</h2>
+      <ul>
+        <li>
+          <article aria-labelledby="related-1-title">
+            <h3 id="related-1-title">
+              <a href="/articles/graphql-schema-design-patterns">GraphQL Schema Design Patterns You Should Know</a>
+            </h3>
+            <p>
+              A practical guide to union types, interfaces, and pagination conventions that keep
+              your schema maintainable as it grows.
+            </p>
+            <dl>
+              <dt>Author</dt>
+              <dd>Marcus Webb</dd>
+              <dt>Published</dt>
+              <dd><time datetime="2025-10-03">October 3, 2025</time></dd>
+            </dl>
+          </article>
+        </li>
+        <li>
+          <article aria-labelledby="related-2-title">
+            <h3 id="related-2-title">
+              <a href="/articles/dataloader-n-plus-one">Solving the N+1 Problem in GraphQL With DataLoader</a>
+            </h3>
+            <p>
+              How batching and per-request caching eliminate the most common GraphQL performance
+              pitfall, with examples from a production Node.js service.
+            </p>
+            <dl>
+              <dt>Author</dt>
+              <dd>Anya Kowalczyk</dd>
+              <dt>Published</dt>
+              <dd><time datetime="2025-09-18">September 18, 2025</time></dd>
+            </dl>
+          </article>
+        </li>
+        <li>
+          <article aria-labelledby="related-3-title">
+            <h3 id="related-3-title">
+              <a href="/articles/rest-vs-graphql-tradeoffs">REST vs GraphQL: An Honest Look at the Tradeoffs</a>
+            </h3>
+            <p>
+              Neither REST nor GraphQL is universally better. This article walks through the
+              specific characteristics of your project that should drive the decision.
+            </p>
+            <dl>
+              <dt>Author</dt>
+              <dd>Tomás Reyes</dd>
+              <dt>Published</dt>
+              <dd><time datetime="2025-08-27">August 27, 2025</time></dd>
+            </dl>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <section id="comments" aria-labelledby="comments-heading">
+      <h2 id="comments-heading">Comments</h2>
+
+      <ol>
+        <li>
+          <article aria-labelledby="comment-1-author">
+            <header>
+              <strong id="comment-1-author">James Okafor</strong>
+              <time datetime="2025-11-13T09:14:00Z">November 13, 2025 at 9:14 am</time>
+            </header>
+            <p>
+              Really appreciate the honesty about the governance overhead. Most migration posts
+              gloss over the operational cost of maintaining a schema at scale. We're at a similar
+              crossroads right now and the point about onboarding time is something our team
+              hasn't fully accounted for yet.
+            </p>
+          </article>
+        </li>
+        <li>
+          <article aria-labelledby="comment-2-author">
+            <header>
+              <strong id="comment-2-author">Leila Nasser</strong>
+              <time datetime="2025-11-14T15:42:00Z">November 14, 2025 at 3:42 pm</time>
+            </header>
+            <p>
+              The strangler fig approach is exactly what we used when we moved off a legacy
+              monolith two years ago. Running old and new in parallel removes so much risk.
+              Did you run into any challenges with authentication across the two layers while
+              they coexisted? We had some awkward token-sharing issues early on.
+            </p>
+          </article>
+        </li>
+      </ol>
+
+      <section aria-labelledby="leave-comment-heading">
+        <h3 id="leave-comment-heading">Leave a Comment</h3>
+        <form method="post" action="/articles/rest-to-graphql/comments" aria-labelledby="leave-comment-heading">
+          <p>
+            Fields marked <span aria-hidden="true">*</span> are required.
+          </p>
+          <div>
+            <label for="comment-name">Name <span aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="comment-name"
+              name="name"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <div>
+            <label for="comment-email">Email address <span aria-hidden="true">*</span></label>
+            <p id="comment-email-hint" class="hint">Your email address will not be published.</p>
+            <input
+              type="email"
+              id="comment-email"
+              name="email"
+              autocomplete="email"
+              aria-describedby="comment-email-hint"
+              required
+            />
+          </div>
+          <div>
+            <label for="comment-text">Comment <span aria-hidden="true">*</span></label>
+            <textarea
+              id="comment-text"
+              name="comment"
+              rows="6"
+              required
+            ></textarea>
+          </div>
+          <button type="submit">Post Comment</button>
+        </form>
+      </section>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Use</a></li>
+        <li><a href="/rss.xml">RSS Feed</a></li>
+      </ul>
+    </nav>
+    <p><small>&copy; 2025 DevPulse. All rights reserved.</small></p>
+  </footer>
+
+</body>
+</html>

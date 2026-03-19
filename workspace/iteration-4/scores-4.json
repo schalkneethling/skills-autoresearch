@@ -1,0 +1,63 @@
+{
+  "eval_id": 5,
+  "eval_name": "blog-article-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: <time datetime> for dates, <pre><code> for the GraphQL schema, <aside> (not <blockquote>) for the pull quote, <article> for related cards and comments, <footer> within <article> for the author bio, and <dl> for article metadata. No div/span substitution where semantic elements exist."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used sparingly and only where it adds value. Both <nav> elements have aria-label, all <section> elements have aria-labelledby, and aria-hidden is used correctly on decorative asterisks. No redundant role attributes and no aria patching over non-semantic markup."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Single h1 for the article title, h2 for each article section (The Problem, Our Approach, Results, About the author), h2 for Related Articles and Comments at the page level, and h3 for Leave a comment and each related article card. No levels are skipped anywhere in the document."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "All landmarks are correctly placed and labelled: site <header> and <footer> outside <main>, <main id='main-content'> wrapping only primary content, <nav aria-label='Site'> and <nav aria-label='Footer'>, <aside> for the pull quote, and <section> elements with aria-labelledby throughout. Skip links ('Skip to main content', 'Skip to comments') appear as the first focusable elements."
+    },
+    "form_semantics": {
+      "score": 2,
+      "justification": "Every input has a visible <label>, correct type attributes (type='email'), and appropriate autocomplete attributes. However, the comment form fields are not grouped with <fieldset>/<legend>, and there is no error handling markup (no aria-invalid or aria-describedby error patterns)."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Fully realistic throughout: a convincing GraphQL migration narrative with plausible metrics, a real-looking code sample, authentic-sounding commenter names (Daniel Fröhlich, Saoirse Brennan) with substantive on-topic comments, and related article titles that feel like real blog posts. No lorem ipsum or placeholder text."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Navigation items are in <ul> within <nav>, related article cards are in <ul>, comments use <ol> (appropriate since comments have chronological order), and article metadata uses <dl>. All list types are well-chosen for their context."
+    },
+    "table_semantics": null
+  },
+  "composite_score": 2.86,
+  "expectations_met": [
+    "The article uses the <article> element",
+    "<main> wraps the article, related articles, and comments — site header and footer are outside it",
+    "Skip navigation links are the first focusable elements ('Skip to main content' and 'Skip to comments')",
+    "Article date uses <time datetime='2025-11-12'>",
+    "Article sections use h2 headings within the article",
+    "Pull quote uses <aside> (not <blockquote>)",
+    "Code block uses <pre><code>",
+    "Author bio uses <footer> within the <article>",
+    "Related articles section uses h2 heading and article cards in a <ul>",
+    "Each related article card uses <article>",
+    "Comments are each an <article>",
+    "Comment form has proper <label> elements for all fields",
+    "Comment author name uses <strong>, date uses <time datetime>",
+    "<address> element is not misused (not present)",
+    "Heading hierarchy is consistent: h1 → h2 for article sections, h2 for Related Articles, h2 for Comments, h3 for Leave a comment",
+    "No heading levels are skipped"
+  ],
+  "expectations_missed": [
+    "Comment form does not use <fieldset>/<legend> to group the related fields (name, email, comment textarea)"
+  ],
+  "additional_observations": [
+    "Excellent use of <dl> for article metadata (author and publication date) — a semantically precise choice many implementations miss",
+    "Using <ol> for comments is a thoughtful choice reflecting their chronological ordering",
+    "<article aria-labelledby='article-title'> on the main article is good practice for landmark labelling",
+    "The aria-describedby on required fields pointing to the 'required fields note' paragraph is a clean accessible pattern"
+  ]
+}

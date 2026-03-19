@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why We Migrated From REST to GraphQL - DevPulse Blog</title>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <a href="/">
+      <img src="/images/devpulse-logo.svg" alt="DevPulse">
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/articles">Articles</a></li>
+        <li><a href="/tutorials">Tutorials</a></li>
+        <li><a href="/podcasts">Podcasts</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <article>
+      <header>
+        <h1>Why We Migrated From REST to GraphQL</h1>
+        <p>By <a href="/authors/priya-sharma">Priya Sharma</a></p>
+        <time datetime="2025-11-12">November 12, 2025</time>
+      </header>
+
+      <p>After three years of building our e-commerce platform on a traditional REST architecture, our team faced a turning point. Mobile clients were making dozens of requests per screen, our backend team was drowning in endpoint proliferation, and frontend developers spent more time stitching data together than building features. This is the story of how we migrated to GraphQL — and what we learned along the way.</p>
+
+      <section aria-labelledby="the-problem">
+        <h2 id="the-problem">The Problem</h2>
+        <p>Our REST API had grown to over 120 endpoints serving six different client applications. Each client had unique data requirements, which led to a pattern of creating bespoke endpoints or adding query parameters to control response shapes. The product detail page alone required five separate API calls to render completely: one for core product data, one for pricing, one for inventory, one for reviews, and one for recommendations.</p>
+        <p>Over-fetching was rampant. Our mobile app received the same payload as our desktop web client, despite displaying a fraction of the information. Under-fetching was equally painful — the waterfall of sequential requests added hundreds of milliseconds to every page load, especially on slower mobile connections in markets we were expanding into across Southeast Asia.</p>
+      </section>
+
+      <aside aria-label="Pull quote">
+        <p>"The product detail page alone required five separate API calls to render completely."</p>
+      </aside>
+
+      <section aria-labelledby="our-approach">
+        <h2 id="our-approach">Our Approach</h2>
+        <p>Rather than a big-bang migration, we adopted an incremental strategy. We stood up a GraphQL gateway that initially proxied our existing REST services, allowing us to migrate resolver by resolver without disrupting production traffic. The gateway used Apollo Server and acted as an orchestration layer between clients and our microservices.</p>
+        <p>One of the first schemas we defined was for the product detail page, collapsing those five REST calls into a single query:</p>
+        <pre><code>query ProductDetail($id: ID!) {
+  product(id: $id) {
+    name
+    description
+    images {
+      url
+      alt
+    }
+    pricing {
+      current
+      currency
+      discount {
+        percentage
+        expiresAt
+      }
+    }
+    inventory {
+      inStock
+      quantity
+    }
+    reviews(first: 5) {
+      averageRating
+      edges {
+        node {
+          author
+          rating
+          body
+        }
+      }
+    }
+    recommendations(first: 4) {
+      name
+      slug
+      thumbnailUrl
+    }
+  }
+}</code></pre>
+        <p>We introduced schema linting, automated persisted queries for production clients, and set up a query complexity budget to prevent abusive or accidental deep nesting. The team spent two weeks writing comprehensive integration tests before routing any production traffic through the new gateway.</p>
+      </section>
+
+      <section aria-labelledby="results">
+        <h2 id="results">Results</h2>
+        <p>After six months of running GraphQL in production, the numbers speak for themselves. The product detail page load time dropped by 38% on mobile devices, driven largely by the elimination of request waterfalls. Our average API payload size decreased by 52% because clients now request only the fields they render.</p>
+        <p>Developer velocity improved measurably. New feature development that previously required backend endpoint changes now often involves only a schema extension and resolver. Our frontend team reported spending 40% less time on data-fetching boilerplate. Perhaps most importantly, we retired 74 of those 120 REST endpoints, significantly reducing our maintenance surface area.</p>
+        <p>It wasn't all smooth sailing — we had to invest in monitoring, caching strategies, and educating the team on N+1 query pitfalls with DataLoader. But the trade-offs have been overwhelmingly positive, and we'd make the same decision again.</p>
+      </section>
+
+      <footer>
+        <h2>About the Author</h2>
+        <p><strong>Priya Sharma</strong> is a Staff Engineer at ShopStream, where she leads the platform infrastructure team. She has spent the past decade building distributed systems at scale and is a frequent speaker at GraphQL and API design conferences. When she's not refactoring schemas, you'll find her trail running in the Pacific Northwest.</p>
+      </footer>
+    </article>
+
+    <section aria-labelledby="related-articles">
+      <h2 id="related-articles">Related Articles</h2>
+      <ul>
+        <li>
+          <article>
+            <h3><a href="/articles/graphql-caching-strategies">Caching Strategies for GraphQL at Scale</a></h3>
+            <p>By <span>Marcus Chen</span> — <time datetime="2025-10-28">October 28, 2025</time></p>
+            <p>A deep dive into persisted queries, CDN-level caching, and response normalization patterns that kept our GraphQL layer fast under heavy load.</p>
+          </article>
+        </li>
+        <li>
+          <article>
+            <h3><a href="/articles/api-versioning-lessons">What We Got Wrong About API Versioning</a></h3>
+            <p>By <span>Aisha Johnson</span> — <time datetime="2025-09-15">September 15, 2025</time></p>
+            <p>Three years and four major versions later, here's how we'd approach API versioning differently — and why schema evolution beats traditional versioning.</p>
+          </article>
+        </li>
+        <li>
+          <article>
+            <h3><a href="/articles/dataloader-beyond-basics">DataLoader: Beyond the Basics</a></h3>
+            <p>By <span>Tomás Rivera</span> — <time datetime="2025-11-03">November 3, 2025</time></p>
+            <p>Most tutorials cover the basics of DataLoader for solving N+1 queries. Here's what happens when your batching logic needs to account for authorization, multi-tenancy, and cache invalidation.</p>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="comments-heading">
+      <h2 id="comments-heading">Comments</h2>
+
+      <article>
+        <header>
+          <p><strong>Jake Fernandez</strong></p>
+          <time datetime="2025-11-13">November 13, 2025</time>
+        </header>
+        <p>Great write-up, Priya. We went through a similar migration last year and the payload reduction numbers are consistent with what we saw. One thing I'd add is that investing in a schema registry early saved us a lot of headaches when multiple teams started contributing to the graph. Curious if you ran into any issues with schema ownership across teams?</p>
+      </article>
+
+      <article>
+        <header>
+          <p><strong>Lin Wei</strong></p>
+          <time datetime="2025-11-14">November 14, 2025</time>
+        </header>
+        <p>The incremental migration approach is key. We tried the big-bang route and it was a nightmare — two months of running parallel systems with subtle data inconsistencies. Proxying REST through the GraphQL gateway first would have saved us so much pain. Bookmarking this for our next planning cycle.</p>
+      </article>
+
+      <section aria-labelledby="leave-comment-heading">
+        <h2 id="leave-comment-heading">Leave a Comment</h2>
+        <form>
+          <p>
+            <label for="commenter-name">Name</label>
+            <input type="text" id="commenter-name" name="name" required>
+          </p>
+          <p>
+            <label for="commenter-email">Email</label>
+            <input type="email" id="commenter-email" name="email" required>
+          </p>
+          <p>
+            <label for="commenter-message">Comment</label>
+            <textarea id="commenter-message" name="comment" rows="6" required></textarea>
+          </p>
+          <button type="submit">Post Comment</button>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p><small>&copy; 2025 DevPulse. All rights reserved.</small></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{
+  "eval_id": 2,
+  "eval_name": "faq-page",
+  "scores": {
+    "element_choice": {
+      "score": 3,
+      "justification": "Every element is the best semantic match: <details>/<summary> for expandable questions, <search> for the search landmark, <a href='tel:'> for the phone number, <a> for the contact link, <nav> for breadcrumb, <header>/<main>/<footer> for page structure. No <div> or <span> used where a semantic element exists. No <dl> misuse for FAQ items, no <address> misuse for the support section."
+    },
+    "aria_discipline": {
+      "score": 3,
+      "justification": "ARIA is used only where needed: aria-label on <nav> and <search> landmarks (both required), aria-labelledby on all <section> elements, aria-current='page' on the breadcrumb current item. No redundant role attributes, no aria patching non-semantic markup. tabindex='-1' on <main> is correct for skip-link targeting."
+    },
+    "heading_hierarchy": {
+      "score": 3,
+      "justification": "Exactly one <h1> ('Frequently Asked Questions'), three <h2> category headings, and <h2> for 'Still need help?' — all at the same document level as the categories. No levels skipped, no headings used decoratively. Individual questions correctly use <summary> rather than <h3>."
+    },
+    "landmark_structure": {
+      "score": 3,
+      "justification": "All key landmarks present and correct: <header> and <footer> outside <main>, <nav aria-label='Breadcrumb'> between header and main, <main id='main-content'> wrapping only page-unique content, <search aria-label='Search FAQ'>, and labeled <section> elements for each category and the help section. Two skip links ('Skip to main content' and 'Skip to search') appear as the first focusable elements, appropriate for this page's complexity."
+    },
+    "list_semantics": {
+      "score": 3,
+      "justification": "Breadcrumb correctly uses <ol> (ordered, position matters). FAQ items per category use <ul>. The plan comparison nested inside a FAQ answer also uses <ul>. No list misuse or missed opportunities."
+    },
+    "content_realism": {
+      "score": 3,
+      "justification": "Fully realistic: named product (FlowBoard), plausible SaaS pricing tiers with real dollar figures, named integrations (Slack, GitHub, Figma, Google Drive), concrete UI paths (Settings → Members), realistic email (billing@flowboard.io) and phone number. No Lorem ipsum or placeholder content."
+    },
+    "form_semantics": null,
+    "table_semantics": null
+  },
+  "composite_score": 3.0,
+  "expectations_met": [
+    "Breadcrumb uses <nav> with aria-label='Breadcrumb'",
+    "<main> wraps only the FAQ content — site header, breadcrumb nav, and footer are outside it",
+    "Two skip links present as first focusable elements: 'Skip to main content' and 'Skip to search'",
+    "Breadcrumb items are in an <ol>",
+    "FAQ categories use <h2> headings",
+    "Individual questions use <details>/<summary> for progressive disclosure",
+    "Questions are NOT marked up as <dl>",
+    "Native <details>/<summary> used — no custom ARIA disclosure pattern",
+    "Search/filter input has a visible <label> ('Search questions')",
+    "'Still need help?' uses <h2>",
+    "Contact link is an <a href='/support/contact'>, phone number is <a href='tel:+18005551234'>",
+    "Single <h1> on the page",
+    "No heading levels skipped",
+    "No <address> element used for the support section (correctly omitted)"
+  ],
+  "expectations_missed": [],
+  "additional_observations": [
+    "Good use of the <search> landmark element (not just a plain <div>) for the search area",
+    "sections for FAQ categories use aria-labelledby correctly, making them proper landmarks",
+    "The breadcrumb nav has inline styles alongside a CSS class — a minor style inconsistency but no semantic impact",
+    "tabindex='-1' on <main> is the correct pattern for programmatic focus from skip links"
+  ]
+}

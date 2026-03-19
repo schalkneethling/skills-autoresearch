@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing Plans</title>
+    <style>
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+      }
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/features">Features</a></li>
+          <li><a href="/pricing" aria-current="page">Pricing</a></li>
+          <li><a href="/docs">Docs</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <h1>Simple, Transparent Pricing</h1>
+      <p>
+        Choose the plan that fits your team. All plans include a 14-day free trial with no credit card required.
+        Upgrade, downgrade, or cancel at any time.
+      </p>
+
+      <section aria-labelledby="plans-heading">
+        <h2 id="plans-heading">Available Plans</h2>
+
+        <ul>
+          <li>
+            <!-- h3 assumes this article is inside a section with an h2 heading -->
+            <article aria-labelledby="plan-starter">
+              <h3 id="plan-starter">Starter</h3>
+              <p><strong>$9</strong> / month</p>
+              <p>Perfect for individuals and side projects getting off the ground.</p>
+              <a href="/signup?plan=starter" aria-label="Start Free Trial of Starter plan">Start Free Trial</a>
+            </article>
+          </li>
+
+          <li>
+            <!-- h3 assumes this article is inside a section with an h2 heading -->
+            <article aria-labelledby="plan-professional">
+              <p><strong aria-label="Most Popular plan">Most Popular</strong></p>
+              <h3 id="plan-professional">Professional</h3>
+              <p><strong>$29</strong> / month</p>
+              <p>Everything your growing team needs to ship faster and collaborate effectively.</p>
+              <a href="/signup?plan=professional" aria-label="Start Free Trial of Professional plan">Start Free Trial</a>
+            </article>
+          </li>
+
+          <li>
+            <!-- h3 assumes this article is inside a section with an h2 heading -->
+            <article aria-labelledby="plan-enterprise">
+              <h3 id="plan-enterprise">Enterprise</h3>
+              <p><strong>Custom pricing</strong></p>
+              <p>Tailored solutions with dedicated support for large organisations and complex requirements.</p>
+              <a href="/contact-sales" aria-label="Contact Sales about Enterprise plan">Contact Sales</a>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="comparison-heading">
+        <h2 id="comparison-heading">Feature Comparison</h2>
+
+        <table>
+          <caption>Feature comparison across Starter, Professional, and Enterprise plans</caption>
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Starter</th>
+              <th scope="col">
+                Professional
+                <span class="visually-hidden">(Most Popular)</span>
+              </th>
+              <th scope="col">Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Projects</th>
+              <td>5</td>
+              <td>Unlimited</td>
+              <td>Unlimited</td>
+            </tr>
+            <tr>
+              <th scope="row">Storage</th>
+              <td>10 GB</td>
+              <td>100 GB</td>
+              <td>Unlimited</td>
+            </tr>
+            <tr>
+              <th scope="row">Team members</th>
+              <td>1</td>
+              <td>10</td>
+              <td>Unlimited</td>
+            </tr>
+            <tr>
+              <th scope="row">API access</th>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <th scope="row">Priority support</th>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <th scope="row">Custom integrations</th>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Price</th>
+              <td>$9 / month</td>
+              <td>$29 / month</td>
+              <td>Custom pricing</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Acme Corp. All rights reserved.</p>
+      <nav aria-label="Footer">
+        <ul>
+          <li><a href="/terms">Terms of Service</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
+</html>

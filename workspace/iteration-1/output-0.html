@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Running Shoes — SportGear</title>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#search" class="skip-link">Skip to search</a>
+  <a href="#filters" class="skip-link">Skip to filters</a>
+
+  <header>
+    <a href="/">
+      <img src="/images/sportgear-logo.svg" alt="SportGear home">
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/mens">Men</a></li>
+        <li><a href="/womens">Women</a></li>
+        <li><a href="/kids">Kids</a></li>
+        <li><a href="/sale">Sale</a></li>
+        <li><a href="/new-arrivals">New Arrivals</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <search id="search" aria-label="Product search">
+    <label for="product-search">Search products</label>
+    <input type="search" id="product-search" name="q" placeholder="e.g. trail running shoes">
+    <button type="submit">Search</button>
+  </search>
+
+  <aside id="filters" aria-label="Product filters">
+    <form aria-label="Filter products">
+      <fieldset>
+        <legend>Price range</legend>
+        <ul>
+          <li>
+            <label><input type="checkbox" name="price" value="0-50"> Under $50</label>
+          </li>
+          <li>
+            <label><input type="checkbox" name="price" value="50-100"> $50 – $100</label>
+          </li>
+          <li>
+            <label><input type="checkbox" name="price" value="100-150"> $100 – $150</label>
+          </li>
+          <li>
+            <label><input type="checkbox" name="price" value="150-200"> $150 – $200</label>
+          </li>
+          <li>
+            <label><input type="checkbox" name="price" value="200+"> $200 &amp; above</label>
+          </li>
+        </ul>
+      </fieldset>
+
+      <fieldset>
+        <legend>Category</legend>
+        <ul>
+          <li>
+            <label><input type="checkbox" name="category" value="road"> Road running</label>
+          </li>
+          <li>
+            <label><input type="checkbox" name="category" value="trail"> Trail running</label>
+          </li>
+          <li>
+            <label><input type="checkbox" name="category" value="track"> Track &amp; field</label>
+          </li>
+          <li>
+            <label><input type="checkbox" name="category" value="cross-training"> Cross training</label>
+          </li>
+        </ul>
+      </fieldset>
+
+      <fieldset>
+        <legend>Availability</legend>
+        <label>
+          <input type="checkbox" name="in-stock" value="true"> In stock only
+        </label>
+      </fieldset>
+
+      <button type="submit">Apply filters</button>
+    </form>
+  </aside>
+
+  <main id="main-content" tabindex="-1">
+    <h1>Running Shoes</h1>
+
+    <ul>
+      <li>
+        <article>
+          <img src="/images/products/nike-pegasus-41.jpg" alt="Nike Air Zoom Pegasus 41 in black and white colorway">
+          <h2 id="product-pegasus">Nike Air Zoom Pegasus 41</h2>
+          <p>$129.99</p>
+          <p>A versatile daily trainer with responsive ZoomX foam and a breathable mesh upper for comfortable miles on road or treadmill.</p>
+          <button aria-describedby="product-pegasus">Add to cart</button>
+        </article>
+      </li>
+      <li>
+        <article>
+          <img src="/images/products/asics-gel-kayano-30.jpg" alt="ASICS Gel-Kayano 30 in blue and silver colorway">
+          <h2 id="product-kayano">ASICS Gel-Kayano 30</h2>
+          <p>$159.95</p>
+          <p>Maximum support meets plush cushioning with FF Blast Plus technology, ideal for overpronators seeking long-distance comfort.</p>
+          <button aria-describedby="product-kayano">Add to cart</button>
+        </article>
+      </li>
+      <li>
+        <article>
+          <img src="/images/products/brooks-ghost-16.jpg" alt="Brooks Ghost 16 in grey and green colorway">
+          <h2 id="product-ghost">Brooks Ghost 16</h2>
+          <p>$139.95</p>
+          <p>Smooth, balanced cushioning with DNA Loft v2 foam delivers a soft ride for neutral runners tackling everyday training.</p>
+          <button aria-describedby="product-ghost">Add to cart</button>
+        </article>
+      </li>
+      <li>
+        <article>
+          <img src="/images/products/salomon-speedcross-6.jpg" alt="Salomon Speedcross 6 in red and black colorway">
+          <h2 id="product-speedcross">Salomon Speedcross 6</h2>
+          <p>$144.00</p>
+          <p>Aggressive grip and a reinforced chassis built for technical trails, mud, and loose terrain where traction is critical.</p>
+          <button aria-describedby="product-speedcross">Add to cart</button>
+        </article>
+      </li>
+      <li>
+        <article>
+          <img src="/images/products/new-balance-fresh-foam-1080v13.jpg" alt="New Balance Fresh Foam X 1080v13 in white and orange colorway">
+          <h2 id="product-1080">New Balance Fresh Foam X 1080v13</h2>
+          <p>$164.99</p>
+          <p>Premium cushioning with a knit upper that adapts to foot movement, perfect for logging high-mileage weeks in comfort.</p>
+          <button aria-describedby="product-1080">Add to cart</button>
+        </article>
+      </li>
+      <li>
+        <article>
+          <img src="/images/products/hoka-clifton-9.jpg" alt="HOKA Clifton 9 in teal and yellow colorway">
+          <h2 id="product-clifton">HOKA Clifton 9</h2>
+          <p>$144.95</p>
+          <p>Ultra-light cushioning with an improved breathable mesh and early-stage Meta-Rocker geometry for a smooth heel-to-toe transition.</p>
+          <button aria-describedby="product-clifton">Add to cart</button>
+        </article>
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    <nav aria-label="Secondary">
+      <ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/shipping">Shipping &amp; Returns</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Service</a></li>
+        <li><a href="/careers">Careers</a></li>
+      </ul>
+    </nav>
+
+    <address>
+      <p>SportGear Customer Support</p>
+      <p>Email: <a href="mailto:support@sportgear.com">support@sportgear.com</a></p>
+      <p>Phone: <a href="tel:+18005557890">1-800-555-7890</a></p>
+    </address>
+
+    <p><small>&copy; 2026 SportGear. All rights reserved.</small></p>
+  </footer>
+</body>
+</html>

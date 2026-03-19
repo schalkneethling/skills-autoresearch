@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing Plans</title>
+    <style>
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip-link {
+        position: absolute;
+        transform: translateY(-100%);
+      }
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+      <nav aria-label="Primary">
+        <a href="/">Home</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section aria-labelledby="pricing-heading">
+        <h1 id="pricing-heading">Pricing Plans</h1>
+        <p>
+          Choose the plan that fits your needs. All plans include a 14-day free
+          trial with no credit card required. Upgrade, downgrade, or cancel at
+          any time.
+        </p>
+
+        <section aria-labelledby="plans-heading">
+          <h2 id="plans-heading">Available Plans</h2>
+
+          <ul>
+            <!-- h3 assumes these articles are inside a section with an h2 heading. -->
+            <li>
+              <article aria-labelledby="plan-starter">
+                <h3 id="plan-starter">Starter</h3>
+                <p><strong>$9</strong> / month</p>
+                <a href="/signup?plan=starter" aria-label="Start Free Trial for Starter plan">
+                  Start Free Trial
+                </a>
+              </article>
+            </li>
+
+            <li>
+              <article aria-labelledby="plan-professional">
+                <h3 id="plan-professional">
+                  Professional
+                  <span class="visually-hidden">(Most Popular)</span>
+                </h3>
+                <p aria-hidden="true">Most Popular</p>
+                <p><strong>$29</strong> / month</p>
+                <a href="/signup?plan=professional" aria-label="Start Free Trial for Professional plan">
+                  Start Free Trial
+                </a>
+              </article>
+            </li>
+
+            <li>
+              <article aria-labelledby="plan-enterprise">
+                <h3 id="plan-enterprise">Enterprise</h3>
+                <p>Custom pricing</p>
+                <a href="/contact-sales" aria-label="Contact Sales for Enterprise plan">
+                  Contact Sales
+                </a>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="comparison-heading">
+          <h2 id="comparison-heading">Feature Comparison</h2>
+
+          <table>
+            <caption>Feature comparison across Starter, Professional, and Enterprise plans</caption>
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Starter</th>
+                <th scope="col">
+                  Professional
+                  <span class="visually-hidden">(Most Popular)</span>
+                </th>
+                <th scope="col">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Projects</th>
+                <td>5</td>
+                <td>Unlimited</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">Storage</th>
+                <td>10GB</td>
+                <td>100GB</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">Team members</th>
+                <td>1</td>
+                <td>10</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">API access</th>
+                <td>
+                  <span aria-hidden="true">No</span>
+                  <span class="visually-hidden">Not included</span>
+                </td>
+                <td>
+                  <span aria-hidden="true">Yes</span>
+                  <span class="visually-hidden">Included</span>
+                </td>
+                <td>
+                  <span aria-hidden="true">Yes</span>
+                  <span class="visually-hidden">Included</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Priority support</th>
+                <td>
+                  <span aria-hidden="true">No</span>
+                  <span class="visually-hidden">Not included</span>
+                </td>
+                <td>
+                  <span aria-hidden="true">No</span>
+                  <span class="visually-hidden">Not included</span>
+                </td>
+                <td>
+                  <span aria-hidden="true">Yes</span>
+                  <span class="visually-hidden">Included</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Custom integrations</th>
+                <td>
+                  <span aria-hidden="true">No</span>
+                  <span class="visually-hidden">Not included</span>
+                </td>
+                <td>
+                  <span aria-hidden="true">No</span>
+                  <span class="visually-hidden">Not included</span>
+                </td>
+                <td>
+                  <span aria-hidden="true">Yes</span>
+                  <span class="visually-hidden">Included</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Your Company. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
