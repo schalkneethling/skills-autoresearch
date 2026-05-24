@@ -1,0 +1,40 @@
+{
+  "eval_id": "product-listing-page",
+  "eval_type": "generate-semantic-html",
+  "track_id": "html",
+  "total_score": 12,
+  "max_score": 15,
+  "dimensions": [
+    {
+      "id": "element_choice",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "All interactive controls are native elements: <button> for Add-to-cart and form submissions, <input type='checkbox'> for filters and the in-stock toggle. <article> is used for each product card, <search> wraps the search form, <fieldset>/<legend> groups each filter category, and prices are marked with <span> not headings. No div/span used where a semantic element exists."
+    },
+    {
+      "id": "landmark_structure",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "All major landmarks are present and correct: <header>, <nav aria-label='Primary'> outside <main>, <main id='content'>, <aside> for the filter sidebar, <search>, and <footer>. Skip links ('Skip to content' and 'Skip to search') appear as the first focusable elements. Minor issues: the footer <section> elements lack aria-labelledby (though each contains an h2, the section landmark is not properly labelled), and the nav label 'Primary' is acceptable but terse."
+    },
+    {
+      "id": "heading_hierarchy",
+      "score": 1,
+      "max_score": 3,
+      "rationale": "There are two <h1> elements: 'SportGear' in the <header> and 'Running Shoes — SportGear' in <main>. This violates the single-h1 rule and would mislead screen reader users about the page's primary topic. Below h1, the hierarchy is otherwise sound: h2 for 'Available Products' and footer section headings, h3 for individual product names within cards."
+    },
+    {
+      "id": "list_semantics",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Navigation items (primary and footer) are in <ul> within <nav>, the six product cards are wrapped in a <ul> so AT can announce the count, and the skip-link group also uses a <ul>. Correct list type (unordered) chosen throughout, since sequence is not meaningful for products or nav items."
+    },
+    {
+      "id": "aria_discipline",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "ARIA is used sparingly and only where native HTML doesn't provide the label: aria-label on both <nav> elements ('Primary' and 'Footer'), which do not contain the word 'navigation'. No redundant roles (no role='button' on <button>, no role='navigation' on <nav>). No aria-* attributes compensating for non-semantic markup."
+    }
+  ],
+  "summary": "The output is well-structured overall, with correct use of semantic landmarks, native interactive elements, <article> for product cards, <fieldset>/<legend> for filter groups, and disciplined ARIA. The main deficiency is two <h1> elements on the page — one for the site name in <header> and one for the page title in <main> — which violates the single-h1 rule and lowers the heading_hierarchy score. Minor issues include unlabelled <section> elements in the footer. All other key expectations (skip links, <search>, <ul> for products, distinct accessible names on Add-to-cart buttons, prices not in headings) are satisfied."
+}

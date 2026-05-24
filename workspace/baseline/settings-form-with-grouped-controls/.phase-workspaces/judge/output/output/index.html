@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings</title>
+</head>
+<body>
+    <h1>Account Settings</h1>
+    
+    <form method="POST" action="/settings">
+        <!-- Profile Section -->
+        <fieldset>
+            <legend>Profile</legend>
+            
+            <div>
+                <label for="display-name">Display Name</label>
+                <input type="text" id="display-name" name="display_name" required>
+            </div>
+            
+            <div>
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio"></textarea>
+            </div>
+            
+            <div>
+                <label for="avatar">Avatar Upload</label>
+                <input type="file" id="avatar" name="avatar" accept="image/*">
+            </div>
+        </fieldset>
+        
+        <!-- Notifications Section -->
+        <fieldset>
+            <legend>Notifications</legend>
+            
+            <div>
+                <label for="email-notifications">
+                    <input type="checkbox" id="email-notifications" name="email_notifications" checked>
+                    Email Notifications
+                </label>
+            </div>
+            
+            <div>
+                <label for="push-notifications">
+                    <input type="checkbox" id="push-notifications" name="push_notifications" checked>
+                    Push Notifications
+                </label>
+            </div>
+            
+            <fieldset>
+                <legend>Notification Frequency</legend>
+                
+                <div>
+                    <label for="freq-instant">
+                        <input type="radio" id="freq-instant" name="notification_frequency" value="instant" checked>
+                        Instant
+                    </label>
+                </div>
+                
+                <div>
+                    <label for="freq-daily">
+                        <input type="radio" id="freq-daily" name="notification_frequency" value="daily_digest">
+                        Daily Digest
+                    </label>
+                </div>
+                
+                <div>
+                    <label for="freq-weekly">
+                        <input type="radio" id="freq-weekly" name="notification_frequency" value="weekly_digest">
+                        Weekly Digest
+                    </label>
+                </div>
+            </fieldset>
+        </fieldset>
+        
+        <!-- Privacy Section -->
+        <fieldset>
+            <legend>Privacy</legend>
+            
+            <fieldset>
+                <legend>Profile Visibility</legend>
+                
+                <div>
+                    <label for="visibility-public">
+                        <input type="radio" id="visibility-public" name="profile_visibility" value="public" checked>
+                        Public
+                    </label>
+                </div>
+                
+                <div>
+                    <label for="visibility-friends">
+                        <input type="radio" id="visibility-friends" name="profile_visibility" value="friends_only">
+                        Friends Only
+                    </label>
+                </div>
+                
+                <div>
+                    <label for="visibility-private">
+                        <input type="radio" id="visibility-private" name="profile_visibility" value="private">
+                        Private
+                    </label>
+                </div>
+            </fieldset>
+            
+            <div>
+                <label for="show-online-status">
+                    <input type="checkbox" id="show-online-status" name="show_online_status" checked>
+                    Show Online Status
+                </label>
+            </div>
+            
+            <div>
+                <label for="allow-search-engines">
+                    <input type="checkbox" id="allow-search-engines" name="allow_search_engines" checked>
+                    Allow Search Engines to Index My Profile
+                </label>
+            </div>
+        </fieldset>
+        
+        <!-- Danger Zone Section -->
+        <fieldset>
+            <legend>Danger Zone</legend>
+            <p>Deleting your account is permanent and cannot be undone.</p>
+            <button type="button" id="delete-account">Delete Account</button>
+        </fieldset>
+        
+        <!-- Save Changes Button -->
+        <div>
+            <button type="submit">Save Changes</button>
+        </div>
+    </form>
+</body>
+</html>

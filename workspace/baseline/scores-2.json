@@ -1,0 +1,34 @@
+{
+  "eval_id": "data-table-with-controls",
+  "eval_type": "generate-semantic-html",
+  "track_id": "html",
+  "total_score": 10,
+  "max_score": 12,
+  "dimensions": [
+    {
+      "id": "table_semantics",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Full table structure is present: <caption> describes the table's purpose, <thead> and <tbody> group rows, and every header cell uses <th scope='col'>. Status values ('Active', 'On Leave', 'Departed') are conveyed as text, not colour alone. No layout misuse of <table>."
+    },
+    {
+      "id": "element_choice",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "All interactive controls are native elements: <button> for Download CSV, <select> for filters, <input type='text'> for search, and <a> elements for pagination. The only notable miss is that start dates (e.g., '2021-03-15') are plain text rather than <time datetime='...'> elements, which would be the more precise semantic choice."
+    },
+    {
+      "id": "form_semantics",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "All three inputs (search, department, status) have associated <label> elements, and the controls are grouped inside a <form> satisfying the 'form or <search>' requirement. However, there is no <fieldset>/<legend> grouping the filter controls as a related set, which would strengthen the semantic grouping of the filter UI."
+    },
+    {
+      "id": "aria_discipline",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "<nav aria-label='Pagination'> is correctly labelled, and aria-current='page' is applied to the active page link. No redundant ARIA roles are added to semantic elements, and no ARIA is used to compensate for non-semantic markup."
+    }
+  ],
+  "summary": "The output is strong overall. Table semantics are complete (caption, thead, tbody, th scope='col', text-based status). All form controls have labels and live inside a <form>. ARIA usage is disciplined: pagination nav is labelled and aria-current='page' is present. Minor deductions: start dates lack <time datetime> wrappers (element_choice −1) and the filter controls are not grouped with <fieldset>/<legend> (form_semantics −1)."
+}

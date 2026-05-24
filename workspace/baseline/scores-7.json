@@ -1,0 +1,34 @@
+{
+  "eval_id": "settings-form-with-grouped-controls",
+  "eval_type": "generate-semantic-html",
+  "track_id": "html",
+  "total_score": 12,
+  "max_score": 12,
+  "dimensions": [
+    {
+      "id": "form_semantics",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Every input has an explicit <label> (via `for`/`id` or wrapping pattern). All four sections use <fieldset>/<legend>. Both radio groups (notification_frequency and profile_visibility) are in nested <fieldset> elements with matching name attributes. Checkboxes are used for toggles, <input type='file'> for avatar upload, <textarea> for bio, <button type='submit'> for Save Changes, and <button type='button'> for Delete Account. No placeholder-only fields."
+    },
+    {
+      "id": "element_choice",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "All interactive controls use native HTML elements. Delete Account is a <button type='button'>, Save Changes is a <button type='submit'>. Toggles are checkboxes, file upload is <input type='file'>, bio is <textarea>. No div-based interactive patterns present."
+    },
+    {
+      "id": "heading_hierarchy",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Single <h1>Account Settings</h1> at the top of the page. Legends (Profile, Notifications, Privacy, Danger Zone) serve as visual section headings without adding redundant <h2> elements alongside them — exactly in line with the key expectation. No skipped heading levels."
+    },
+    {
+      "id": "aria_discipline",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "No redundant or unnecessary ARIA attributes anywhere in the document. The output relies entirely on native HTML semantics (fieldset/legend, label/input associations, button types) without patching with role or aria-* where native elements suffice. Clean and disciplined."
+    }
+  ],
+  "summary": "The producer output fully satisfies all key expectations. Every section uses <fieldset>/<legend>, all inputs are properly labelled, radio groups are correctly nested with matching name attributes, toggles use native checkboxes, file upload and textarea both have labels, Delete Account is a <button type='button'>, Save Changes is a <button type='submit'>, and the overall wrapper is a <form>. Heading hierarchy is clean with a single <h1> and legends serving as visual section headings. No ARIA misuse or redundancy. A near-perfect semantic HTML implementation."
+}

@@ -1,0 +1,40 @@
+{
+  "eval_id": "dashboard-sidebar-nav",
+  "eval_type": "generate-semantic-html",
+  "track_id": "html",
+  "total_score": 14,
+  "max_score": 15,
+  "dimensions": [
+    {
+      "id": "landmark_structure",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Skip links ('Skip to content' and 'Skip to navigation') are the first focusable elements. <aside> wraps the sidebar, <main id='main-content'> wraps only the projects area (sidebar is outside it). Two <nav> elements each have distinct aria-label values ('Primary navigation' and 'Secondary navigation'). All key landmark expectations are satisfied."
+    },
+    {
+      "id": "heading_hierarchy",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Exactly one <h1>Projects</h1> serves as the page heading, and each of the three project cards uses <h2> — correct nesting with no skipped levels. No headings are used decoratively."
+    },
+    {
+      "id": "element_choice",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "<time datetime='YYYY-MM-DD'> is used for all project dates. The user menu uses a <button> with popovertarget (Popover API), not <details>/<summary>. Profile and Preferences are <a> links; Sign Out is a <button> inside a <form method='POST'>. Status badges include visible text alongside the color indicator. The logo is an <a href='/'> with an SVG."
+    },
+    {
+      "id": "aria_discipline",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "ARIA use is mostly disciplined: aria-current='page', aria-label on both <nav> elements, and aria-label on the SVG logo are all appropriate. However, aria-haspopup='true' is used on the user menu button when 'menu' would be the correct token for a menu widget. Additionally, aria-expanded='false' is hardcoded without accompanying JavaScript to toggle it dynamically, making the attribute misleading at runtime. The aria-label on the decorative status-indicator span is mildly redundant given the adjacent visible status text, but not harmful."
+    },
+    {
+      "id": "list_semantics",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Primary and secondary navigation items are each wrapped in <ul> inside their respective <nav> elements. The project cards are presented as <ul class='project-cards'> with each card in a <li>, allowing screen readers to announce the count. Correct list types are used throughout."
+    }
+  ],
+  "summary": "The output is a strong semantic HTML implementation covering nearly all key expectations. Landmark structure is excellent — skip links are first, <main> wraps only project content, the sidebar sits in <aside>, and both <nav> elements carry distinct labels. Heading hierarchy is clean (single <h1>, project cards as <h2>). Element choices are appropriate throughout: Popover API button for the user menu, <time datetime> for dates, real links for Profile/Preferences, and a form-based Sign Out. List semantics are fully correct for nav and card collections. The only meaningful issue is in ARIA discipline: aria-haspopup should be 'menu' rather than the non-specific 'true', and aria-expanded is hardcoded to 'false' with no JavaScript to update it, making it actively misleading once the popover opens."
+}

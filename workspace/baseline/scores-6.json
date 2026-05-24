@@ -1,0 +1,34 @@
+{
+  "eval_id": "pricing-comparison-table",
+  "eval_type": "generate-semantic-html",
+  "track_id": "html",
+  "total_score": 9,
+  "max_score": 12,
+  "dimensions": [
+    {
+      "id": "table_semantics",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "The table has a meaningful <caption>, uses <thead> and <tbody>, plan names have <th scope='col'>, feature names have <th scope='row'>, and Yes/No values are conveyed via plain text — no icons without alternatives. Full marks."
+    },
+    {
+      "id": "element_choice",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "Free-trial CTAs are correctly <button type='button'>; 'Contact Sales' is correctly an <a href='/contact-sales'> since it navigates to a page. However, role='button' is added to that <a>, which overrides the native link semantics unnecessarily. This is a meaningful but isolated misuse."
+    },
+    {
+      "id": "heading_hierarchy",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Exactly one <h1> ('Simple, Transparent Pricing'), followed by <h2> for the CTA section and <h3> for plan names within it — no levels skipped. Prices are rendered in <span> elements, not headings."
+    },
+    {
+      "id": "aria_discipline",
+      "score": 1,
+      "max_score": 3,
+      "rationale": "role='button' on <a href='/contact-sales'> incorrectly overrides native link semantics; the link should simply be a plain <a>. Additionally, aria-label is applied to non-interactive <span> elements inside <th> cells (prices, 'Most Popular' badge) where the visible text suffices and the spans are not focusable, adding noise. aria-hidden='false' is redundant (it is the default). Multiple ARIA uses compensate for choices that native HTML already handles."
+    }
+  ],
+  "summary": "The table structure is excellent — caption, thead/tbody, correct scope attributes, and text-based Yes/No values all satisfy the key expectations. Heading hierarchy is clean with a single h1 and no skipped levels. Element choice is mostly right but weakened by role='button' on the Contact Sales link. ARIA discipline has meaningful problems: role='button' overrides native link semantics, aria-label on non-interactive spans is unnecessary, and aria-hidden='false' is redundant. The ARIA issues collectively lower the score notably."
+}

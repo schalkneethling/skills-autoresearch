@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Multi-Step Form</title>
+</head>
+<body>
+    <main>
+        <h1>Secure Checkout</h1>
+        
+        <!-- Progress Indicator -->
+        <nav aria-label="Checkout progress">
+            <ol role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" aria-label="Step 1 of 3: Shipping Information">
+                <li>
+                    <span aria-current="step">Shipping</span>
+                </li>
+                <li>
+                    <span>Payment</span>
+                </li>
+                <li>
+                    <span>Review</span>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Checkout Form -->
+        <form method="POST" action="#submit">
+            <!-- Step 1: Shipping Information -->
+            <fieldset id="shipping-step">
+                <legend>Step 1: Shipping Information</legend>
+                
+                <div>
+                    <label for="full-name">Full Name <span aria-label="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="full-name" 
+                        name="full-name" 
+                        required 
+                        aria-required="true"
+                    >
+                </div>
+
+                <div>
+                    <label for="email">Email Address <span aria-label="required">*</span></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        aria-required="true"
+                        aria-invalid="true"
+                        aria-describedby="email-error"
+                    >
+                    <div id="email-error" role="alert" style="color: #d32f2f;">
+                        Invalid email format. Please enter a valid email address (e.g., name@example.com).
+                    </div>
+                </div>
+
+                <div>
+                    <label for="phone">Phone Number <span aria-label="required">*</span></label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        required 
+                        aria-required="true"
+                        placeholder="+1 (555) 123-4567"
+                    >
+                </div>
+
+                <div>
+                    <label for="street-address">Street Address <span aria-label="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="street-address" 
+                        name="street-address" 
+                        required 
+                        aria-required="true"
+                    >
+                </div>
+
+                <div>
+                    <label for="city">City <span aria-label="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="city" 
+                        name="city" 
+                        required 
+                        aria-required="true"
+                    >
+                </div>
+
+                <div>
+                    <label for="postal-code">Postal Code <span aria-label="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="postal-code" 
+                        name="postal-code" 
+                        required 
+                        aria-required="true"
+                    >
+                </div>
+
+                <div>
+                    <label for="country">Country <span aria-label="required">*</span></label>
+                    <select id="country" name="country" required aria-required="true">
+                        <option value="">-- Select a country --</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="JP">Japan</option>
+                        <option value="IN">India</option>
+                    </select>
+                </div>
+
+                <button type="button" onclick="nextStep(2)">Continue to Payment</button>
+            </fieldset>
+
+            <!-- Step 2: Payment Method -->
+            <fieldset id="payment-step" hidden>
+                <legend>Step 2: Payment Method</legend>
+                
+                <div>
+                    <label for="card-number">Card Number <span aria-label="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="card-number" 
+                        name="card-number" 
+                        required 
+                        aria-required="true"
+                        autocomplete="cc-number"
+                        placeholder="1234 5678 9012 3456"
+                    >
+                </div>
+
+                <div>
+                    <label for="card-expiry">Expiry Date (MM/YY) <span aria-label="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="card-expiry" 
+                        name="card-expiry" 
+                        required 
+                        aria-required="true"
+                        autocomplete="cc-exp"
+                        placeholder="MM/YY"
+                    >
+                </div>
+
+                <div>
+                    <label for="card-cvv">CVV <span aria-label="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="card-cvv" 
+                        name="card-cvv" 
+                        required 
+                        aria-required="true"
+                        autocomplete="cc-csc"
+                        placeholder="123"
+                    >
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button type="button" onclick="prevStep(1)">Back to Shipping</button>
+                    <button type="button" onclick="nextStep(3)">Review Order</button>
+                </div>
+            </fieldset>
+
+            <!-- Step 3: Order Review -->
+            <fieldset id="review-step" hidden>
+                <legend>Step 3: Order Review</legend>
+                
+                <h2>Order Summary</h2>
+                <table>
+                    <caption>Summary of items in your order</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Wireless Headphones</td>
+                            <td>1</td>
+                            <td>$79.99</td>
+                            <td>$79.99</td>
+                        </tr>
+                        <tr>
+                            <td>USB-C Cable (3-pack)</td>
+                            <td>2</td>
+                            <td>$12.99</td>
+                            <td>$25.98</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3" scope="row">Subtotal</th>
+                            <td>$105.97</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" scope="row">Shipping</th>
+                            <td>$9.99</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" scope="row">Tax</th>
+                            <td>$9.22</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" scope="row">Total</th>
+                            <td><strong>$125.18</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <h2>Shipping Address</h2>
+                <dl>
+                    <dt>Full Name:</dt>
+                    <dd id="review-name">-</dd>
+                    <dt>Email:</dt>
+                    <dd id="review-email">-</dd>
+                    <dt>Phone:</dt>
+                    <dd id="review-phone">-</dd>
+                    <dt>Address:</dt>
+                    <dd id="review-address">-</dd>
+                </dl>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button type="button" onclick="prevStep(2)">Back to Payment</button>
+                    <button type="submit">Complete Purchase</button>
+                </div>
+            </fieldset>
+        </form>
+    </main>
+
+    <script>
+        function showStep(stepNumber) {
+            const steps = document.querySelectorAll('fieldset');
+            steps.forEach((step, index) => {
+                step.hidden = index !== (stepNumber - 1);
+            });
+
+            // Update progress indicator
+            const progressItems = document.querySelectorAll('ol li span');
+            progressItems.forEach((item, index) => {
+                if (index < stepNumber) {
+                    item.removeAttribute('aria-current');
+                } else if (index === stepNumber - 1) {
+                    item.setAttribute('aria-current', 'step');
+                }
+            });
+
+            const progressbar = document.querySelector('[role="progressbar"]');
+            progressbar.setAttribute('aria-valuenow', stepNumber);
+            progressbar.setAttribute('aria-label', `Step ${stepNumber} of 3`);
+        }
+
+        function nextStep(stepNumber) {
+            showStep(stepNumber);
+        }
+
+        function prevStep(stepNumber) {
+            showStep(stepNumber);
+        }
+
+        // Initialize first step
+        showStep(1);
+    </script>
+</body>
+</html>

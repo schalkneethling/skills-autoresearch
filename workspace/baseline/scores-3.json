@@ -1,0 +1,40 @@
+{
+  "eval_id": "multi-step-form",
+  "eval_type": "generate-semantic-html",
+  "track_id": "html",
+  "total_score": 13,
+  "max_score": 15,
+  "dimensions": [
+    {
+      "id": "form_semantics",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "All three steps use <fieldset>/<legend>. Every input has a visible <label>. Email error correctly uses aria-invalid='true' and aria-describedby='email-error' with an actionable message ('Invalid email format. Please enter a valid email address (e.g., name@example.com).'). Phone has type='tel', email has type='email'. Card fields carry autocomplete='cc-number', 'cc-exp', 'cc-csc'. Country uses a native <select>. Required fields are marked with a visible * and aria-label='required'. The redundant aria-required='true' (alongside the native required attribute) is a minor verbosity, not a meaningful error."
+    },
+    {
+      "id": "heading_hierarchy",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "A single <h1>Secure Checkout</h1> anchors the page. Step titles are conveyed through <legend> inside <fieldset>, not headings, which is appropriate. Step 3 adds <h2>Order Summary</h2> and <h2>Shipping Address</h2> as logical sub-sections under the h1. No levels are skipped and no heading is used purely for visual sizing."
+    },
+    {
+      "id": "element_choice",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "Native elements are used throughout: <button> for all actions, <select> for country, <table> with <caption>/<thead>/<tbody>/<tfoot>/<th scope> for the order summary, and <dl> for the shipping address review. However, role='progressbar' is applied to the <ol> inside <nav>, which overrides the native list semantics with a widget role that is semantically misleading for a step indicator (progressbar describes a completion percentage widget, not step navigation)."
+    },
+    {
+      "id": "aria_discipline",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "No redundant role attributes on native interactive elements. aria-current='step' on the active step <span> is well-used. However, role='progressbar' on the <ol> strips its native list semantics and conflicts with the <nav> landmark already providing navigation context; aria-required='true' is redundant alongside the native required attribute on every input, representing minor ARIA over-annotation."
+    },
+    {
+      "id": "content_realism",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Products are realistic ('Wireless Headphones', 'USB-C Cable (3-pack)') with plausible prices and correctly computed subtotal ($105.97), shipping ($9.99), tax ($9.22), and total ($125.18). Country options are real. The shipping review placeholders ('-') are acceptable for a static HTML demonstration of dynamic content."
+    }
+  ],
+  "summary": "Strong output overall. Form semantics are excellent — proper fieldset/legend grouping for all steps, accessible error handling, correct input types, and autocomplete attributes. Heading hierarchy is clean with a single h1 and logical h2s in the review step. Content is realistic with plausible products and correct arithmetic. Two dimensions are docked one point each: element_choice for applying role='progressbar' to the <ol> (removing its list semantics in favour of a misleading widget role), and aria_discipline for the same misuse plus redundant aria-required on every field."
+}

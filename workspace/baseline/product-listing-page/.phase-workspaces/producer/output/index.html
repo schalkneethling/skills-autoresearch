@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Shoes — SportGear</title>
+</head>
+<body>
+    <!-- Skip navigation links -->
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="#content">Skip to content</a></li>
+        <li><a href="#search">Skip to search</a></li>
+    </ul>
+
+    <!-- Site Header -->
+    <header>
+        <div>
+            <h1>SportGear</h1>
+            <p>Your destination for athletic footwear</p>
+        </div>
+    </header>
+
+    <!-- Primary Navigation -->
+    <nav aria-label="Primary">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/shoes">Running Shoes</a></li>
+            <li><a href="/categories">Categories</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="content">
+        <!-- Page Heading -->
+        <h1>Running Shoes — SportGear</h1>
+
+        <!-- Search Bar -->
+        <search id="search">
+            <form>
+                <label for="search-input">Search products</label>
+                <input type="text" id="search-input" name="search" placeholder="Search running shoes...">
+                <button type="submit">Search</button>
+            </form>
+        </search>
+
+        <div style="display: flex; gap: 2rem;">
+            <!-- Filter Sidebar -->
+            <aside>
+                <form>
+                    <!-- Price Range Filter -->
+                    <fieldset>
+                        <legend>Price Range</legend>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="price" value="under50">
+                                Under $50
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="price" value="50-100">
+                                $50 - $100
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="price" value="100-150">
+                                $100 - $150
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="price" value="over150">
+                                Over $150
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Category Filter -->
+                    <fieldset>
+                        <legend>Category</legend>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="category" value="mens">
+                                Men's
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="category" value="womens">
+                                Women's
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="category" value="kids">
+                                Kids'
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- In Stock Only Toggle -->
+                    <fieldset>
+                        <legend>Availability</legend>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="instock" value="yes">
+                                In Stock Only
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit">Apply Filters</button>
+                </form>
+            </aside>
+
+            <!-- Product Cards Section -->
+            <section>
+                <h2>Available Products</h2>
+                <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                    <!-- Product 1 -->
+                    <li>
+                        <article>
+                            <img src="/images/ultra-runner-pro.jpg" alt="Ultra Runner Pro shoes">
+                            <h3>Ultra Runner Pro</h3>
+                            <p>High-performance racing shoe with responsive cushioning</p>
+                            <p>
+                                <span>Price: </span>
+                                <span>$129.99</span>
+                            </p>
+                            <button type="button">Add Ultra Runner Pro to cart</button>
+                        </article>
+                    </li>
+
+                    <!-- Product 2 -->
+                    <li>
+                        <article>
+                            <img src="/images/comfort-stride.jpg" alt="Comfort Stride shoes">
+                            <h3>Comfort Stride</h3>
+                            <p>Everyday training shoe with excellent arch support</p>
+                            <p>
+                                <span>Price: </span>
+                                <span>$89.99</span>
+                            </p>
+                            <button type="button">Add Comfort Stride to cart</button>
+                        </article>
+                    </li>
+
+                    <!-- Product 3 -->
+                    <li>
+                        <article>
+                            <img src="/images/trail-blazer.jpg" alt="Trail Blazer shoes">
+                            <h3>Trail Blazer</h3>
+                            <p>Rugged off-road running shoe with superior grip</p>
+                            <p>
+                                <span>Price: </span>
+                                <span>$119.99</span>
+                            </p>
+                            <button type="button">Add Trail Blazer to cart</button>
+                        </article>
+                    </li>
+
+                    <!-- Product 4 -->
+                    <li>
+                        <article>
+                            <img src="/images/sprint-elite.jpg" alt="Sprint Elite shoes">
+                            <h3>Sprint Elite</h3>
+                            <p>Lightweight sprinting shoe designed for speed</p>
+                            <p>
+                                <span>Price: </span>
+                                <span>$139.99</span>
+                            </p>
+                            <button type="button">Add Sprint Elite to cart</button>
+                        </article>
+                    </li>
+
+                    <!-- Product 5 -->
+                    <li>
+                        <article>
+                            <img src="/images/marathon-max.jpg" alt="Marathon Max shoes">
+                            <h3>Marathon Max</h3>
+                            <p>Long-distance running shoe with maximum durability</p>
+                            <p>
+                                <span>Price: </span>
+                                <span>$109.99</span>
+                            </p>
+                            <button type="button">Add Marathon Max to cart</button>
+                        </article>
+                    </li>
+
+                    <!-- Product 6 -->
+                    <li>
+                        <article>
+                            <img src="/images/junior-runner.jpg" alt="Junior Runner shoes">
+                            <h3>Junior Runner</h3>
+                            <p>Kids' running shoe with fun colors and comfortable fit</p>
+                            <p>
+                                <span>Price: </span>
+                                <span>$64.99</span>
+                            </p>
+                            <button type="button">Add Junior Runner to cart</button>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <!-- Site Footer -->
+    <footer>
+        <div>
+            <section>
+                <h2>Contact Information</h2>
+                <p>Email: <a href="mailto:support@sportgear.com">support@sportgear.com</a></p>
+                <p>Phone: <a href="tel:+1-800-555-0123">1-800-555-0123</a></p>
+                <p>Address: 123 Athletic Way, Portland, OR 97214</p>
+            </section>
+
+            <section>
+                <h2>Quick Links</h2>
+                <nav aria-label="Footer">
+                    <ul>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/shipping">Shipping Info</a></li>
+                        <li><a href="/returns">Returns Policy</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                    </ul>
+                </nav>
+            </section>
+
+            <p>&copy; 2025 SportGear. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

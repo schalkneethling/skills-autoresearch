@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Directory</title>
+</head>
+<body>
+    <h1>Employee Directory</h1>
+
+    <!-- Filter and search controls -->
+    <form>
+        <div>
+            <label for="search-employees">Search employees:</label>
+            <input type="text" id="search-employees" name="search" placeholder="Name, department, or role...">
+        </div>
+
+        <div>
+            <label for="filter-department">Department:</label>
+            <select id="filter-department" name="department">
+                <option value="">All Departments</option>
+                <option value="engineering">Engineering</option>
+                <option value="marketing">Marketing</option>
+                <option value="sales">Sales</option>
+                <option value="hr">Human Resources</option>
+                <option value="finance">Finance</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="filter-status">Status:</label>
+            <select id="filter-status" name="status">
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="on-leave">On Leave</option>
+                <option value="departed">Departed</option>
+            </select>
+        </div>
+
+        <button type="button">Download CSV</button>
+    </form>
+
+    <!-- Employee table -->
+    <table>
+        <caption>List of employees in the organization showing name, department, role, start date, and current employment status</caption>
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Department</th>
+                <th scope="col">Role</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Sarah Johnson</td>
+                <td>Engineering</td>
+                <td>Senior Software Engineer</td>
+                <td>2021-03-15</td>
+                <td>Active</td>
+            </tr>
+            <tr>
+                <td>Michael Chen</td>
+                <td>Product</td>
+                <td>Product Manager</td>
+                <td>2022-01-10</td>
+                <td>Active</td>
+            </tr>
+            <tr>
+                <td>Emily Rodriguez</td>
+                <td>Marketing</td>
+                <td>Marketing Specialist</td>
+                <td>2022-06-01</td>
+                <td>On Leave</td>
+            </tr>
+            <tr>
+                <td>David Williams</td>
+                <td>Engineering</td>
+                <td>DevOps Engineer</td>
+                <td>2020-11-20</td>
+                <td>Active</td>
+            </tr>
+            <tr>
+                <td>Jessica Lee</td>
+                <td>Sales</td>
+                <td>Account Executive</td>
+                <td>2021-09-05</td>
+                <td>Active</td>
+            </tr>
+            <tr>
+                <td>Robert Martinez</td>
+                <td>Finance</td>
+                <td>Financial Analyst</td>
+                <td>2019-05-14</td>
+                <td>Departed</td>
+            </tr>
+            <tr>
+                <td>Amanda Foster</td>
+                <td>Human Resources</td>
+                <td>HR Manager</td>
+                <td>2020-08-03</td>
+                <td>Active</td>
+            </tr>
+            <tr>
+                <td>James Patterson</td>
+                <td>Engineering</td>
+                <td>QA Engineer</td>
+                <td>2023-02-20</td>
+                <td>Active</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Summary and pagination -->
+    <p>Showing 8 of 42 employees</p>
+
+    <nav aria-label="Pagination">
+        <ul>
+            <li><a href="#previous">Previous</a></li>
+            <li><a href="#page-1" aria-current="page">1</a></li>
+            <li><a href="#page-2">2</a></li>
+            <li><a href="#page-3">3</a></li>
+            <li><a href="#page-4">4</a></li>
+            <li><a href="#page-5">5</a></li>
+            <li><a href="#next">Next</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

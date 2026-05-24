@@ -1,0 +1,40 @@
+{
+  "eval_id": "blog-article-page",
+  "eval_type": "generate-semantic-html",
+  "track_id": "html",
+  "total_score": 14,
+  "max_score": 15,
+  "dimensions": [
+    {
+      "id": "element_choice",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Every element is well-chosen: <article> for main and card articles, <time datetime> for all dates, <pre><code> for the GraphQL query, <aside> (not <blockquote>) for the pull quote, <footer> within <article> for author bio, <strong> for comment author names, native <button>, <input type='email'>, and <textarea>. No div/span substituted where semantic elements exist."
+    },
+    {
+      "id": "landmark_structure",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "Skip link is the first focusable element, <main> correctly wraps only the primary content with site <header> and <footer> outside it, both <nav> elements have aria-label, and <aside> marks the pull quote. The two <section> elements (Related Articles, Comments) lack aria-labelledby pointing to their h2 headings, so they don't function as labelled landmarks — a minor but real omission per the rubric."
+    },
+    {
+      "id": "heading_hierarchy",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Single <h1> for the article title; <h2> used consistently for article sections (The Problem, Our Approach, Results, About the Author, Related Articles, Comments); <h3> correctly used for related article card titles and the comment form heading. No levels skipped; hierarchy reflects document structure."
+    },
+    {
+      "id": "aria_discipline",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "ARIA is used sparingly and correctly: aria-label on both nav elements, no redundant roles on native elements (no role='button' on <button>, no role='navigation' on <nav>), and no aria-hidden on focusable elements. Form labels are provided via visible <label> elements rather than aria-label."
+    },
+    {
+      "id": "content_realism",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Content is fully realistic: a named author (Priya Sharma) with a plausible bio, specific metrics (150 endpoints, 65% payload reduction, 40% dev time improvement), realistic commenter names (James Patterson, Sarah Lee) with contextual comments, and varied related article titles with distinct author names and dates. No placeholder or lorem ipsum text."
+    }
+  ],
+  "summary": "Excellent output overall. Element choices are precise throughout — article, time, pre/code, aside for pull quote, and native form controls all used correctly. The heading hierarchy is clean with a single h1 and no skipped levels. ARIA discipline is strong with labelled navs and no redundant roles. Content is fully realistic with plausible names, stats, and dates. The only deduction is in landmark_structure: the two <section> elements (Related Articles and Comments) are not labelled with aria-labelledby, so they do not expose labelled landmarks to assistive technology."
+}

@@ -1,0 +1,34 @@
+{
+  "eval_id": "faq-page",
+  "eval_type": "generate-semantic-html",
+  "track_id": "html",
+  "total_score": 10,
+  "max_score": 12,
+  "dimensions": [
+    {
+      "id": "element_choice",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "All interactive elements are native: skip links are <a>, search uses <input type='search'> with <label>, questions use native <details>/<summary>, phone uses <a href='tel:...'>, contact is <a>. No <dl> for FAQs. No div-soup for interactive controls. <section> used for FAQ categories appropriately."
+    },
+    {
+      "id": "heading_hierarchy",
+      "score": 3,
+      "max_score": 3,
+      "rationale": "Exactly one <h1> ('Frequently Asked Questions'). Four <h2> headings follow without skipping levels: 'Getting Started', 'Billing & Plans', 'Integrations', and 'Still need help?'. No levels are skipped and headings reflect document outline, not visual styling."
+    },
+    {
+      "id": "landmark_structure",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "Skip links ('Skip to content' and 'Skip to search') are the first focusable elements. <main id='main-content'> wraps only FAQ content, outside <header> and <footer>. Breadcrumb <nav aria-label='Breadcrumb'> is correctly labelled. However, the primary site nav in <header> and the footer <nav> both lack aria-label/aria-labelledby, leaving multiple unlabelled <nav> landmarks that assistive technology cannot distinguish. The <search> landmark element was not used for the search input section."
+    },
+    {
+      "id": "aria_discipline",
+      "score": 2,
+      "max_score": 3,
+      "rationale": "ARIA usage is mostly disciplined: aria-current='page' on the breadcrumb current item is correct, and no redundant roles are applied. One issue: the search <input> carries both a <label for='search-input'> and aria-label='Search FAQ' with identical text — the aria-label redundantly overrides the already-correct <label>, which is unnecessary and slightly noisy."
+    }
+  ],
+  "summary": "The output is strong overall: all key element choices are correct (details/summary for FAQ, tel: links, ol breadcrumb, no dl misuse), heading hierarchy is perfect, and skip links are present. Two dimensions are docked one point each: landmark_structure loses a point for unlabelled primary and footer navs (multiple nav elements need distinguishing aria-labels) and the absence of the <search> landmark; aria_discipline loses a point for a redundant aria-label on the search input that duplicates the already-correct <label> element."
+}
